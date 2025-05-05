@@ -1,0 +1,131 @@
+[gd_resource type="SpriteFrames" load_steps=18 format=3 uid="uid://b3kx0eekd48ew"]
+
+[ext_resource type="Texture2D" uid="uid://c732rh6wdps6e" path="res://assets/graphics/tiles_terrain.png" id="1_e5m6x"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_db1oh"]
+atlas = ExtResource("1_e5m6x")
+region = Rect2(384, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iap10"]
+atlas = ExtResource("1_e5m6x")
+region = Rect2(0, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f8ufy"]
+atlas = ExtResource("1_e5m6x")
+region = Rect2(128, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o02bk"]
+atlas = ExtResource("1_e5m6x")
+region = Rect2(256, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tl2gc"]
+atlas = ExtResource("1_e5m6x")
+region = Rect2(384, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fkto6"]
+atlas = ExtResource("1_e5m6x")
+region = Rect2(0, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xo7vn"]
+atlas = ExtResource("1_e5m6x")
+region = Rect2(128, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_emp68"]
+atlas = ExtResource("1_e5m6x")
+region = Rect2(256, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4apy8"]
+atlas = ExtResource("1_e5m6x")
+region = Rect2(384, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2adxg"]
+atlas = ExtResource("1_e5m6x")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1dsi1"]
+atlas = ExtResource("1_e5m6x")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hgoky"]
+atlas = ExtResource("1_e5m6x")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aw6wo"]
+atlas = ExtResource("1_e5m6x")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_26tr3"]
+atlas = ExtResource("1_e5m6x")
+region = Rect2(0, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ea25i"]
+atlas = ExtResource("1_e5m6x")
+region = Rect2(128, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oneyq"]
+atlas = ExtResource("1_e5m6x")
+region = Rect2(256, 128, 128, 128)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_db1oh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iap10")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f8ufy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o02bk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tl2gc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fkto6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xo7vn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_emp68")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4apy8")
+}],
+"loop": true,
+"name": &"terrain",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2adxg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1dsi1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hgoky")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aw6wo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_26tr3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ea25i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oneyq")
+}],
+"loop": true,
+"name": &"tiles",
+"speed": 5.0
+}]
