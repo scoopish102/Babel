@@ -1,14 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://xxppq8waxmr0"]
+[gd_scene load_steps=5 format=3 uid="uid://xxppq8waxmr0"]
 
 [ext_resource type="Script" path="res://code/scripts/game.gd" id="1_vx8kw"]
 [ext_resource type="Script" path="res://code/scripts/tilemapDisplay.gd" id="2_gcf6l"]
+[ext_resource type="FastNoiseLite" uid="uid://cp5qla707rj28" path="res://code/resources/worldGenNoise.tres" id="2_iabw2"]
 [ext_resource type="PackedScene" uid="uid://f4a7jdx0xwyd" path="res://code/scenes/tileDisplay.tscn" id="3_72cqc"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_vx8kw")
+gameSize = Vector2i(50, 50)
+noise = ExtResource("2_iabw2")
 
 [node name="TilemapDisplay" type="Node2D" parent="."]
 script = ExtResource("2_gcf6l")
 tileDisplayScene = ExtResource("3_72cqc")
+cameraSpeed = 1
 
 [node name="Camera" type="Camera2D" parent="."]

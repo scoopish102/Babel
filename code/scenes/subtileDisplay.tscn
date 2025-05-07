@@ -9,7 +9,6 @@ script = ExtResource("1_sa7ss")
 [node name="tileSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("2_oy3c7")
 animation = &"tiles"
-frame_progress = 0.598324
 
 [node name="terrainSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("2_oy3c7")
