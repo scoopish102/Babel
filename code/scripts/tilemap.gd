@@ -1,20 +1,24 @@
-class_name GameTileMap extends Object
+class_name GameTilemap extends Object
 
-var tiles : Array[Tile]
-var size : Vector2i
+enum Terrain {
+	NONE, GRASS, SAND, WATER, DIRT, PLATFORM
+}
 
-func _init(_size : Vector2i):
-	size = _size
-	for x in range(size.x):
-		for y in range(size.y):
+var terrainMap : Array[Terrain] = []
+var buildingMap : Array[BuildingScripts.Building] = []
+var mapSize : Vector2i
+
+func _init(size : Vector2i):
+	mapSize = size
+	for x in range(mapSize.x):
+		for y in range(mapSize.y):
 			#The tilemap is arranged so that the first to the last value corresponds
 			#to left to right, up to down in the tilemap's display ingame. Thus
 			#x values increase the index incrementally while y values increase it
 			#by the size of the map's width
-			tiles.append(Tile.new(Vector2i(x, y), Tile.tileTypes.NONE, Tile.terrainTypes.NONE))
+			terrainMap.append(randi_range(1,5))
+			buildingMap.append(null)
+	print(terrainMap)
 
-func generateWorld(noise : FastNoiseLite):
-	for x in range(size.x):
-		for y in range(size.y):
-			var noiseValue = noise.get_noise_2d(x, y)
-			tiles[x+y*size.x].tile = Tile.tileTypes.PLAIN
+func generateWorld():
+	pass

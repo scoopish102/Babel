@@ -1,24 +1,17 @@
 [gd_scene load_steps=4 format=3 uid="uid://f4a7jdx0xwyd"]
 
 [ext_resource type="Script" path="res://code/scripts/tileDisplay.gd" id="1_kldms"]
-[ext_resource type="PackedScene" uid="uid://il07tuv4b1l4" path="res://code/scenes/subtileDisplay.tscn" id="2_l1oxq"]
-[ext_resource type="SpriteFrames" uid="uid://dy7nnu6lbp6ut" path="res://code/resources/buildingSprites.tres" id="3_da8dj"]
+[ext_resource type="SpriteFrames" uid="uid://k1h3ydumuynp" path="res://code/resources/terrainSprites.tres" id="2_6qxuq"]
+[ext_resource type="SpriteFrames" uid="uid://ds2lwk6c4bx85" path="res://code/resources/buildingSprites.tres" id="3_da8dj"]
 
 [node name="tileDisplay" type="Node2D"]
+scale = Vector2(2, 2)
 script = ExtResource("1_kldms")
 
-[node name="north" parent="." instance=ExtResource("2_l1oxq")]
-position = Vector2(0, -16)
+[node name="terrain" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_6qxuq")
+animation = &"Dirt"
 
-[node name="west" parent="." instance=ExtResource("2_l1oxq")]
-position = Vector2(-32, 0)
-
-[node name="east" parent="." instance=ExtResource("2_l1oxq")]
-position = Vector2(32, 0)
-
-[node name="south" parent="." instance=ExtResource("2_l1oxq")]
-position = Vector2(0, 16)
-
-[node name="largeBuilding" type="AnimatedSprite2D" parent="."]
+[node name="building" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("3_da8dj")
-animation = &"subtileUnworked"
+animation = &"None"
