@@ -1,0 +1,391 @@
+[gd_scene load_steps=21 format=3 uid="uid://dc4b48xoehxxs"]
+
+[ext_resource type="Texture2D" uid="uid://c12vlpq5rosds" path="res://assets/graphics/ui.png" id="1_01mra"]
+[ext_resource type="Script" path="res://code/scripts/ui.gd" id="1_dn3ly"]
+[ext_resource type="PackedScene" uid="uid://c14bf6s4vagiv" path="res://code/scenes/resourceDisplay.tscn" id="2_dt1xk"]
+[ext_resource type="FontFile" uid="uid://c0luxgh1umj2h" path="res://assets/fonts/DigitalDisco.ttf" id="4_qbhuc"]
+[ext_resource type="PackedScene" uid="uid://diigoqrv4ir82" path="res://code/scenes/customTabButton.tscn" id="5_42caq"]
+[ext_resource type="PackedScene" uid="uid://b5ac0bphkf6pr" path="res://code/scenes/customOptionButton.tscn" id="6_f4awu"]
+[ext_resource type="Texture2D" uid="uid://c5vfq611uceik" path="res://assets/graphics/buildings.png" id="6_yd6wg"]
+[ext_resource type="LabelSettings" uid="uid://bn3tdb4cin7nn" path="res://code/resources/TabLabelSettings.tres" id="8_r0vx6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cgm38"]
+atlas = ExtResource("1_01mra")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ld56j"]
+font = ExtResource("4_qbhuc")
+font_color = Color(0.803922, 0.803922, 0.803922, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y7v6u"]
+atlas = ExtResource("1_01mra")
+region = Rect2(32, 96, 32, 32)
+
+[sub_resource type="LabelSettings" id="LabelSettings_q2fyj"]
+font = ExtResource("4_qbhuc")
+font_color = Color(1, 0, 0, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_njd7v"]
+atlas = ExtResource("6_yd6wg")
+region = Rect2(32, 40, 64, 64)
+margin = Rect2(0, 8, 0, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kb3em"]
+atlas = ExtResource("6_yd6wg")
+region = Rect2(32, 280, 64, 64)
+margin = Rect2(0, -4, 0, 0)
+
+[sub_resource type="LabelSettings" id="LabelSettings_qj60q"]
+font = ExtResource("4_qbhuc")
+font_size = 32
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vujkx"]
+atlas = ExtResource("1_01mra")
+region = Rect2(24, 168, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7gvq2"]
+atlas = ExtResource("1_01mra")
+region = Rect2(24, 136, 16, 16)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_pljg8"]
+load_path = "res://.godot/imported/ui.png-b68d05428b174b0b50ae265d62b45f7a.ctex"
+
+[sub_resource type="LabelSettings" id="LabelSettings_0xipo"]
+font = ExtResource("4_qbhuc")
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_2a1fq"]
+font = ExtResource("4_qbhuc")
+
+[node name="UI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dn3ly")
+
+[node name="TopBar" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="Seperator" type="NinePatchRect" parent="TopBar"]
+self_modulate = Color(0.960784, 0.862745, 0.65098, 1)
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -32.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("1_01mra")
+region_rect = Rect2(64, 0, 64, 64)
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="Backdrop" type="NinePatchRect" parent="TopBar"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+texture = ExtResource("1_01mra")
+region_rect = Rect2(0, 0, 64, 64)
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 1
+
+[node name="Resources" type="HBoxContainer" parent="TopBar/Backdrop"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="Food" parent="TopBar/Backdrop/Resources" instance=ExtResource("2_dt1xk")]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+
+[node name="VBoxContainer2" parent="TopBar/Backdrop/Resources/Food" index="0"]
+modulate = Color(0.894118, 0.894118, 0.894118, 1)
+
+[node name="Earth" parent="TopBar/Backdrop/Resources" instance=ExtResource("2_dt1xk")]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+
+[node name="VBoxContainer2" parent="TopBar/Backdrop/Resources/Earth" index="0"]
+modulate = Color(0.690196, 0.584314, 0.482353, 1)
+
+[node name="Icon" parent="TopBar/Backdrop/Resources/Earth/VBoxContainer2" index="1"]
+texture = SubResource("AtlasTexture_cgm38")
+
+[node name="Type" parent="TopBar/Backdrop/Resources/Earth/VBoxContainer2" index="2"]
+text = "EARTH
+"
+label_settings = SubResource("LabelSettings_ld56j")
+
+[node name="Labor" parent="TopBar/Backdrop/Resources" instance=ExtResource("2_dt1xk")]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+
+[node name="Icon" parent="TopBar/Backdrop/Resources/Labor/VBoxContainer2" index="1"]
+texture = SubResource("AtlasTexture_y7v6u")
+
+[node name="Type" parent="TopBar/Backdrop/Resources/Labor/VBoxContainer2" index="2"]
+text = "LABOR
+"
+label_settings = SubResource("LabelSettings_q2fyj")
+
+[node name="BottomBar" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="TabBar" type="HBoxContainer" parent="BottomBar"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+theme_override_constants/separation = 0
+
+[node name="Build" parent="BottomBar/TabBar" instance=ExtResource("5_42caq")]
+layout_mode = 2
+
+[node name="Interact" parent="BottomBar/TabBar" instance=ExtResource("5_42caq")]
+layout_mode = 2
+defaultModulate = Color(0.905882, 0.905882, 0.905882, 1)
+
+[node name="Label" parent="BottomBar/TabBar/Interact" index="1"]
+text = "Interact
+"
+
+[node name="Info" parent="BottomBar/TabBar" instance=ExtResource("5_42caq")]
+layout_mode = 2
+defaultModulate = Color(0.905882, 0.905882, 0.905882, 1)
+
+[node name="Label" parent="BottomBar/TabBar/Info" index="1"]
+text = "Information
+"
+
+[node name="Options" type="NinePatchRect" parent="BottomBar"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 1
+texture = ExtResource("1_01mra")
+region_rect = Rect2(0, 0, 64, 64)
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 1
+
+[node name="Build" type="HBoxContainer" parent="BottomBar/Options"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="City" parent="BottomBar/Options/Build" instance=ExtResource("6_f4awu")]
+layout_mode = 2
+hoverModulate = Color(0.756863, 0.756863, 0.756863, 1)
+
+[node name="Farm" parent="BottomBar/Options/Build" instance=ExtResource("6_f4awu")]
+layout_mode = 2
+
+[node name="TextureRect" parent="BottomBar/Options/Build/Farm" index="1"]
+texture = SubResource("AtlasTexture_njd7v")
+
+[node name="Label" parent="BottomBar/Options/Build/Farm" index="2"]
+text = "FARM
+"
+
+[node name="Kiln" parent="BottomBar/Options/Build" instance=ExtResource("6_f4awu")]
+layout_mode = 2
+
+[node name="TextureRect" parent="BottomBar/Options/Build/Kiln" index="1"]
+modulate = Color(0.972549, 0.913725, 0.960784, 1)
+texture = SubResource("AtlasTexture_kb3em")
+
+[node name="Label" parent="BottomBar/Options/Build/Kiln" index="2"]
+text = "KILN
+"
+
+[node name="Interact" type="HBoxContainer" parent="BottomBar/Options"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="Info" type="HBoxContainer" parent="BottomBar/Options"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="Separator" type="Control" parent="BottomBar/Options/Info"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+
+[node name="tilePos" type="Label" parent="BottomBar/Options/Info"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "x=12"
+label_settings = SubResource("LabelSettings_qj60q")
+vertical_alignment = 1
+
+[node name="InfoBox" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(256, 288)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -256.0
+offset_top = -352.0
+offset_bottom = -64.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/separation = 0
+
+[node name="Tab" type="NinePatchRect" parent="InfoBox"]
+self_modulate = Color(0.960784, 0.862745, 0.65098, 1)
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+texture = ExtResource("1_01mra")
+region_rect = Rect2(64, 0, 64, 64)
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="Caption" type="HBoxContainer" parent="InfoBox/Tab"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="Seperator" type="Control" parent="InfoBox/Tab/Caption"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="InfoBox/Tab/Caption"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Building Information
+"
+label_settings = ExtResource("8_r0vx6")
+vertical_alignment = 1
+
+[node name="Open" type="TextureButton" parent="InfoBox/Tab/Caption"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+toggle_mode = true
+texture_normal = SubResource("AtlasTexture_vujkx")
+texture_pressed = SubResource("AtlasTexture_7gvq2")
+stretch_mode = 5
+
+[node name="Content" type="NinePatchRect" parent="InfoBox"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_vertical = 3
+texture = SubResource("CompressedTexture2D_pljg8")
+region_rect = Rect2(0, 0, 64, 64)
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="Content" type="VBoxContainer" parent="InfoBox/Content"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 0
+
+[node name="Seperator" type="Control" parent="InfoBox/Content/Content"]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+
+[node name="Caption" type="HBoxContainer" parent="InfoBox/Content/Content"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Seperator" type="Control" parent="InfoBox/Content/Content/Caption"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="InfoBox/Content/Content/Caption"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="InfoBox/Content/Content/Caption"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 1
+text = "CITY
+at (x, y)"
+label_settings = SubResource("LabelSettings_0xipo")
+
+[node name="Info" type="HBoxContainer" parent="InfoBox/Content/Content"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Seperator" type="Control" parent="InfoBox/Content/Content/Info"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="InfoBox/Content/Content/Info"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 1
+text = "INFO HERE"
+label_settings = SubResource("LabelSettings_2a1fq")
+
+[editable path="TopBar/Backdrop/Resources/Food"]
+[editable path="TopBar/Backdrop/Resources/Earth"]
+[editable path="TopBar/Backdrop/Resources/Labor"]
+[editable path="BottomBar/TabBar/Interact"]
+[editable path="BottomBar/TabBar/Info"]
+[editable path="BottomBar/Options/Build/City"]
+[editable path="BottomBar/Options/Build/Farm"]
+[editable path="BottomBar/Options/Build/Kiln"]

@@ -37,7 +37,7 @@ func updatePosition(tileMap : GameTilemap):
 					fposmod(tileDisplay.mapPosition.y, Global.mapSize.y))
 			var relativeTilePosition = Vector2((tileDisplay.mapPosition.x),(tileDisplay.mapPosition.y))
 			relativeTilePosition += Vector2((cameraPosition.x / Global.tileSize.x) + (cameraPosition.y / Global.tileSize.y), 
-					(cameraPosition.y / Global.tileSize.y) -(cameraPosition.x / Global.tileSize.x))
+					(cameraPosition.y / Global.tileSize.y) - (cameraPosition.x / Global.tileSize.x))
 			relativeTilePosition = floor(relativeTilePosition)
 			#if x == 0 and y == 0: print(relativeTilePosition)
 			if (relativeTilePosition.x >= tileMap.mapSize.x or relativeTilePosition.y >= tileMap.mapSize.y
@@ -46,6 +46,27 @@ func updatePosition(tileMap : GameTilemap):
 			else:
 				tileDisplay.updateDisplay(tileMap.terrainMap[relativeTilePosition.x+relativeTilePosition.y*tileMap.mapSize.x], tileMap.buildingMap[relativeTilePosition.x+relativeTilePosition.y*tileMap.mapSize.x])
 			tileDisplay.updatePosition()
+
+func snapPositionToGrid(pos: Vector2) -> Vector2:
+	var snappedPosition = screenPositionToTileDisplayCoordinates(pos + Vector2(cameraPosition))
+	snappedPosition = tileDisplayMap[snappedPosition.x + snappedPosition.y*Global.mapSize.x].global_position
+	return snappedPosition
+
+func screenPositionToTileCoordinates(pos: Vector2) -> Vector2:
+	var tileCoords = screenPositionToTileDisplayCoordinates(pos)
+	tileCoords = Vector2((tileCoords.x),(tileCoords.y))
+	tileCoords += Vector2((cameraPosition.x / Global.tileSize.x) + (cameraPosition.y / Global.tileSize.y), 
+			(cameraPosition.y / Global.tileSize.y) - (cameraPosition.x / Global.tileSize.x))
+	tileCoords = floor(tileCoords)
+	return tileCoords
+
+func screenPositionToTileDisplayCoordinates(pos: Vector2) -> Vector2:
+	var tileCoords = Vector2(pos.x, pos.y + Global.tileSize.y/2 - (Global.mapSize.y * Global.tileSize.y / 2))
+	tileCoords = Vector2(tileCoords.y/Global.tileSize.y+tileCoords.x/Global.tileSize.x, tileCoords.y/Global.tileSize.y-tileCoords.x/Global.tileSize.x)
+	tileCoords = floor(tileCoords)
+	tileCoords = Vector2(fposmod(tileCoords.x, Global.mapSize.x), fposmod(tileCoords.y, Global.mapSize.y))
+	#print(tileCoords)
+	return tileCoords
 
 func upperBoundFunction(x: float) -> float:
 	return ((origin.y-minPos.y)/(maxPos.x-origin.x))*abs(x-origin.x) + minPos.y

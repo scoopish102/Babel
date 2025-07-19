@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://cmqcc7hgthww2"]
+
+[ext_resource type="FontFile" uid="uid://c0luxgh1umj2h" path="res://assets/fonts/DigitalDisco.ttf" id="1_ipyyt"]
+
+[resource]
+font = ExtResource("1_ipyyt")
+font_color = Color(0, 1, 0, 1)

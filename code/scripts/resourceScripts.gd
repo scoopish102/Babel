@@ -30,30 +30,11 @@ class RResource extends Object:
 		self.amount += self.change
 		self.boundAmounts()
 
-class RResourceAccount extends Object:
-	var res : Dictionary
-	
-	func _init(_res: Dictionary):
-		self.res = res
-	
-	func redeemCost(ticket: RResourceTicket):
-		if ticket.canRedeem(self):
-			for resource in ticket.res:
-				if resource in self.res: self.res[resource].addAmount(ticket.res[resource])
-	
-	func redeemBudget(ticket: RResourceTicket):
-		for resource in ticket.res:
-			if resource in self.res: self.res[resource].change += ticket.res[resource]
-	
-	func update():
-		for resource in self.res:
-			self.res[resource].update()
-
 class RResourceTicket extends Object:
 	var res : Dictionary
 	
 	func _init(_res: Dictionary):
-		self.res = res
+		self.res = res.duplicate(true)
 		
 	func read(debug=false) -> Dictionary:
 		if debug:
@@ -69,7 +50,7 @@ class RResourceTicket extends Object:
 		var newTicket = RResourceTicket.new(self.res)
 		return newTicket
 	
-	func canRedeem(account : RResourceAccount) -> bool:
+	func canRedeem(account : Dictionary) -> bool:
 		for resource in self.res:
 			if resource in account and resource in self.res:
 				if account[resource] - self.res[resource] < 0: return false

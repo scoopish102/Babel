@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://bcfbmg4eyck7n"]
+
+[ext_resource type="Texture2D" uid="uid://c12vlpq5rosds" path="res://assets/graphics/ui.png" id="1_155p2"]
+[ext_resource type="Script" path="res://code/scripts/cursor.gd" id="1_nnlxc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_76byq"]
+atlas = ExtResource("1_155p2")
+region = Rect2(64, 72, 64, 48)
+
+[node name="Cursor" type="Node2D"]
+script = ExtResource("1_nnlxc")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = SubResource("AtlasTexture_76byq")
