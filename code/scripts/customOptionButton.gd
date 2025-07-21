@@ -7,6 +7,9 @@ class_name CustomOptionButton extends NinePatchRect
 @export var hoverModulate : Color
 @export var pressedModulate : Color
 @export var selectedModulate : Color
+@export var typeName : StringName
+@export var icon : Texture2D
+@export_multiline var description : String
 
 func process(selected: bool) -> bool:
 	#print(selected)

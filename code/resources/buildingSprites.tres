@@ -2,14 +2,6 @@
 
 [ext_resource type="Texture2D" uid="uid://c5vfq611uceik" path="res://assets/graphics/buildings.png" id="1_gssod"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_304k4"]
-atlas = ExtResource("1_gssod")
-region = Rect2(0, 0, 128, 128)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_upevh"]
-atlas = ExtResource("1_gssod")
-region = Rect2(128, 0, 128, 128)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_gdio8"]
 atlas = ExtResource("1_gssod")
 region = Rect2(0, 128, 128, 128)
@@ -17,6 +9,14 @@ region = Rect2(0, 128, 128, 128)
 [sub_resource type="AtlasTexture" id="AtlasTexture_7bvxc"]
 atlas = ExtResource("1_gssod")
 region = Rect2(128, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_304k4"]
+atlas = ExtResource("1_gssod")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_upevh"]
+atlas = ExtResource("1_gssod")
+region = Rect2(128, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rnbfe"]
 atlas = ExtResource("1_gssod")
@@ -30,6 +30,17 @@ region = Rect2(128, 256, 128, 128)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_gdio8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7bvxc")
+}],
+"loop": true,
+"name": &"City",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_304k4")
 }, {
 "duration": 1.0,
@@ -37,17 +48,6 @@ animations = [{
 }],
 "loop": true,
 "name": &"Farm",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_gdio8")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7bvxc")
-}],
-"loop": true,
-"name": &"House",
 "speed": 5.0
 }, {
 "frames": [{
@@ -61,7 +61,10 @@ animations = [{
 "name": &"Kiln",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": null
+}],
 "loop": true,
 "name": &"None",
 "speed": 5.0

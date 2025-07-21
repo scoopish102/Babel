@@ -1,8 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://dgo06r2ac3jgr"]
+[gd_scene load_steps=4 format=3 uid="uid://dgo06r2ac3jgr"]
 
 [ext_resource type="Script" path="res://code/scripts/tilemapDisplay.gd" id="1_7lw31"]
 [ext_resource type="PackedScene" uid="uid://f4a7jdx0xwyd" path="res://code/scenes/tileDisplay.tscn" id="2_y4n5u"]
+[ext_resource type="PackedScene" uid="uid://bcfbmg4eyck7n" path="res://code/scenes/cursor.tscn" id="3_xsebq"]
 
 [node name="tilemapDisplay" type="Node2D"]
 script = ExtResource("1_7lw31")
 tileDisplayScene = ExtResource("2_y4n5u")
+
+[node name="Cursor" parent="." instance=ExtResource("3_xsebq")]
+z_index = 999
+defaultColor = Color(0.960784, 1, 1, 1)
+selectedColor = Color(1, 1, 0, 1)
+invalidColor = Color(1, 0, 0, 1)
+validColor = Color(0, 1, 0, 1)

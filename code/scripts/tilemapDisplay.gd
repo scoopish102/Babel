@@ -1,5 +1,7 @@
 class_name TilemapDisplay extends Node2D
 
+@onready var cursor := $Cursor
+
 @export var tileDisplayScene : PackedScene
 @export var cameraSpeed : int
 
@@ -40,12 +42,15 @@ func updatePosition(tileMap : GameTilemap):
 					(cameraPosition.y / Global.tileSize.y) - (cameraPosition.x / Global.tileSize.x))
 			relativeTilePosition = floor(relativeTilePosition)
 			#if x == 0 and y == 0: print(relativeTilePosition)
-			if (relativeTilePosition.x >= tileMap.mapSize.x or relativeTilePosition.y >= tileMap.mapSize.y
-					or relativeTilePosition.x < 0 or relativeTilePosition.y < 0):
+			if checkCoordsOutOfBounds(tileMap, relativeTilePosition):
 				tileDisplay.outOfBoundsDisplay()
 			else:
 				tileDisplay.updateDisplay(tileMap.terrainMap[relativeTilePosition.x+relativeTilePosition.y*tileMap.mapSize.x], tileMap.buildingMap[relativeTilePosition.x+relativeTilePosition.y*tileMap.mapSize.x])
 			tileDisplay.updatePosition()
+
+func checkCoordsOutOfBounds(tileMap : GameTilemap, coords: Vector2) -> bool:
+	if coords.x >= tileMap.mapSize.x or coords.y >= tileMap.mapSize.y or coords.x < 0 or coords.y < 0: return true
+	else: return false
 
 func snapPositionToGrid(pos: Vector2) -> Vector2:
 	var snappedPosition = screenPositionToTileDisplayCoordinates(pos + Vector2(cameraPosition))
@@ -54,11 +59,22 @@ func snapPositionToGrid(pos: Vector2) -> Vector2:
 
 func screenPositionToTileCoordinates(pos: Vector2) -> Vector2:
 	var tileCoords = screenPositionToTileDisplayCoordinates(pos)
+	tileCoords = tileDisplayToTileCoordinates(tileCoords)
+	return tileCoords
+
+func tileDisplayToTileCoordinates(coords: Vector2) -> Vector2:
+	var tileCoords = coords
 	tileCoords = Vector2((tileCoords.x),(tileCoords.y))
 	tileCoords += Vector2((cameraPosition.x / Global.tileSize.x) + (cameraPosition.y / Global.tileSize.y), 
 			(cameraPosition.y / Global.tileSize.y) - (cameraPosition.x / Global.tileSize.x))
 	tileCoords = floor(tileCoords)
 	return tileCoords
+
+func tileCoordinatesToScreenPosition(coords: Vector2) -> Vector2:
+	var screenPos = Vector2(coords)
+	screenPos = Vector2(screenPos.x*Global.tileSize.x/2-screenPos.y*Global.tileSize.x/2, screenPos.y*Global.tileSize.y/2+screenPos.x*Global.tileSize.y/2)
+	screenPos.y += -(Global.mapSize.y * Global.tileSize.y / 2)
+	return screenPos - cameraPosition
 
 func screenPositionToTileDisplayCoordinates(pos: Vector2) -> Vector2:
 	var tileCoords = Vector2(pos.x, pos.y + Global.tileSize.y/2 - (Global.mapSize.y * Global.tileSize.y / 2))
@@ -77,7 +93,7 @@ func leftBoundFunction(y: float) -> float:
 func rightBoundFunction(y: float) -> float:
 	return ((origin.x-maxPos.x)/(minPos.y-origin.y))*abs(y-origin.y) + maxPos.x
 
-func process(delta, tileMap):
+func process(delta, tileMap, mousePos):
 	cameraAcceleration = Vector2i(2*(Input.get_action_strength("ui_right")-Input.get_action_strength("ui_left")),
 			Input.get_action_strength("ui_down")-Input.get_action_strength("ui_up")) * cameraSpeed
 	#cameraVelocity = Vector2(cameraVelocity.x, cameraVelocity.y)
@@ -118,3 +134,14 @@ func process(delta, tileMap):
 	cameraPosition = floor(cameraPosition)
 	#print(cameraPosition)
 	updatePosition(tileMap)
+	if not cursor.selected: 
+		cursor.tile = screenPositionToTileCoordinates(mousePos)
+		cursor.tileDisplay = screenPositionToTileDisplayCoordinates(mousePos + Vector2(cameraPosition))
+		if cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x > len(tileDisplayMap) or cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x < 0: 
+			cursor.process(Vector2(0, 0), true)
+		else: cursor.process(tileDisplayMap[cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x].global_position, checkCoordsOutOfBounds(tileMap, cursor.tile))
+	else: 
+		if cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x > len(tileDisplayMap) or cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x < 0: 
+			cursor.selected = false
+			return
+		else: cursor.process(tileDisplayMap[cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x].global_position, checkCoordsOutOfBounds(tileMap, cursor.tile))

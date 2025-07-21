@@ -21,11 +21,6 @@ func _init(size : Vector2i):
 	#print(terrainMap)
 
 func generateWorld(noise):
-	for x in range(mapSize.x):
-		for y in range(mapSize.y):
-			terrainMap[x*mapSize.y+y] = randi_range(1, 5)
-	return
-	
 	var center = Vector2(mapSize.x/2, mapSize.y/2)
 	var rad = (mapSize.x+mapSize.y)/4 - 5
 	var temp = 0

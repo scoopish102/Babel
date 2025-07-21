@@ -2,7 +2,6 @@ class_name Game extends Node2D
 
 @onready var tilemapDisplay := $TilemapDisplay
 @onready var ui := $CanvasLayer/UI
-@onready var cursor := $Cursor
 
 @export var gameSize : Vector2i
 @export var noise : FastNoiseLite
@@ -42,8 +41,11 @@ func _ready():
 	tilemap = GameTilemap.new(gameSize)
 	tilemap.generateWorld(noise)
 	tilemapDisplay.start(tilemap)
+	ui.updateCursor.connect(updateCursorDisplay)
 
 func _process(delta):
-	tilemapDisplay.process(delta, tilemap)
-	cursor.process(tilemapDisplay.snapPositionToGrid(get_global_mouse_position()))
-	ui.process(player, cursor.position, tilemapDisplay.screenPositionToTileCoordinates(get_global_mouse_position()))
+	tilemapDisplay.process(delta, tilemap, get_global_mouse_position())
+	ui.process(player, tilemapDisplay.cursor.position, tilemapDisplay.cursor.tile, tilemapDisplay.cursor.selected)
+
+func updateCursorDisplay(buildingType=&"None"):
+	tilemapDisplay.cursor.building.set_animation(buildingType)

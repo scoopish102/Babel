@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://dc4b48xoehxxs"]
+[gd_scene load_steps=33 format=3 uid="uid://dc4b48xoehxxs"]
 
 [ext_resource type="Texture2D" uid="uid://c12vlpq5rosds" path="res://assets/graphics/ui.png" id="1_01mra"]
 [ext_resource type="Script" path="res://code/scripts/ui.gd" id="1_dn3ly"]
@@ -7,7 +7,10 @@
 [ext_resource type="PackedScene" uid="uid://diigoqrv4ir82" path="res://code/scenes/customTabButton.tscn" id="5_42caq"]
 [ext_resource type="PackedScene" uid="uid://b5ac0bphkf6pr" path="res://code/scenes/customOptionButton.tscn" id="6_f4awu"]
 [ext_resource type="Texture2D" uid="uid://c5vfq611uceik" path="res://assets/graphics/buildings.png" id="6_yd6wg"]
+[ext_resource type="Script" path="res://code/scripts/infoBox.gd" id="8_etrss"]
 [ext_resource type="LabelSettings" uid="uid://bn3tdb4cin7nn" path="res://code/resources/TabLabelSettings.tres" id="8_r0vx6"]
+[ext_resource type="StyleBox" uid="uid://cqefrohj42yss" path="res://code/resources/brickStyleBox.tres" id="10_qw23n"]
+[ext_resource type="StyleBox" uid="uid://b62g8vhso8vo5" path="res://code/resources/cuneiStyleBox.tres" id="11_47kd1"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cgm38"]
 atlas = ExtResource("1_01mra")
@@ -15,7 +18,6 @@ region = Rect2(32, 64, 32, 32)
 
 [sub_resource type="LabelSettings" id="LabelSettings_ld56j"]
 font = ExtResource("4_qbhuc")
-font_color = Color(0.803922, 0.803922, 0.803922, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y7v6u"]
 atlas = ExtResource("1_01mra")
@@ -24,6 +26,10 @@ region = Rect2(32, 96, 32, 32)
 [sub_resource type="LabelSettings" id="LabelSettings_q2fyj"]
 font = ExtResource("4_qbhuc")
 font_color = Color(1, 0, 0, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rijo4"]
+atlas = ExtResource("6_yd6wg")
+region = Rect2(32, 152, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_njd7v"]
 atlas = ExtResource("6_yd6wg")
@@ -47,15 +53,133 @@ region = Rect2(24, 168, 16, 16)
 atlas = ExtResource("1_01mra")
 region = Rect2(24, 136, 16, 16)
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_pljg8"]
-load_path = "res://.godot/imported/ui.png-b68d05428b174b0b50ae265d62b45f7a.ctex"
-
 [sub_resource type="LabelSettings" id="LabelSettings_0xipo"]
 font = ExtResource("4_qbhuc")
 font_size = 32
 
-[sub_resource type="LabelSettings" id="LabelSettings_2a1fq"]
-font = ExtResource("4_qbhuc")
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7nbos"]
+texture = ExtResource("1_01mra")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 0, 64, 64)
+modulate_color = Color(0.407843, 0.407843, 0.407843, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_leeqd"]
+texture = ExtResource("1_01mra")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 0, 64, 64)
+modulate_color = Color(0.866667, 0.866667, 0.866667, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cf2k3"]
+texture = ExtResource("1_01mra")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 0, 64, 64)
+modulate_color = Color(0.678431, 0.678431, 0.678431, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dqent"]
+atlas = ExtResource("1_01mra")
+region = Rect2(8, 152, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dkktd"]
+atlas = ExtResource("1_01mra")
+region = Rect2(40, 152, 16, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_k53wg"]
+texture = ExtResource("1_01mra")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.960784, 0.8, 0.564706, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jitcl"]
+texture = ExtResource("1_01mra")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(64, 0, 64, 64)
+modulate_color = Color(0.619608, 0.584314, 0.494118, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lffpx"]
+texture = ExtResource("1_01mra")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(64, 0, 64, 64)
+modulate_color = Color(0.933333, 0.8, 0.505882, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2veam"]
+texture = ExtResource("1_01mra")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(64, 0, 64, 64)
+modulate_color = Color(0.960784, 0.733333, 0.65098, 1)
+
+[sub_resource type="Theme" id="Theme_bmus6"]
+Button/colors/font_color = Color(0.875, 0.875, 0.875, 1)
+Button/colors/font_disabled_color = Color(0.875, 0.875, 0.875, 0.5)
+Button/colors/font_focus_color = Color(0.95, 0.95, 0.95, 1)
+Button/colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+Button/colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+Button/colors/font_outline_color = Color(1, 1, 1, 1)
+Button/colors/font_pressed_color = Color(1, 1, 1, 1)
+Button/colors/icon_disabled_color = Color(1, 1, 1, 0.4)
+Button/colors/icon_focus_color = Color(1, 1, 1, 1)
+Button/colors/icon_hover_color = Color(1, 1, 1, 1)
+Button/colors/icon_hover_pressed_color = Color(1, 1, 1, 1)
+Button/colors/icon_normal_color = Color(1, 1, 1, 1)
+Button/colors/icon_pressed_color = Color(1, 1, 1, 1)
+Button/font_sizes/font_size = 16
+Button/fonts/font = ExtResource("4_qbhuc")
+Button/styles/disabled = SubResource("StyleBoxTexture_7nbos")
+Button/styles/hover = SubResource("StyleBoxTexture_leeqd")
+Button/styles/normal = ExtResource("10_qw23n")
+Button/styles/pressed = SubResource("StyleBoxTexture_cf2k3")
+HBoxContainer/constants/separation = 0
+Label/fonts/font = ExtResource("4_qbhuc")
+TabContainer/colors/font_hovered_color = Color(1, 1, 1, 1)
+TabContainer/colors/font_outline_color = Color(1, 1, 1, 1)
+TabContainer/colors/font_selected_color = Color(1, 1, 0, 1)
+TabContainer/colors/font_unselected_color = Color(1, 1, 1, 1)
+TabContainer/constants/side_margin = 0
+TabContainer/fonts/font = ExtResource("4_qbhuc")
+TabContainer/icons/decrement = SubResource("AtlasTexture_dqent")
+TabContainer/icons/decrement_highlight = SubResource("AtlasTexture_dqent")
+TabContainer/icons/increment = SubResource("AtlasTexture_dkktd")
+TabContainer/icons/increment_highlight = SubResource("AtlasTexture_dkktd")
+TabContainer/styles/panel = SubResource("StyleBoxTexture_k53wg")
+TabContainer/styles/tab_disabled = SubResource("StyleBoxTexture_jitcl")
+TabContainer/styles/tab_hovered = SubResource("StyleBoxTexture_lffpx")
+TabContainer/styles/tab_selected = SubResource("StyleBoxTexture_2veam")
+TabContainer/styles/tab_unselected = ExtResource("11_47kd1")
+VBoxContainer/constants/separation = 0
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -64,6 +188,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_dn3ly")
 
 [node name="TopBar" type="Control" parent="."]
@@ -74,7 +199,6 @@ anchor_right = 1.0
 grow_horizontal = 2
 
 [node name="Seperator" type="NinePatchRect" parent="TopBar"]
-self_modulate = Color(0.960784, 0.862745, 0.65098, 1)
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 1
 anchors_preset = 12
@@ -94,13 +218,14 @@ axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
 [node name="Backdrop" type="NinePatchRect" parent="TopBar"]
+self_modulate = Color(0.960784, 0.8, 0.564706, 1)
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
 texture = ExtResource("1_01mra")
-region_rect = Rect2(0, 0, 64, 64)
+region_rect = Rect2(0, 192, 64, 64)
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 1
 
@@ -111,41 +236,139 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_constants/separation = 0
 
 [node name="Food" parent="TopBar/Backdrop/Resources" instance=ExtResource("2_dt1xk")]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
+mouse_filter = 2
 
 [node name="VBoxContainer2" parent="TopBar/Backdrop/Resources/Food" index="0"]
-modulate = Color(0.894118, 0.894118, 0.894118, 1)
+modulate = Color(0, 0.898039, 0.454902, 1)
+mouse_filter = 2
+
+[node name="Seperator" parent="TopBar/Backdrop/Resources/Food/VBoxContainer2" index="0"]
+mouse_filter = 2
+
+[node name="Type" parent="TopBar/Backdrop/Resources/Food/VBoxContainer2" index="2"]
+mouse_filter = 1
+
+[node name="Seperator" parent="TopBar/Backdrop/Resources/Food" index="1"]
+mouse_filter = 2
+
+[node name="VBoxContainer" parent="TopBar/Backdrop/Resources/Food" index="2"]
+mouse_filter = 2
+
+[node name="Seperator" parent="TopBar/Backdrop/Resources/Food/VBoxContainer" index="0"]
+mouse_filter = 2
+
+[node name="Count" parent="TopBar/Backdrop/Resources/Food/VBoxContainer" index="1"]
+mouse_filter = 2
+
+[node name="Count" parent="TopBar/Backdrop/Resources/Food/VBoxContainer/Count" index="0"]
+modulate = Color(0, 0.694118, 0.129412, 1)
+mouse_filter = 1
+
+[node name="Seperator2" parent="TopBar/Backdrop/Resources/Food/VBoxContainer" index="2"]
+mouse_filter = 2
+
+[node name="Increase" parent="TopBar/Backdrop/Resources/Food/VBoxContainer" index="3"]
+mouse_filter = 2
+
+[node name="Increase" parent="TopBar/Backdrop/Resources/Food/VBoxContainer/Increase" index="0"]
+modulate = Color(0, 0.694118, 0.129412, 1)
+mouse_filter = 1
 
 [node name="Earth" parent="TopBar/Backdrop/Resources" instance=ExtResource("2_dt1xk")]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
+mouse_filter = 2
 
 [node name="VBoxContainer2" parent="TopBar/Backdrop/Resources/Earth" index="0"]
-modulate = Color(0.690196, 0.584314, 0.482353, 1)
+mouse_filter = 2
+
+[node name="Seperator" parent="TopBar/Backdrop/Resources/Earth/VBoxContainer2" index="0"]
+mouse_filter = 2
 
 [node name="Icon" parent="TopBar/Backdrop/Resources/Earth/VBoxContainer2" index="1"]
 texture = SubResource("AtlasTexture_cgm38")
 
 [node name="Type" parent="TopBar/Backdrop/Resources/Earth/VBoxContainer2" index="2"]
+mouse_filter = 1
 text = "EARTH
 "
 label_settings = SubResource("LabelSettings_ld56j")
 
+[node name="Seperator" parent="TopBar/Backdrop/Resources/Earth" index="1"]
+mouse_filter = 2
+
+[node name="VBoxContainer" parent="TopBar/Backdrop/Resources/Earth" index="2"]
+mouse_filter = 2
+
+[node name="Seperator" parent="TopBar/Backdrop/Resources/Earth/VBoxContainer" index="0"]
+mouse_filter = 2
+
+[node name="Count" parent="TopBar/Backdrop/Resources/Earth/VBoxContainer" index="1"]
+mouse_filter = 2
+
+[node name="Count" parent="TopBar/Backdrop/Resources/Earth/VBoxContainer/Count" index="0"]
+mouse_filter = 1
+
+[node name="Seperator2" parent="TopBar/Backdrop/Resources/Earth/VBoxContainer" index="2"]
+mouse_filter = 2
+
+[node name="Increase" parent="TopBar/Backdrop/Resources/Earth/VBoxContainer" index="3"]
+mouse_filter = 2
+
+[node name="Increase" parent="TopBar/Backdrop/Resources/Earth/VBoxContainer/Increase" index="0"]
+mouse_filter = 1
+
 [node name="Labor" parent="TopBar/Backdrop/Resources" instance=ExtResource("2_dt1xk")]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
+mouse_filter = 2
+
+[node name="VBoxContainer2" parent="TopBar/Backdrop/Resources/Labor" index="0"]
+mouse_filter = 2
+
+[node name="Seperator" parent="TopBar/Backdrop/Resources/Labor/VBoxContainer2" index="0"]
+mouse_filter = 2
 
 [node name="Icon" parent="TopBar/Backdrop/Resources/Labor/VBoxContainer2" index="1"]
 texture = SubResource("AtlasTexture_y7v6u")
 
 [node name="Type" parent="TopBar/Backdrop/Resources/Labor/VBoxContainer2" index="2"]
+mouse_filter = 1
 text = "LABOR
 "
 label_settings = SubResource("LabelSettings_q2fyj")
+
+[node name="Seperator" parent="TopBar/Backdrop/Resources/Labor" index="1"]
+mouse_filter = 2
+
+[node name="VBoxContainer" parent="TopBar/Backdrop/Resources/Labor" index="2"]
+mouse_filter = 2
+
+[node name="Seperator" parent="TopBar/Backdrop/Resources/Labor/VBoxContainer" index="0"]
+mouse_filter = 2
+
+[node name="Count" parent="TopBar/Backdrop/Resources/Labor/VBoxContainer" index="1"]
+mouse_filter = 2
+
+[node name="Count" parent="TopBar/Backdrop/Resources/Labor/VBoxContainer/Count" index="0"]
+modulate = Color(1, 0, 0, 1)
+mouse_filter = 1
+
+[node name="Seperator2" parent="TopBar/Backdrop/Resources/Labor/VBoxContainer" index="2"]
+mouse_filter = 2
+
+[node name="Increase" parent="TopBar/Backdrop/Resources/Labor/VBoxContainer" index="3"]
+mouse_filter = 2
+
+[node name="Increase" parent="TopBar/Backdrop/Resources/Labor/VBoxContainer/Increase" index="0"]
+modulate = Color(1, 0, 0, 1)
+mouse_filter = 1
 
 [node name="BottomBar" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 96)
@@ -163,9 +386,11 @@ layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
+mouse_filter = 2
 theme_override_constants/separation = 0
 
 [node name="Build" parent="BottomBar/TabBar" instance=ExtResource("5_42caq")]
+self_modulate = Color(0.960784, 0.862745, 0.65098, 1)
 layout_mode = 2
 
 [node name="Interact" parent="BottomBar/TabBar" instance=ExtResource("5_42caq")]
@@ -185,6 +410,7 @@ text = "Information
 "
 
 [node name="Options" type="NinePatchRect" parent="BottomBar"]
+self_modulate = Color(0.960784, 0.8, 0.564706, 1)
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 1
 anchors_preset = 12
@@ -193,9 +419,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 0
-mouse_filter = 1
 texture = ExtResource("1_01mra")
-region_rect = Rect2(0, 0, 64, 64)
+region_rect = Rect2(0, 192, 64, 64)
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 1
 
@@ -206,30 +435,62 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_constants/separation = 0
 
 [node name="City" parent="BottomBar/Options/Build" instance=ExtResource("6_f4awu")]
 layout_mode = 2
+mouse_filter = 2
 hoverModulate = Color(0.756863, 0.756863, 0.756863, 1)
+typeName = &"City"
+icon = SubResource("AtlasTexture_rijo4")
+description = "Costs 4 [img]res://code/resources/miniResourceIcons/earth.tres[/img] to build. 
+Produces 2 [img]res://code/resources/miniResourceIcons/labor.tres[/img] and consumes 2 [img]res://code/resources/miniResourceIcons/food.tres[/img] each turn.
+
+Stable residence defines the difference between wilderess and civilization."
+
+[node name="TextureRect" parent="BottomBar/Options/Build/City" index="1"]
+mouse_filter = 2
+
+[node name="Label" parent="BottomBar/Options/Build/City" index="2"]
+mouse_filter = 2
 
 [node name="Farm" parent="BottomBar/Options/Build" instance=ExtResource("6_f4awu")]
 layout_mode = 2
+mouse_filter = 2
+typeName = &"Farm"
+icon = SubResource("AtlasTexture_njd7v")
+description = "Costs 4 [img]res://code/resources/miniResourceIcons/earth.tres[/img] to build. 
+Can support 2 [img]res://code/resources/miniResourceIcons/labor.tres[/img]. Produces 2 [img]res://code/resources/miniResourceIcons/food.tres[/img] per [img]res://code/resources/miniResourceIcons/labor.tres[/img].
+
+Food is the foundation, and necessity, of every civilization."
 
 [node name="TextureRect" parent="BottomBar/Options/Build/Farm" index="1"]
+mouse_filter = 2
 texture = SubResource("AtlasTexture_njd7v")
 
 [node name="Label" parent="BottomBar/Options/Build/Farm" index="2"]
+mouse_filter = 2
 text = "FARM
 "
 
 [node name="Kiln" parent="BottomBar/Options/Build" instance=ExtResource("6_f4awu")]
 layout_mode = 2
+mouse_filter = 2
+typeName = &"Kiln"
+icon = SubResource("AtlasTexture_kb3em")
+description = "Costs 4 [img]res://code/resources/miniResourceIcons/earth.tres[/img] to build.
+Can support 2 [img]res://code/resources/miniResourceIcons/labor.tres[/img]. Produces 1 [img]res://code/resources/miniResourceIcons/earth.tres[/img] per [img]res://code/resources/miniResourceIcons/labor.tres[/img].
+
+The power of fire harnessed to create the building blocks of a civilization."
 
 [node name="TextureRect" parent="BottomBar/Options/Build/Kiln" index="1"]
 modulate = Color(0.972549, 0.913725, 0.960784, 1)
+mouse_filter = 2
 texture = SubResource("AtlasTexture_kb3em")
 
 [node name="Label" parent="BottomBar/Options/Build/Kiln" index="2"]
+mouse_filter = 2
 text = "KILN
 "
 
@@ -241,6 +502,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_constants/separation = 0
 
 [node name="Info" type="HBoxContainer" parent="BottomBar/Options"]
@@ -251,6 +513,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_constants/separation = 0
 
 [node name="Separator" type="Control" parent="BottomBar/Options/Info"]
@@ -278,7 +541,9 @@ offset_top = -352.0
 offset_bottom = -64.0
 grow_horizontal = 0
 grow_vertical = 0
+mouse_filter = 0
 theme_override_constants/separation = 0
+script = ExtResource("8_etrss")
 
 [node name="Tab" type="NinePatchRect" parent="InfoBox"]
 self_modulate = Color(0.960784, 0.862745, 0.65098, 1)
@@ -300,11 +565,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_constants/separation = 0
 
 [node name="Seperator" type="Control" parent="InfoBox/Tab/Caption"]
 custom_minimum_size = Vector2(8, 0)
 layout_mode = 2
+mouse_filter = 2
 
 [node name="Label" type="Label" parent="InfoBox/Tab/Caption"]
 layout_mode = 2
@@ -327,7 +594,7 @@ stretch_mode = 5
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_vertical = 3
-texture = SubResource("CompressedTexture2D_pljg8")
+texture = ExtResource("1_01mra")
 region_rect = Rect2(0, 0, 64, 64)
 patch_margin_left = 16
 patch_margin_top = 16
@@ -340,23 +607,28 @@ axis_stretch_vertical = 1
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
+mouse_filter = 2
 theme_override_constants/separation = 0
 
 [node name="Seperator" type="Control" parent="InfoBox/Content/Content"]
 custom_minimum_size = Vector2(8, 8)
 layout_mode = 2
+mouse_filter = 2
 
 [node name="Caption" type="HBoxContainer" parent="InfoBox/Content/Content"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 0
 
 [node name="Seperator" type="Control" parent="InfoBox/Content/Content/Caption"]
 custom_minimum_size = Vector2(8, 0)
 layout_mode = 2
+mouse_filter = 2
 
 [node name="Icon" type="TextureRect" parent="InfoBox/Content/Content/Caption"]
-custom_minimum_size = Vector2(64, 64)
+custom_minimum_size = Vector2(64, 32)
 layout_mode = 2
+mouse_filter = 2
 
 [node name="Label" type="Label" parent="InfoBox/Content/Content/Caption"]
 layout_mode = 2
@@ -368,18 +640,43 @@ label_settings = SubResource("LabelSettings_0xipo")
 
 [node name="Info" type="HBoxContainer" parent="InfoBox/Content/Content"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 0
 
 [node name="Seperator" type="Control" parent="InfoBox/Content/Content/Info"]
 custom_minimum_size = Vector2(8, 0)
 layout_mode = 2
+mouse_filter = 2
 
-[node name="Label" type="Label" parent="InfoBox/Content/Content/Info"]
+[node name="Label" type="RichTextLabel" parent="InfoBox/Content/Content/Info"]
+custom_minimum_size = Vector2(240, 0)
 layout_mode = 2
 size_flags_horizontal = 8
-size_flags_vertical = 1
-text = "INFO HERE"
-label_settings = SubResource("LabelSettings_2a1fq")
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("4_qbhuc")
+bbcode_enabled = true
+text = "A WHOLE BUNCH OF [img]res://code/resources/miniResourceIcons/food.tres[/img]
+2[img]res://code/resources/miniResourceIcons/food.tres[/img]
+
+2[img]res://code/resources/miniResourceIcons/food.tres[/img]
+2[img]res://code/resources/miniResourceIcons/food.tres[/img]
+2[img]res://code/resources/miniResourceIcons/food.tres[/img]
+2[img]res://code/resources/miniResourceIcons/food.tres[/img]
+
+2[img]res://code/resources/miniResourceIcons/food.tres[/img]2[img]res://code/resources/miniResourceIcons/food.tres[/img]2[img]res://code/resources/miniResourceIcons/food.tres[/img]2[img]res://code/resources/miniResourceIcons/food.tres[/img]2[img]res://code/resources/miniResourceIcons/food.tres[/img]
+2[img]res://code/resources/miniResourceIcons/food.tres[/img]
+2[img]res://code/resources/miniResourceIcons/food.tres[/img]"
+fit_content = true
+scroll_active = false
+
+[node name="Buttons" type="HBoxContainer" parent="InfoBox/Content/Content"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="InfoBox/Content/Content/Buttons"]
+layout_mode = 2
+theme = SubResource("Theme_bmus6")
+
+[connection signal="toggled" from="InfoBox/Tab/Caption/Open" to="." method="infoBoxToggled"]
 
 [editable path="TopBar/Backdrop/Resources/Food"]
 [editable path="TopBar/Backdrop/Resources/Earth"]

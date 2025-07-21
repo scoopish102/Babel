@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bcfbmg4eyck7n"]
+[gd_scene load_steps=5 format=3 uid="uid://bcfbmg4eyck7n"]
 
 [ext_resource type="Texture2D" uid="uid://c12vlpq5rosds" path="res://assets/graphics/ui.png" id="1_155p2"]
 [ext_resource type="Script" path="res://code/scripts/cursor.gd" id="1_nnlxc"]
+[ext_resource type="SpriteFrames" uid="uid://ds2lwk6c4bx85" path="res://code/resources/buildingSprites.tres" id="3_67u12"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_76byq"]
 atlas = ExtResource("1_155p2")
@@ -13,3 +14,9 @@ script = ExtResource("1_nnlxc")
 [node name="Sprite" type="Sprite2D" parent="."]
 scale = Vector2(2, 2)
 texture = SubResource("AtlasTexture_76byq")
+
+[node name="building" type="AnimatedSprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.294118)
+scale = Vector2(2, 2)
+sprite_frames = ExtResource("3_67u12")
+animation = &"None"

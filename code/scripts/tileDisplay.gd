@@ -14,31 +14,31 @@ func updateDisplay(_terrain, _building):
 
 func updateSprite(outOfBounds: bool = false):
 	if outOfBounds: 
-		terrainDisplay.play("None")
-		buildingDisplay.play("None")
+		terrainDisplay.set_animation(&"None")
+		buildingDisplay.set_animation(&"None")
 		return
 	match self.terrain:
 		GameTilemap.Terrain.NONE:
-			terrainDisplay.play("None")
+			terrainDisplay.set_animation(&"None")
 		GameTilemap.Terrain.GRASS:
-			terrainDisplay.play("Grass")
+			terrainDisplay.set_animation(&"Grass")
 		GameTilemap.Terrain.SAND:
-			terrainDisplay.play("Sand")
+			terrainDisplay.set_animation(&"Sand")
 		GameTilemap.Terrain.WATER:
-			terrainDisplay.play("Water")
+			terrainDisplay.set_animation(&"Water")
 		GameTilemap.Terrain.DIRT:
-			terrainDisplay.play("Dirt")
+			terrainDisplay.set_animation(&"Dirt")
 		GameTilemap.Terrain.PLATFORM:
-			terrainDisplay.play("Platform")
+			terrainDisplay.set_animation(&"Platform")
 	match typeof(self.building):
 		null:
-			buildingDisplay.play("None")
+			buildingDisplay.set_animation(&"None")
 		BuildingScripts.House:
-			buildingDisplay.play("House")
+			buildingDisplay.set_animation(&"City")
 		BuildingScripts.Farm:
-			buildingDisplay.play("Farm")
+			buildingDisplay.set_animation(&"Farm")
 		BuildingScripts.Kiln:
-			buildingDisplay.play("Kiln")
+			buildingDisplay.set_animation(&"Kiln")
 
 func outOfBoundsDisplay():
 	self.terrain = GameTilemap.Terrain.NONE
