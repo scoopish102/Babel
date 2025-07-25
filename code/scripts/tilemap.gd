@@ -21,7 +21,9 @@ func _init(size : Vector2i):
 	#print(terrainMap)
 
 func generateWorld(noise):
+	@warning_ignore("integer_division")
 	var center = Vector2(mapSize.x/2, mapSize.y/2)
+	@warning_ignore("integer_division")
 	var rad = (mapSize.x+mapSize.y)/4 - 5
 	var temp = 0
 	var dist = 0

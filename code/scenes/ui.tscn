@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://dc4b48xoehxxs"]
+[gd_scene load_steps=37 format=3 uid="uid://dc4b48xoehxxs"]
 
 [ext_resource type="Texture2D" uid="uid://c12vlpq5rosds" path="res://assets/graphics/ui.png" id="1_01mra"]
 [ext_resource type="Script" path="res://code/scripts/ui.gd" id="1_dn3ly"]
@@ -180,6 +180,35 @@ TabContainer/styles/tab_hovered = SubResource("StyleBoxTexture_lffpx")
 TabContainer/styles/tab_selected = SubResource("StyleBoxTexture_2veam")
 TabContainer/styles/tab_unselected = ExtResource("11_47kd1")
 VBoxContainer/constants/separation = 0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fofqw"]
+texture = ExtResource("1_01mra")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_t5fdl"]
+texture = ExtResource("1_01mra")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.847059, 0.847059, 0.847059, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rlre0"]
+atlas = ExtResource("1_01mra")
+region = Rect2(72, 200, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jxhf6"]
+atlas = ExtResource("1_01mra")
+region = Rect2(105, 234, 13, 13)
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -390,7 +419,6 @@ mouse_filter = 2
 theme_override_constants/separation = 0
 
 [node name="Build" parent="BottomBar/TabBar" instance=ExtResource("5_42caq")]
-self_modulate = Color(0.960784, 0.862745, 0.65098, 1)
 layout_mode = 2
 
 [node name="Interact" parent="BottomBar/TabBar" instance=ExtResource("5_42caq")]
@@ -447,7 +475,7 @@ icon = SubResource("AtlasTexture_rijo4")
 description = "Costs 4 [img]res://code/resources/miniResourceIcons/earth.tres[/img] to build. 
 Produces 2 [img]res://code/resources/miniResourceIcons/labor.tres[/img] and consumes 2 [img]res://code/resources/miniResourceIcons/food.tres[/img] each turn.
 
-Stable residence defines the difference between wilderess and civilization."
+Stable residence is the difference between wilderness and civilization."
 
 [node name="TextureRect" parent="BottomBar/Options/Build/City" index="1"]
 mouse_filter = 2
@@ -604,9 +632,12 @@ axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
 [node name="Content" type="VBoxContainer" parent="InfoBox/Content"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 theme_override_constants/separation = 0
 
@@ -658,25 +689,87 @@ bbcode_enabled = true
 text = "A WHOLE BUNCH OF [img]res://code/resources/miniResourceIcons/food.tres[/img]
 2[img]res://code/resources/miniResourceIcons/food.tres[/img]
 
-2[img]res://code/resources/miniResourceIcons/food.tres[/img]
-2[img]res://code/resources/miniResourceIcons/food.tres[/img]
-2[img]res://code/resources/miniResourceIcons/food.tres[/img]
-2[img]res://code/resources/miniResourceIcons/food.tres[/img]
-
-2[img]res://code/resources/miniResourceIcons/food.tres[/img]2[img]res://code/resources/miniResourceIcons/food.tres[/img]2[img]res://code/resources/miniResourceIcons/food.tres[/img]2[img]res://code/resources/miniResourceIcons/food.tres[/img]2[img]res://code/resources/miniResourceIcons/food.tres[/img]
-2[img]res://code/resources/miniResourceIcons/food.tres[/img]
 2[img]res://code/resources/miniResourceIcons/food.tres[/img]"
 fit_content = true
 scroll_active = false
 
 [node name="Buttons" type="HBoxContainer" parent="InfoBox/Content/Content"]
 layout_mode = 2
+size_flags_vertical = 10
+mouse_filter = 2
+theme_override_constants/separation = 0
 
-[node name="Button" type="Button" parent="InfoBox/Content/Content/Buttons"]
+[node name="Seperator" type="Control" parent="InfoBox/Content/Content/Buttons"]
+custom_minimum_size = Vector2(8, 0)
 layout_mode = 2
+mouse_filter = 2
+
+[node name="Build" type="Button" parent="InfoBox/Content/Content/Buttons"]
+self_modulate = Color(0.4956, 0.84, 0.336, 1)
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
 theme = SubResource("Theme_bmus6")
+theme_override_colors/font_color = Color(0, 0.352941, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0.352941, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0.352941, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0.352941, 0, 1)
+theme_override_colors/font_disabled_color = Color(0, 0.352941, 0, 1)
+theme_override_colors/icon_normal_color = Color(0, 0.352941, 0, 1)
+theme_override_colors/icon_pressed_color = Color(0, 0.352941, 0, 1)
+theme_override_colors/icon_hover_color = Color(0, 0.352941, 0, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0, 0.352941, 0, 1)
+theme_override_colors/icon_disabled_color = Color(0, 0.352941, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxTexture_fofqw")
+theme_override_styles/hover = SubResource("StyleBoxTexture_t5fdl")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_t5fdl")
+text = "BUILD
+"
+icon = SubResource("AtlasTexture_rlre0")
+
+[node name="Seperator2" type="Control" parent="InfoBox/Content/Content/Buttons"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Cancel" type="Button" parent="InfoBox/Content/Content/Buttons"]
+self_modulate = Color(0.839216, 0.317647, 0.258824, 1)
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme = SubResource("Theme_bmus6")
+theme_override_colors/font_color = Color(0.529412, 0.0980392, 0, 1)
+theme_override_colors/font_pressed_color = Color(0.529412, 0.0980392, 0, 1)
+theme_override_colors/font_hover_color = Color(0.529412, 0.0980392, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.529412, 0.0980392, 0, 1)
+theme_override_colors/font_disabled_color = Color(0.529412, 0.0980392, 0, 1)
+theme_override_colors/icon_normal_color = Color(0.529412, 0.0980392, 0, 1)
+theme_override_colors/icon_pressed_color = Color(0.529412, 0.0980392, 0, 1)
+theme_override_colors/icon_hover_color = Color(0.529412, 0.0980392, 0, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0.529412, 0.0980392, 0, 1)
+theme_override_colors/icon_disabled_color = Color(0.529412, 0.0980392, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxTexture_fofqw")
+theme_override_styles/hover = SubResource("StyleBoxTexture_t5fdl")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_t5fdl")
+text = "CANCEL
+"
+icon = SubResource("AtlasTexture_jxhf6")
+
+[node name="Seperator3" type="Control" parent="InfoBox/Content/Content/Buttons"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="EndMargin" type="Control" parent="InfoBox/Content/Content"]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+mouse_filter = 2
 
 [connection signal="toggled" from="InfoBox/Tab/Caption/Open" to="." method="infoBoxToggled"]
+[connection signal="pressed" from="InfoBox/Content/Content/Buttons/Build" to="." method="infoBoxBuildPressed"]
+[connection signal="pressed" from="InfoBox/Content/Content/Buttons/Cancel" to="." method="infoBoxCancelPressed"]
 
 [editable path="TopBar/Backdrop/Resources/Food"]
 [editable path="TopBar/Backdrop/Resources/Earth"]

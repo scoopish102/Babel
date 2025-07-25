@@ -144,4 +144,6 @@ func process(delta, tileMap, mousePos):
 		if cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x > len(tileDisplayMap) or cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x < 0: 
 			cursor.selected = false
 			return
-		else: cursor.process(tileDisplayMap[cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x].global_position, checkCoordsOutOfBounds(tileMap, cursor.tile))
+		else: 
+			cursor.process(tileDisplayMap[cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x].global_position, checkCoordsOutOfBounds(tileMap, cursor.tile))
+			#print(tileMap.buildingMap[cursor.tile.x + cursor.tile.y*Global.mapSize.x])

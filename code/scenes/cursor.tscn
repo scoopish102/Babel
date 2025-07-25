@@ -19,4 +19,4 @@ texture = SubResource("AtlasTexture_76byq")
 modulate = Color(1, 1, 1, 0.294118)
 scale = Vector2(2, 2)
 sprite_frames = ExtResource("3_67u12")
-animation = &"None"
+animation = &"City"

@@ -1,7 +1,7 @@
 class_name ResourceScripts extends Object
 
 class RResource extends Object:
-	var name : String
+	var name : StringName
 	var amount : int
 	var change : int
 	var isBudget : bool
@@ -30,7 +30,7 @@ class RResource extends Object:
 		self.amount += self.change
 		self.boundAmounts()
 
-class RResourceTicket extends Object:
+"""class RResourceTicket extends Object:
 	var res : Dictionary
 	
 	func _init(_res: Dictionary):
@@ -50,8 +50,12 @@ class RResourceTicket extends Object:
 		var newTicket = RResourceTicket.new(self.res)
 		return newTicket
 	
-	func canRedeem(account : Dictionary) -> bool:
-		for resource in self.res:
-			if resource in account and resource in self.res:
-				if account[resource] - self.res[resource] < 0: return false
-		return true
+	func canBeRedeemed(account : Dictionary) -> bool:
+		print("qq")
+		for resource in self.res.keys():
+			if resource in account:
+				print(account)
+				if account[resource].amount - self.res[resource] < 0: 
+					print("Out of resource: " + account[resource].name)
+					return false
+		return true"""

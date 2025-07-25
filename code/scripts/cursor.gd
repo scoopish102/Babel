@@ -12,6 +12,12 @@ var outOfBounds : bool = false
 @export var invalidColor : Color
 @export var validColor : Color
 
+func _ready():
+	building.set_animation(&"None")
+
+func set_selected(selected: bool):
+	self.selected = selected
+
 func process(pos: Vector2, outOfBounds: bool):
 	self.outOfBounds = outOfBounds
 	if self.outOfBounds: 

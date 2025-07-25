@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://xxppq8waxmr0"]
+
+[ext_resource type="Script" path="res://code/scripts/game.gd" id="1_vx8kw"]
+[ext_resource type="FastNoiseLite" uid="uid://cp5qla707rj28" path="res://code/resources/worldGenNoise.tres" id="2_iabw2"]
+[ext_resource type="PackedScene" uid="uid://dc4b48xoehxxs" path="res://code/scenes/ui.tscn" id="3_rku7w"]
+[ext_resource type="PackedScene" uid="uid://dgo06r2ac3jgr" path="res://code/scenes/tilemapDisplay.tscn" id="4_wccjh"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_vx8kw")
+gameSize = Vector2i(20, 20)
+noise = ExtResource("2_iabw2")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UI" parent="CanvasLayer" instance=ExtResource("3_rku7w")]
+
+[node name="TilemapDisplay" parent="." instance=ExtResource("4_wccjh")]
+cameraSpeed = 1
+
+[node name="Camera" type="Camera2D" parent="."]
+
+[connection signal="attemptPlaceBuilding" from="CanvasLayer/UI" to="." method="attemptPlaceBuilding"]
+[connection signal="attemptPlaceTile" from="CanvasLayer/UI" to="." method="attemptPlaceTile"]
+[connection signal="cursorSelect" from="CanvasLayer/UI" to="TilemapDisplay/Cursor" method="set_selected"]
+[connection signal="processBuildButtons" from="CanvasLayer/UI" to="." method="processBuildButtons"]
+[connection signal="updateCursor" from="CanvasLayer/UI" to="." method="updateCursorDisplay"]
+
+[editable path="TilemapDisplay"]

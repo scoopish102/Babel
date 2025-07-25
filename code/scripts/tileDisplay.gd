@@ -2,10 +2,14 @@ class_name TileDisplay extends Node2D
 
 var mapPosition : Vector2 = Vector2.ZERO
 var terrain : GameTilemap.Terrain
-var building : BuildingScripts.Building
+var building
 
 @onready var terrainDisplay := $terrain
 @onready var buildingDisplay := $building
+
+func _ready():
+	terrainDisplay.set_animation(&"None")
+	buildingDisplay.set_animation(&"None")
 
 func updateDisplay(_terrain, _building):
 	self.terrain = _terrain
@@ -33,7 +37,7 @@ func updateSprite(outOfBounds: bool = false):
 	match typeof(self.building):
 		null:
 			buildingDisplay.set_animation(&"None")
-		BuildingScripts.House:
+		BuildingScripts.City:
 			buildingDisplay.set_animation(&"City")
 		BuildingScripts.Farm:
 			buildingDisplay.set_animation(&"Farm")
@@ -42,7 +46,7 @@ func updateSprite(outOfBounds: bool = false):
 
 func outOfBoundsDisplay():
 	self.terrain = GameTilemap.Terrain.NONE
-	self.building = null
+	self.building = &"None"
 	updateSprite(true)
 
 func updatePosition():

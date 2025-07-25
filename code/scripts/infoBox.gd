@@ -8,3 +8,5 @@ class_name InfoBox extends VBoxContainer
 @onready var info := $Content/Content/Info
 @onready var infoText := $Content/Content/Info/Label
 @onready var icon := $Content/Content/Caption/Icon
+@onready var build := $Content/Content/Buttons/Build
+@onready var cancel := $Content/Content/Buttons/Cancel
