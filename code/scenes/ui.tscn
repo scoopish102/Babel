@@ -1,13 +1,13 @@
 [gd_scene load_steps=37 format=3 uid="uid://dc4b48xoehxxs"]
 
 [ext_resource type="Texture2D" uid="uid://c12vlpq5rosds" path="res://assets/graphics/ui.png" id="1_01mra"]
-[ext_resource type="Script" path="res://code/scripts/ui.gd" id="1_dn3ly"]
+[ext_resource type="Script" uid="uid://t0cr2qtujtfa" path="res://code/scripts/ui.gd" id="1_dn3ly"]
 [ext_resource type="PackedScene" uid="uid://c14bf6s4vagiv" path="res://code/scenes/resourceDisplay.tscn" id="2_dt1xk"]
 [ext_resource type="FontFile" uid="uid://c0luxgh1umj2h" path="res://assets/fonts/DigitalDisco.ttf" id="4_qbhuc"]
 [ext_resource type="PackedScene" uid="uid://diigoqrv4ir82" path="res://code/scenes/customTabButton.tscn" id="5_42caq"]
 [ext_resource type="PackedScene" uid="uid://b5ac0bphkf6pr" path="res://code/scenes/customOptionButton.tscn" id="6_f4awu"]
 [ext_resource type="Texture2D" uid="uid://c5vfq611uceik" path="res://assets/graphics/buildings.png" id="6_yd6wg"]
-[ext_resource type="Script" path="res://code/scripts/infoBox.gd" id="8_etrss"]
+[ext_resource type="Script" uid="uid://jy0hws5gsyd2" path="res://code/scripts/infoBox.gd" id="8_etrss"]
 [ext_resource type="LabelSettings" uid="uid://bn3tdb4cin7nn" path="res://code/resources/TabLabelSettings.tres" id="8_r0vx6"]
 [ext_resource type="StyleBox" uid="uid://cqefrohj42yss" path="res://code/resources/brickStyleBox.tres" id="10_qw23n"]
 [ext_resource type="StyleBox" uid="uid://b62g8vhso8vo5" path="res://code/resources/cuneiStyleBox.tres" id="11_47kd1"]
@@ -181,16 +181,6 @@ TabContainer/styles/tab_selected = SubResource("StyleBoxTexture_2veam")
 TabContainer/styles/tab_unselected = ExtResource("11_47kd1")
 VBoxContainer/constants/separation = 0
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fofqw"]
-texture = ExtResource("1_01mra")
-texture_margin_left = 16.0
-texture_margin_top = 16.0
-texture_margin_right = 16.0
-texture_margin_bottom = 16.0
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-region_rect = Rect2(0, 192, 64, 64)
-
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_t5fdl"]
 texture = ExtResource("1_01mra")
 texture_margin_left = 16.0
@@ -201,6 +191,16 @@ axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 region_rect = Rect2(0, 192, 64, 64)
 modulate_color = Color(0.847059, 0.847059, 0.847059, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fofqw"]
+texture = ExtResource("1_01mra")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rlre0"]
 atlas = ExtResource("1_01mra")
@@ -298,6 +298,7 @@ mouse_filter = 2
 [node name="Count" parent="TopBar/Backdrop/Resources/Food/VBoxContainer/Count" index="0"]
 modulate = Color(0, 0.694118, 0.129412, 1)
 mouse_filter = 1
+text = "0"
 
 [node name="Seperator2" parent="TopBar/Backdrop/Resources/Food/VBoxContainer" index="2"]
 mouse_filter = 2
@@ -308,6 +309,7 @@ mouse_filter = 2
 [node name="Increase" parent="TopBar/Backdrop/Resources/Food/VBoxContainer/Increase" index="0"]
 modulate = Color(0, 0.694118, 0.129412, 1)
 mouse_filter = 1
+text = "0"
 
 [node name="Earth" parent="TopBar/Backdrop/Resources" instance=ExtResource("2_dt1xk")]
 custom_minimum_size = Vector2(128, 0)
@@ -325,8 +327,7 @@ texture = SubResource("AtlasTexture_cgm38")
 
 [node name="Type" parent="TopBar/Backdrop/Resources/Earth/VBoxContainer2" index="2"]
 mouse_filter = 1
-text = "EARTH
-"
+text = "EARTH"
 label_settings = SubResource("LabelSettings_ld56j")
 
 [node name="Seperator" parent="TopBar/Backdrop/Resources/Earth" index="1"]
@@ -343,6 +344,7 @@ mouse_filter = 2
 
 [node name="Count" parent="TopBar/Backdrop/Resources/Earth/VBoxContainer/Count" index="0"]
 mouse_filter = 1
+text = "0"
 
 [node name="Seperator2" parent="TopBar/Backdrop/Resources/Earth/VBoxContainer" index="2"]
 mouse_filter = 2
@@ -352,6 +354,7 @@ mouse_filter = 2
 
 [node name="Increase" parent="TopBar/Backdrop/Resources/Earth/VBoxContainer/Increase" index="0"]
 mouse_filter = 1
+text = "0"
 
 [node name="Labor" parent="TopBar/Backdrop/Resources" instance=ExtResource("2_dt1xk")]
 custom_minimum_size = Vector2(128, 0)
@@ -369,8 +372,7 @@ texture = SubResource("AtlasTexture_y7v6u")
 
 [node name="Type" parent="TopBar/Backdrop/Resources/Labor/VBoxContainer2" index="2"]
 mouse_filter = 1
-text = "LABOR
-"
+text = "LABOR"
 label_settings = SubResource("LabelSettings_q2fyj")
 
 [node name="Seperator" parent="TopBar/Backdrop/Resources/Labor" index="1"]
@@ -388,6 +390,7 @@ mouse_filter = 2
 [node name="Count" parent="TopBar/Backdrop/Resources/Labor/VBoxContainer/Count" index="0"]
 modulate = Color(1, 0, 0, 1)
 mouse_filter = 1
+text = "0"
 
 [node name="Seperator2" parent="TopBar/Backdrop/Resources/Labor/VBoxContainer" index="2"]
 mouse_filter = 2
@@ -398,6 +401,7 @@ mouse_filter = 2
 [node name="Increase" parent="TopBar/Backdrop/Resources/Labor/VBoxContainer/Increase" index="0"]
 modulate = Color(1, 0, 0, 1)
 mouse_filter = 1
+text = "0"
 
 [node name="BottomBar" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 96)
@@ -426,16 +430,14 @@ layout_mode = 2
 defaultModulate = Color(0.905882, 0.905882, 0.905882, 1)
 
 [node name="Label" parent="BottomBar/TabBar/Interact" index="1"]
-text = "Interact
-"
+text = "Interact"
 
 [node name="Info" parent="BottomBar/TabBar" instance=ExtResource("5_42caq")]
 layout_mode = 2
 defaultModulate = Color(0.905882, 0.905882, 0.905882, 1)
 
 [node name="Label" parent="BottomBar/TabBar/Info" index="1"]
-text = "Information
-"
+text = "Information"
 
 [node name="Options" type="NinePatchRect" parent="BottomBar"]
 self_modulate = Color(0.960784, 0.8, 0.564706, 1)
@@ -499,8 +501,7 @@ texture = SubResource("AtlasTexture_njd7v")
 
 [node name="Label" parent="BottomBar/Options/Build/Farm" index="2"]
 mouse_filter = 2
-text = "FARM
-"
+text = "FARM"
 
 [node name="Kiln" parent="BottomBar/Options/Build" instance=ExtResource("6_f4awu")]
 layout_mode = 2
@@ -519,8 +520,7 @@ texture = SubResource("AtlasTexture_kb3em")
 
 [node name="Label" parent="BottomBar/Options/Build/Kiln" index="2"]
 mouse_filter = 2
-text = "KILN
-"
+text = "KILN"
 
 [node name="Interact" type="HBoxContainer" parent="BottomBar/Options"]
 visible = false
@@ -605,8 +605,7 @@ mouse_filter = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
-text = "Building Information
-"
+text = "Building Information"
 label_settings = ExtResource("8_r0vx6")
 vertical_alignment = 1
 
@@ -711,21 +710,20 @@ layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
 theme = SubResource("Theme_bmus6")
+theme_override_colors/font_disabled_color = Color(0, 0.352941, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0.352941, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0.352941, 0, 1)
+theme_override_colors/icon_disabled_color = Color(0, 0.352941, 0, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0, 0.352941, 0, 1)
+theme_override_colors/icon_hover_color = Color(0, 0.352941, 0, 1)
+theme_override_colors/icon_pressed_color = Color(0, 0.352941, 0, 1)
+theme_override_colors/icon_normal_color = Color(0, 0.352941, 0, 1)
 theme_override_colors/font_color = Color(0, 0.352941, 0, 1)
 theme_override_colors/font_pressed_color = Color(0, 0.352941, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0.352941, 0, 1)
-theme_override_colors/font_hover_pressed_color = Color(0, 0.352941, 0, 1)
-theme_override_colors/font_disabled_color = Color(0, 0.352941, 0, 1)
-theme_override_colors/icon_normal_color = Color(0, 0.352941, 0, 1)
-theme_override_colors/icon_pressed_color = Color(0, 0.352941, 0, 1)
-theme_override_colors/icon_hover_color = Color(0, 0.352941, 0, 1)
-theme_override_colors/icon_hover_pressed_color = Color(0, 0.352941, 0, 1)
-theme_override_colors/icon_disabled_color = Color(0, 0.352941, 0, 1)
-theme_override_styles/normal = SubResource("StyleBoxTexture_fofqw")
 theme_override_styles/hover = SubResource("StyleBoxTexture_t5fdl")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_t5fdl")
-text = "BUILD
-"
+theme_override_styles/normal = SubResource("StyleBoxTexture_fofqw")
+text = "BUILD"
 icon = SubResource("AtlasTexture_rlre0")
 
 [node name="Seperator2" type="Control" parent="InfoBox/Content/Content/Buttons"]
@@ -740,21 +738,20 @@ layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
 theme = SubResource("Theme_bmus6")
+theme_override_colors/font_disabled_color = Color(0.529412, 0.0980392, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.529412, 0.0980392, 0, 1)
+theme_override_colors/font_hover_color = Color(0.529412, 0.0980392, 0, 1)
+theme_override_colors/icon_disabled_color = Color(0.529412, 0.0980392, 0, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0.529412, 0.0980392, 0, 1)
+theme_override_colors/icon_hover_color = Color(0.529412, 0.0980392, 0, 1)
+theme_override_colors/icon_pressed_color = Color(0.529412, 0.0980392, 0, 1)
+theme_override_colors/icon_normal_color = Color(0.529412, 0.0980392, 0, 1)
 theme_override_colors/font_color = Color(0.529412, 0.0980392, 0, 1)
 theme_override_colors/font_pressed_color = Color(0.529412, 0.0980392, 0, 1)
-theme_override_colors/font_hover_color = Color(0.529412, 0.0980392, 0, 1)
-theme_override_colors/font_hover_pressed_color = Color(0.529412, 0.0980392, 0, 1)
-theme_override_colors/font_disabled_color = Color(0.529412, 0.0980392, 0, 1)
-theme_override_colors/icon_normal_color = Color(0.529412, 0.0980392, 0, 1)
-theme_override_colors/icon_pressed_color = Color(0.529412, 0.0980392, 0, 1)
-theme_override_colors/icon_hover_color = Color(0.529412, 0.0980392, 0, 1)
-theme_override_colors/icon_hover_pressed_color = Color(0.529412, 0.0980392, 0, 1)
-theme_override_colors/icon_disabled_color = Color(0.529412, 0.0980392, 0, 1)
-theme_override_styles/normal = SubResource("StyleBoxTexture_fofqw")
 theme_override_styles/hover = SubResource("StyleBoxTexture_t5fdl")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_t5fdl")
-text = "CANCEL
-"
+theme_override_styles/normal = SubResource("StyleBoxTexture_fofqw")
+text = "CANCEL"
 icon = SubResource("AtlasTexture_jxhf6")
 
 [node name="Seperator3" type="Control" parent="InfoBox/Content/Content/Buttons"]

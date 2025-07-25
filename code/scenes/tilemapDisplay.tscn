@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dgo06r2ac3jgr"]
 
-[ext_resource type="Script" path="res://code/scripts/tilemapDisplay.gd" id="1_7lw31"]
+[ext_resource type="Script" uid="uid://by3xn4c64xbyy" path="res://code/scripts/tilemapDisplay.gd" id="1_7lw31"]
 [ext_resource type="PackedScene" uid="uid://f4a7jdx0xwyd" path="res://code/scenes/tileDisplay.tscn" id="2_y4n5u"]
 [ext_resource type="PackedScene" uid="uid://bcfbmg4eyck7n" path="res://code/scenes/cursor.tscn" id="3_xsebq"]
 

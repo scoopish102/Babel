@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bcfbmg4eyck7n"]
 
 [ext_resource type="Texture2D" uid="uid://c12vlpq5rosds" path="res://assets/graphics/ui.png" id="1_155p2"]
-[ext_resource type="Script" path="res://code/scripts/cursor.gd" id="1_nnlxc"]
+[ext_resource type="Script" uid="uid://bytgmw7b4d75u" path="res://code/scripts/cursor.gd" id="1_nnlxc"]
 [ext_resource type="SpriteFrames" uid="uid://ds2lwk6c4bx85" path="res://code/resources/buildingSprites.tres" id="3_67u12"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_76byq"]

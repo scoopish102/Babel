@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://diigoqrv4ir82"]
 
 [ext_resource type="Texture2D" uid="uid://c12vlpq5rosds" path="res://assets/graphics/ui.png" id="1_b3q2a"]
-[ext_resource type="Script" path="res://code/scripts/customTabButton.gd" id="2_thymo"]
+[ext_resource type="Script" uid="uid://bpritywrouxo2" path="res://code/scripts/customTabButton.gd" id="2_thymo"]
 [ext_resource type="FontFile" uid="uid://c0luxgh1umj2h" path="res://assets/fonts/DigitalDisco.ttf" id="3_rpbed"]
 [ext_resource type="LabelSettings" uid="uid://bn3tdb4cin7nn" path="res://code/resources/TabLabelSettings.tres" id="4_8phn8"]
 
