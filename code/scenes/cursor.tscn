@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://bcfbmg4eyck7n"]
+[gd_scene load_steps=6 format=3 uid="uid://bcfbmg4eyck7n"]
 
 [ext_resource type="Texture2D" uid="uid://c12vlpq5rosds" path="res://assets/graphics/ui.png" id="1_155p2"]
 [ext_resource type="Script" uid="uid://bytgmw7b4d75u" path="res://code/scripts/cursor.gd" id="1_nnlxc"]
 [ext_resource type="SpriteFrames" uid="uid://ds2lwk6c4bx85" path="res://code/resources/buildingSprites.tres" id="3_67u12"]
+[ext_resource type="Texture2D" uid="uid://c5vfq611uceik" path="res://assets/graphics/buildings.png" id="3_tsft6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_76byq"]
 atlas = ExtResource("1_155p2")
@@ -11,12 +12,30 @@ region = Rect2(64, 72, 64, 48)
 [node name="Cursor" type="Node2D"]
 script = ExtResource("1_nnlxc")
 
-[node name="Sprite" type="Sprite2D" parent="."]
-scale = Vector2(2, 2)
-texture = SubResource("AtlasTexture_76byq")
-
 [node name="building" type="AnimatedSprite2D" parent="."]
 modulate = Color(1, 1, 1, 0.294118)
+z_index = 1
+y_sort_enabled = true
 scale = Vector2(2, 2)
 sprite_frames = ExtResource("3_67u12")
 animation = &"City"
+
+[node name="Sprite" type="Sprite2D" parent="."]
+z_index = 1
+scale = Vector2(2, 2)
+texture = SubResource("AtlasTexture_76byq")
+
+[node name="spriteOverlay" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.509804)
+z_index = 3
+scale = Vector2(2, 2)
+texture = SubResource("AtlasTexture_76byq")
+
+[node name="overlay" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(0, 0, 0, 0.0784314)
+z_index = 1
+scale = Vector2(2, 2)
+texture = ExtResource("3_tsft6")
+region_enabled = true
+region_rect = Rect2(160, 48, 64, 32)

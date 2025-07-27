@@ -10,8 +10,8 @@ var mapSize : Vector2i
 
 func _init(size : Vector2i):
 	mapSize = size
-	for x in range(mapSize.x):
-		for y in range(mapSize.y):
+	for y in range(mapSize.y):
+		for x in range(mapSize.x):
 			#The tilemap is arranged so that the first to the last value corresponds
 			#to left to right, up to down in the tilemap's display ingame. Thus
 			#x values increase the index incrementally while y values increase it
@@ -28,9 +28,18 @@ func generateWorld(noise):
 	var temp = 0
 	var dist = 0
 	var randomOffset = Vector2i(randi()%1000, randi()%1000)
-	for x in range(mapSize.x):
-		for y in range(mapSize.y):
+	for y in range(mapSize.y):
+		for x in range(mapSize.x):
 			dist = floor(sqrt((x-center.x)**2 + (y-center.y)**2))
 			temp = noise.get_noise_2dv(Vector2i(x, y) + randomOffset)
-			if dist + temp*10 < rad: terrainMap[x*mapSize.y+y] = Terrain.GRASS
-			else: terrainMap[x*mapSize.y+y] = Terrain.WATER
+			if dist + temp*10 < rad: terrainMap[y*mapSize.x+x] = Terrain.GRASS
+			else: terrainMap[y*mapSize.x+x] = Terrain.WATER
+	buildingMap[center.y*mapSize.x+center.x] = BuildingScripts.City.new()
+	buildingMap[center.y*mapSize.x+center.x-1] = BuildingScripts.Farm.new()
+	buildingMap[(center.y+1)*mapSize.x+center.x] = BuildingScripts.Kiln.new()
+	buildingMap[(center.y+1)*mapSize.x+center.x].workers = 1
+	buildingMap[center.y*mapSize.x+center.x-1].workers = 1
+	print(center.y*mapSize.x+center.x)
+	#print(buildingMap[center.y*mapSize.x+center.x].update())
+	#print(buildingMap[(center.y+1)*mapSize.x+center.x].update())
+	#print(ResourceScripts.mergeTickets(buildingMap[center.y*mapSize.x+center.x].update(), buildingMap[(center.y+1)*mapSize.x+center.x].update()))

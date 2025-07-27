@@ -63,5 +63,5 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 0.1
+wait_time = 0.25
 one_shot = true

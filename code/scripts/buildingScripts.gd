@@ -1,9 +1,9 @@
 class_name BuildingScripts extends Object
 
 class Building extends Object:
-	static var cost : Dictionary
-	static var budget : Dictionary
-	static var buildingName : String
+	var cost : Dictionary[StringName, int]
+	var budget : Dictionary[StringName, int]
+	var buildingName : StringName
 	
 	func _init():
 		pass
@@ -12,37 +12,36 @@ class Building extends Object:
 		pass
 
 class ProductionBuilding extends Building:
-	static var workerSlots : int
+	var workerSlots : int
 	var workers : int
 	
-	func update() -> Dictionary:
-		var totalBudget : Dictionary
+	func update() -> Dictionary[StringName, int]:
+		var totalBudget : Dictionary[StringName, int] = {}
 		for worker in range(self.workers):
-			totalBudget = {}
-			#totalBudget = totalBudget.merge(self.budget)
+			totalBudget = ResourceScripts.mergeTickets(totalBudget, self.budget)
 			#^^^ MERGE BUDGETS, WRITE A FUNCTION FOR THAT LATER LOL
 		return totalBudget
 	
 class StationBuilding extends Building:
-	func update() -> Dictionary:
+	func update() -> Dictionary[StringName, int]:
 		return self.budget
 
 class City extends StationBuilding:
 	func _init():
-		cost = {&"Earth": -4}
-		budget = {&"Food": -2, &"Labor": 2}
-		buildingName = &"City"
+		self.cost = {&"Earth": -4}
+		self.budget = {&"Food": -2, &"Labor": 2}
+		self.buildingName = &"City"
 
 class Farm extends ProductionBuilding:
 	func _init():
-		cost = {&"Earth": -4}
-		budget = {&"Food": 2, &"Labor": -1}
-		buildingName = &"Farm"
-		workerSlots = 2
+		self.cost = {&"Earth": -4}
+		self.budget = {&"Food": 2, &"Labor": -1}
+		self.buildingName = &"Farm"
+		self.workerSlots = 2
 
 class Kiln extends ProductionBuilding:
 	func _init():
-		cost = {&"Earth": -4}
-		budget = {&"Earth": 1, &"Labor": -1}
-		buildingName = &"Kiln"
-		workerSlots = 2
+		self.cost = {&"Earth": -4}
+		self.budget = {&"Earth": 1, &"Labor": -1}
+		self.buildingName = &"Kiln"
+		self.workerSlots = 2

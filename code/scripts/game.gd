@@ -9,7 +9,7 @@ class_name Game extends Node2D
 var tilemap : GameTilemap
 
 class Player:
-	var resources : Dictionary
+	var resources : Dictionary[StringName, ResourceScripts.RResource]
 	var score : int
 	
 	func _init():
@@ -20,19 +20,32 @@ class Player:
 			&"Labor": ResourceScripts.RResource.new(&"Labor", 0, true)}
 		self.score = 0
 	
-	func redeemCost(ticket: Dictionary):
-		for resource in ticket.res:
-			if resource in self.res: self.res[resource].addAmount(ticket.res[resource])
+	func redeemCost(ticket: Dictionary[StringName, int]):
+		for resource in ticket.keys():
+			if resource in self.resources.keys(): self.resources[resource].addAmount(ticket[resource])
 	
-	func redeemBudget(ticket: Dictionary):
-		for resource in ticket.res:
-			if resource in self.res: self.res[resource].change += ticket.res[resource]
+	func redeemBudget(ticket: Dictionary[StringName, int]):
+		for resource in ticket.keys():
+			if resource in self.resources.keys(): self.resources[resource].addChange(ticket[resource])
 	
-	func canBeRedeemed(ticket: Dictionary) -> bool:
-		for resource in ticket.res:
-			print(resource)
-			if not (self.resources[resource].amount + ticket.res[resource] >= 0): return false
+	func canBeRedeemed(ticket: Dictionary[StringName, int]) -> bool:
+		for resource in ticket.keys():
+			#print(resource)
+			if not (self.resources[resource].getAmount() + ticket[resource] >= 0): return false
 		return true
+	
+	func compileBuildingBudgets(buildingMap: Array[BuildingScripts.Building]) -> Dictionary[StringName, int]:
+		var finalBudget: Dictionary[StringName, int] = {}
+		for building in buildingMap:
+			if not building == null: 
+				finalBudget = ResourceScripts.mergeTickets(finalBudget, building.update())
+		return finalBudget
+	
+	func process(buildingMap: Array[BuildingScripts.Building]):
+		for res in self.resources.keys():
+			self.resources[res].change = 0
+		var buildingBudget : Dictionary[StringName, int] = compileBuildingBudgets(buildingMap)
+		redeemBudget(buildingBudget)
 	
 	func update():
 		for resource in self.res:
@@ -46,22 +59,32 @@ func _ready():
 	tilemap = GameTilemap.new(gameSize)
 	tilemap.generateWorld(noise)
 	tilemapDisplay.start(tilemap)
-	print(player.resources)
+	#print(player.resources)
 	#ui.updateCursor.connect(updateCursorDisplay)
 	#ui.cursorSelect.connect(tilemapDisplay.cursor.set_selected)
+	#print(ResourceScripts.mergeTickets({&"A": 2, &"B": -2}, {&"A": 2, &"C": 2}))
 
 func _process(delta):
 	tilemapDisplay.process(delta, tilemap, get_global_mouse_position())
 	ui.process(player, tilemapDisplay.cursor.tile, tilemapDisplay.cursor.selected)
+	player.process(tilemap.buildingMap)
+	if Input.is_action_just_pressed("ui_debug"): pass
+		#var tileAtMouse = tilemapDisplay.screenPositionToTileCoordinates(get_global_mouse_position())
+		#print(tileAtMouse)
+		#print(tilemap.terrainMap[tileAtMouse.x + tileAtMouse.y * tilemap.mapSize.x])
+		#if tilemapDisplay.checkCoordsOutOfBounds(tilemap, tileAtMouse): print("abc")
+		#print(tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * tilemap.mapSize.x)
+		#print(tilemap.buildingMap[tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * Global.mapSize.x].buildingName)
 
 func updateCursorDisplay(buildingType: StringName):
 	tilemapDisplay.cursor.building.set_animation(buildingType)
 
 func updateBuildingAtCursor(building: BuildingScripts.Building):
-	tilemap.buildingMap[tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * Global.mapSize.x] = building
+	tilemap.buildingMap[tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * tilemap.mapSize.x] = building
+	#print(tilemap.buildingMap[tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * Global.mapSize.x])
 
 func updateTileAtCursor(tile: GameTilemap.Terrain):
-	tilemap.tileMap[tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * Global.mapSize.x] =  tile
+	tilemap.tileMap[tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * tilemap.mapSize.x] =  tile
 
 func attemptPlaceTile(tile: GameTilemap.Terrain): pass
 
@@ -82,6 +105,6 @@ func processBuildButtons(cursorSelected: bool, buildingName: StringName):
 	#print(cursorSelected, cost.canBeRedeemed(player.resources))
 	#print(player.canBeRedeemed(cost))
 	player.canBeRedeemed(cost)
-	ui.infoBox.build.disabled = false#(not cursorSelected) or (not cost.canBeRedeemed(player.resources))
+	ui.infoBox.build.disabled = (not cursorSelected) or (not player.canBeRedeemed(cost))
 	building.call_deferred("free")
 	#ui.infoBox.cancel.disabled = (not cursorSelected)

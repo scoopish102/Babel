@@ -27,20 +27,22 @@ func start(tileMap : GameTilemap):
 	minPos = Vector2(-((tileMap.mapSize.x)*Global.tileSize.x-tileMap.mapSize.y*Global.tileSize.y), -Global.mapSize.y*Global.tileSize.y/2)
 	maxPos = Vector2(((tileMap.mapSize.x)*Global.tileSize.x-tileMap.mapSize.y*Global.tileSize.y), ((tileMap.mapSize.x)*Global.tileSize.x-tileMap.mapSize.y*Global.tileSize.y)-Global.mapSize.y*Global.tileSize.y/2)
 	origin = Vector2((maxPos.x+minPos.x)/2, (maxPos.y+minPos.y)/2)
+	cameraPosition = Vector2.ZERO #origin
 
 func updatePosition(tileMap : GameTilemap):
-	for x in range(Global.mapSize.x):
-		for y in range(Global.mapSize.y):
+	for y in range(Global.mapSize.y):
+		for x in range(Global.mapSize.x):
 			var tileDisplay = tileDisplayMap[x+y*Global.mapSize.x]
 			tileDisplay.mapPosition = Vector2(x, y)
 			tileDisplay.mapPosition -= Vector2((cameraPosition.x / Global.tileSize.x) + (cameraPosition.y / Global.tileSize.y), 
 					(cameraPosition.y / Global.tileSize.y) - (cameraPosition.x / Global.tileSize.x))
 			tileDisplay.mapPosition = Vector2(fposmod(tileDisplay.mapPosition.x, Global.mapSize.x), 
 					fposmod(tileDisplay.mapPosition.y, Global.mapSize.y))
-			var relativeTilePosition = Vector2((tileDisplay.mapPosition.x),(tileDisplay.mapPosition.y))
+			var relativeTilePosition = tileDisplayPosToTileCoordinates(tileDisplay.mapPosition)
+			"""Vector2((tileDisplay.mapPosition.x),(tileDisplay.mapPosition.y))
 			relativeTilePosition += Vector2((cameraPosition.x / Global.tileSize.x) + (cameraPosition.y / Global.tileSize.y), 
 					(cameraPosition.y / Global.tileSize.y) - (cameraPosition.x / Global.tileSize.x))
-			relativeTilePosition = floor(relativeTilePosition)
+			relativeTilePosition = floor(relativeTilePosition)"""
 			#if x == 0 and y == 0: print(relativeTilePosition)
 			if checkCoordsOutOfBounds(tileMap, relativeTilePosition):
 				tileDisplay.outOfBoundsDisplay()
@@ -59,10 +61,10 @@ func snapPositionToGrid(pos: Vector2) -> Vector2:
 
 func screenPositionToTileCoordinates(pos: Vector2) -> Vector2:
 	var tileCoords = screenPositionToTileDisplayCoordinates(pos)
-	tileCoords = tileDisplayToTileCoordinates(tileCoords)
+	tileCoords = tileDisplayPosToTileCoordinates(tileCoords)
 	return tileCoords
 
-func tileDisplayToTileCoordinates(coords: Vector2) -> Vector2:
+func tileDisplayPosToTileCoordinates(coords: Vector2) -> Vector2:
 	var tileCoords = coords
 	tileCoords = Vector2((tileCoords.x),(tileCoords.y))
 	tileCoords += Vector2((cameraPosition.x / Global.tileSize.x) + (cameraPosition.y / Global.tileSize.y), 
@@ -134,16 +136,26 @@ func process(delta, tileMap, mousePos):
 	cameraPosition = floor(cameraPosition)
 	#print(cameraPosition)
 	updatePosition(tileMap)
+	
+	
 	if not cursor.selected: 
 		cursor.tile = screenPositionToTileCoordinates(mousePos)
 		cursor.tileDisplay = screenPositionToTileDisplayCoordinates(mousePos + Vector2(cameraPosition))
 		if cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x > len(tileDisplayMap) or cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x < 0: 
-			cursor.process(Vector2(0, 0), true)
-		else: cursor.process(tileDisplayMap[cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x].global_position, checkCoordsOutOfBounds(tileMap, cursor.tile))
+			cursor.process(Vector2(0, 0), true, 1)
+		else: cursor.process(tileDisplayMap[cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x].global_position, 
+				checkCoordsOutOfBounds(tileMap, cursor.tile), 
+				tileDisplayMap[cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x].z_index)
 	else: 
 		if cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x > len(tileDisplayMap) or cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x < 0: 
 			cursor.selected = false
 			return
 		else: 
-			cursor.process(tileDisplayMap[cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x].global_position, checkCoordsOutOfBounds(tileMap, cursor.tile))
+			cursor.process(tileDisplayMap[cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x].global_position, 
+					checkCoordsOutOfBounds(tileMap, cursor.tile), 
+					tileDisplayMap[cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x].z_index)
 			#print(tileMap.buildingMap[cursor.tile.x + cursor.tile.y*Global.mapSize.x])
+	if (cursor.global_position.x > Global.cameraSize.x/2 or cursor.global_position.y > Global.cameraSize.y/2 
+			or cursor.global_position.x < -Global.cameraSize.x/2 or cursor.global_position.y < -Global.cameraSize.y/2):
+		#print("okala")
+		cursor.selected = false

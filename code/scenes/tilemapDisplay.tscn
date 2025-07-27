@@ -5,11 +5,13 @@
 [ext_resource type="PackedScene" uid="uid://bcfbmg4eyck7n" path="res://code/scenes/cursor.tscn" id="3_xsebq"]
 
 [node name="tilemapDisplay" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_7lw31")
 tileDisplayScene = ExtResource("2_y4n5u")
 
 [node name="Cursor" parent="." instance=ExtResource("3_xsebq")]
-z_index = 999
+z_index = 1
+y_sort_enabled = true
 defaultColor = Color(0.960784, 1, 1, 1)
 selectedColor = Color(1, 1, 0, 1)
 invalidColor = Color(1, 0, 0, 1)

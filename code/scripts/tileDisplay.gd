@@ -14,6 +14,7 @@ func _ready():
 func updateDisplay(_terrain, _building):
 	self.terrain = _terrain
 	self.building = _building
+	#if self.building != null: print("bananana")
 	updateSprite()
 
 func updateSprite(outOfBounds: bool = false):
@@ -34,15 +35,9 @@ func updateSprite(outOfBounds: bool = false):
 			terrainDisplay.set_animation(&"Dirt")
 		GameTilemap.Terrain.PLATFORM:
 			terrainDisplay.set_animation(&"Platform")
-	match typeof(self.building):
-		null:
-			buildingDisplay.set_animation(&"None")
-		BuildingScripts.City:
-			buildingDisplay.set_animation(&"City")
-		BuildingScripts.Farm:
-			buildingDisplay.set_animation(&"Farm")
-		BuildingScripts.Kiln:
-			buildingDisplay.set_animation(&"Kiln")
+	if self.building == null: buildingDisplay.set_animation(&"None")
+	else:
+		buildingDisplay.set_animation(self.building.buildingName)
 
 func outOfBoundsDisplay():
 	self.terrain = GameTilemap.Terrain.NONE
@@ -53,5 +48,6 @@ func updatePosition():
 	position = Vector2((mapPosition.x-mapPosition.y) * Global.tileSize.x/2, 
 			(mapPosition.x + mapPosition.y) * Global.tileSize.y/2)
 	position.y -= Global.mapSize.y * Global.tileSize.y / 2
-	@warning_ignore("narrowing_conversion")
-	z_index = position.y*2
+	#@warning_ignore("narrowing_conversion")
+	#z_index = position.y*2
+	#buildingDisplay.z_index = z_index + 2

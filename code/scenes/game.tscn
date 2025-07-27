@@ -9,6 +9,7 @@
 script = ExtResource("1_vx8kw")
 gameSize = Vector2i(20, 20)
 noise = ExtResource("2_iabw2")
+metadata/_edit_horizontal_guides_ = [324.0]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

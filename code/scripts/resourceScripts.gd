@@ -6,19 +6,31 @@ class RResource extends Object:
 	var change : int
 	var isBudget : bool
 	
-	func _init(_name: String, _amount: int = 0, _isBudget: bool=false):
+	func _init(name: String, amount: int = 0, isBudget: bool=false):
 		self.name = name
 		self.amount = amount
 		self.change = 0
 		self.isBudget = isBudget
 		
-	func addAmount(_amount: int):
+	func addAmount(amount: int):
 		self.amount += amount
 		self.boundAmounts()
+	
+	func addChange(change: int):
+		self.change += change
 		
-	func setAmount(_amount: int):
+	func setAmount(amount: int):
 		self.amount = amount
 		self.boundAmounts()
+	
+	func setChange(change: int):
+		self.change = change
+	
+	func getAmount() -> int:
+		return self.amount
+	
+	func getChange() -> int:
+		return self.change
 		
 	func boundAmounts(debug=false):
 		if self.amount > 0:
@@ -29,6 +41,17 @@ class RResource extends Object:
 		if self.isBudget: self.amount = 0
 		self.amount += self.change
 		self.boundAmounts()
+
+static func mergeTickets(ticket1: Dictionary[StringName, int], ticket2: Dictionary[StringName, int]) -> Dictionary[StringName, int]:
+	var result : Dictionary[StringName, int]
+	for res in ticket1.keys(): 
+		if not res in result.keys(): result[res] = 0
+		result[res] += ticket1[res]
+	for res in ticket2.keys():
+		if not res in result.keys(): result[res] = 0 
+		result[res] += ticket2[res]
+	#print(result)
+	return result
 
 """class RResourceTicket extends Object:
 	var res : Dictionary

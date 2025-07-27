@@ -31,10 +31,10 @@ enum InfoBoxMode {
 }
 
 func process(player: Game.Player, cursorCoords: Vector2, cursorSelected: bool):
-	resources.get_child(0).setLabels(player.resources["Food"].amount, player.resources["Food"].change)
-	resources.get_child(1).setLabels(player.resources["Earth"].amount, player.resources["Earth"].change)
+	resources.get_child(0).setLabels(player.resources[&"Food"].amount, player.resources[&"Food"].change)
+	resources.get_child(1).setLabels(player.resources[&"Earth"].amount, player.resources[&"Earth"].change)
 	#resources.get_child(2).setLabels(player.resources["Bronze"].amount, player.resources["Bronze"].change)
-	resources.get_child(2).setLabels(player.resources["Labor"].amount, player.resources["Labor"].change)
+	resources.get_child(2).setLabels(player.resources[&"Labor"].amount, player.resources[&"Labor"].change)
 	for i in range(len(tabBar.get_children())):
 		if tabBar.get_child(i).process(i as OptionMode == tabSelected): 
 			tabSelected = i as OptionMode
@@ -112,8 +112,8 @@ func infoBoxBuildPressed():
 		&"City": building = BuildingScripts.City.new()
 		&"Farm": building = BuildingScripts.Farm.new()
 		&"Kiln": building = BuildingScripts.Kiln.new()
-	cursorSelect.emit(false)
 	attemptPlaceBuilding.emit(building)
+	#cursorSelect.emit(false)
 
 func infoBoxCancelPressed():
 	optionSelected = -1

@@ -13,6 +13,7 @@ sprite_frames = ExtResource("2_6qxuq")
 animation = &"Dirt"
 
 [node name="building" type="AnimatedSprite2D" parent="."]
+z_index = 2
 sprite_frames = ExtResource("3_da8dj")
 animation = &"None"
 frame_progress = 0.0164739
