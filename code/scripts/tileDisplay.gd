@@ -23,24 +23,28 @@ func updateSprite(outOfBounds: bool = false):
 		buildingDisplay.set_animation(&"None")
 		return
 	match self.terrain:
-		GameTilemap.Terrain.NONE:
+		GameTilemap.Terrain.Air:
 			terrainDisplay.set_animation(&"None")
-		GameTilemap.Terrain.GRASS:
+		GameTilemap.Terrain.Grass:
 			terrainDisplay.set_animation(&"Grass")
-		GameTilemap.Terrain.SAND:
+		GameTilemap.Terrain.Sand:
 			terrainDisplay.set_animation(&"Sand")
-		GameTilemap.Terrain.WATER:
+		GameTilemap.Terrain.Water:
 			terrainDisplay.set_animation(&"Water")
-		GameTilemap.Terrain.DIRT:
+		GameTilemap.Terrain.Dirt:
 			terrainDisplay.set_animation(&"Dirt")
-		GameTilemap.Terrain.PLATFORM:
+		GameTilemap.Terrain.Platform:
 			terrainDisplay.set_animation(&"Platform")
 	if self.building == null: buildingDisplay.set_animation(&"None")
 	else:
 		buildingDisplay.set_animation(self.building.buildingName)
+		if self.building is BuildingScripts.ProductionBuilding:
+			if self.building.workers > 0: buildingDisplay.frame = 0
+			else: buildingDisplay.frame = 1
+		else: buildingDisplay.frame = 0
 
 func outOfBoundsDisplay():
-	self.terrain = GameTilemap.Terrain.NONE
+	self.terrain = GameTilemap.Terrain.Air
 	self.building = &"None"
 	updateSprite(true)
 

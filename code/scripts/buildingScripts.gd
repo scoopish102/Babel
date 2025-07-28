@@ -28,20 +28,20 @@ class StationBuilding extends Building:
 
 class City extends StationBuilding:
 	func _init():
-		self.cost = {&"Earth": -4}
+		self.cost = {&"Earth": -2, &"Labor": -1}
 		self.budget = {&"Food": -2, &"Labor": 2}
 		self.buildingName = &"City"
 
 class Farm extends ProductionBuilding:
 	func _init():
-		self.cost = {&"Earth": -4}
+		self.cost = {&"Earth": -2, &"Labor": -1}
 		self.budget = {&"Food": 2, &"Labor": -1}
 		self.buildingName = &"Farm"
 		self.workerSlots = 2
 
 class Kiln extends ProductionBuilding:
 	func _init():
-		self.cost = {&"Earth": -4}
+		self.cost = {&"Earth": -2, &"Labor": -1}
 		self.budget = {&"Earth": 1, &"Labor": -1}
 		self.buildingName = &"Kiln"
 		self.workerSlots = 2

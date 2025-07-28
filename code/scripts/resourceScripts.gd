@@ -33,7 +33,7 @@ class RResource extends Object:
 		return self.change
 		
 	func boundAmounts(debug=false):
-		if self.amount > 0:
+		if self.amount < 0:
 			self.amount = 0
 			if debug: print("Resource " + self.name + " is in deficit. (Losing " + str(self.change) + ")")
 			
@@ -52,6 +52,22 @@ static func mergeTickets(ticket1: Dictionary[StringName, int], ticket2: Dictiona
 		result[res] += ticket2[res]
 	#print(result)
 	return result
+
+static var FIPLarge = {
+	&"Food": "res://code/resources/miniResourceIcons/foodLarge.tres",
+	&"Earth": "res://code/resources/miniResourceIcons/earthLarge.tres",
+	&"Labor": "res://code/resources/miniResourceIcons/laborLarge.tres"
+}
+
+static func ticketToText(ticket: Dictionary[StringName, int]) -> String:
+	var text: String = ""
+	var i = 1
+	for res in ticket.keys():
+		text += str(ticket[res]) + " [img]" + FIPLarge[res] + "[/img]"
+		if i < len(ticket.keys()): text += ", "
+		else: text += " "
+		i += 1
+	return text
 
 """class RResourceTicket extends Object:
 	var res : Dictionary

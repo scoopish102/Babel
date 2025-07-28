@@ -7,7 +7,7 @@
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_vx8kw")
-gameSize = Vector2i(20, 20)
+gameSize = Vector2i(25, 25)
 noise = ExtResource("2_iabw2")
 metadata/_edit_horizontal_guides_ = [324.0]
 
@@ -22,8 +22,13 @@ cameraSpeed = 1
 
 [connection signal="attemptPlaceBuilding" from="CanvasLayer/UI" to="." method="attemptPlaceBuilding"]
 [connection signal="attemptPlaceTile" from="CanvasLayer/UI" to="." method="attemptPlaceTile"]
+[connection signal="changeWorkerCount" from="CanvasLayer/UI" to="." method="changeBuildingWorkers"]
 [connection signal="cursorSelect" from="CanvasLayer/UI" to="TilemapDisplay/Cursor" method="set_selected"]
+[connection signal="destroyBuilding" from="CanvasLayer/UI" to="." method="destroyBuilding"]
+[connection signal="nextTurn" from="CanvasLayer/UI" to="." method="nextTurn"]
 [connection signal="processBuildButtons" from="CanvasLayer/UI" to="." method="processBuildButtons"]
+[connection signal="processInfoTab" from="CanvasLayer/UI" to="." method="processInfoTab"]
+[connection signal="processInteract" from="CanvasLayer/UI" to="." method="processInteract"]
 [connection signal="updateCursor" from="CanvasLayer/UI" to="." method="updateCursorDisplay"]
 
 [editable path="TilemapDisplay"]

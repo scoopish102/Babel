@@ -27,7 +27,9 @@ func start(tileMap : GameTilemap):
 	minPos = Vector2(-((tileMap.mapSize.x)*Global.tileSize.x-tileMap.mapSize.y*Global.tileSize.y), -Global.mapSize.y*Global.tileSize.y/2)
 	maxPos = Vector2(((tileMap.mapSize.x)*Global.tileSize.x-tileMap.mapSize.y*Global.tileSize.y), ((tileMap.mapSize.x)*Global.tileSize.x-tileMap.mapSize.y*Global.tileSize.y)-Global.mapSize.y*Global.tileSize.y/2)
 	origin = Vector2((maxPos.x+minPos.x)/2, (maxPos.y+minPos.y)/2)
-	cameraPosition = Vector2.ZERO #origin
+	cameraPosition = origin
+	cameraPosition.y -= 20
+	cameraAcceleration.y = 5
 
 func updatePosition(tileMap : GameTilemap):
 	for y in range(Global.mapSize.y):
@@ -137,6 +139,11 @@ func process(delta, tileMap, mousePos):
 	#print(cameraPosition)
 	updatePosition(tileMap)
 	
+	if (cursor.global_position.x > Global.cameraSize.x/2 or cursor.global_position.y > Global.cameraSize.y/2 
+			or cursor.global_position.x < -Global.cameraSize.x/2 or cursor.global_position.y < -Global.cameraSize.y/2):
+		#print("okala")
+		cursor.selected = false
+		
 	if not cursor.selected: 
 		#cursor.tile = screenPositionToTileCoordinates(mousePos + Vector2(fmod(cameraPosition.x, Global.tileSize.x),fmod(cameraPosition.y, Global.tileSize.y)))
 		cursor.tileDisplay = screenPositionToTileDisplayCoordinates(mousePos + Vector2(cameraPosition))
@@ -145,7 +152,7 @@ func process(delta, tileMap, mousePos):
 		#		isocampos.y/(Global.mapSize.y*Global.tileSize.y))
 		#fullMapsOffset = floor(fullMapsOffset)
 		cursor.tile = Vector2(0, 0)
-		if cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x > len(tileDisplayMap) or cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x < 0: 
+		if cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x >= len(tileDisplayMap) or cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x < 0: 
 			cursor.process(Vector2(0, 0), true, 1)
 		else: 
 			cursor.tile = tileDisplayMap[cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x].mapPosition
@@ -155,7 +162,7 @@ func process(delta, tileMap, mousePos):
 				tileDisplayMap[cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x].z_index)
 			#cursor.tile = tileDisplayPosToTileCoordinates(Vector2(cursor.global_position) + Vector2(cameraPosition))
 	else: 
-		if cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x > len(tileDisplayMap) or cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x < 0: 
+		if cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x >= len(tileDisplayMap) or cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x < 0: 
 			cursor.selected = false
 			return
 		else: 
@@ -163,7 +170,3 @@ func process(delta, tileMap, mousePos):
 					checkCoordsOutOfBounds(tileMap, cursor.tile), 
 					tileDisplayMap[cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x].z_index)
 			#print(tileMap.buildingMap[cursor.tile.x + cursor.tile.y*Global.mapSize.x])
-	if (cursor.global_position.x > Global.cameraSize.x/2 or cursor.global_position.y > Global.cameraSize.y/2 
-			or cursor.global_position.x < -Global.cameraSize.x/2 or cursor.global_position.y < -Global.cameraSize.y/2):
-		#print("okala")
-		cursor.selected = false

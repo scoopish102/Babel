@@ -11,8 +11,6 @@ var outOfBounds : bool = false
 
 @export var defaultColor : Color
 @export var selectedColor : Color
-@export var invalidColor : Color
-@export var validColor : Color
 
 func _ready():
 	building.set_animation(&"None")
@@ -32,15 +30,14 @@ func process(pos: Vector2, outOfBounds: bool, z: int):
 	if selected: 
 		sprite.modulate = selectedColor
 		spriteOverlay.modulate = selectedColor
-		spriteOverlay.modulate.a = 0.5
+		spriteOverlay.modulate.a = 0.3
 	else:
 		sprite.modulate = defaultColor
 		spriteOverlay.modulate = defaultColor
-		spriteOverlay.modulate.a = 0.5
+		spriteOverlay.modulate.a = 0.3
 
 func _unhandled_input(event):
 	if not self.outOfBounds and event.is_action_released("ui_select"): 
 		self.selected = not self.selected
 		#print(self.tile)
 		#print(self.tile.x + self.tile.y * Global.mapSize.x)
-	pass

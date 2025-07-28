@@ -32,14 +32,12 @@ layout_mode = 2
 [node name="Icon" type="TextureRect" parent="VBoxContainer2"]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
-tooltip_text = "Grain"
 texture = SubResource("AtlasTexture_6wcl8")
 stretch_mode = 5
 
 [node name="Type" type="Label" parent="VBoxContainer2"]
 layout_mode = 2
 size_flags_vertical = 8
-tooltip_text = "The harvest this year, sire."
 mouse_filter = 0
 text = "FOOD"
 label_settings = SubResource("LabelSettings_0brov")
@@ -69,7 +67,6 @@ offset_right = 18.0
 offset_bottom = 39.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
-tooltip_text = "Our state's Grain reserves, sire."
 mouse_filter = 0
 text = "0
 "
@@ -90,7 +87,6 @@ offset_right = 12.0
 offset_bottom = 24.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
-tooltip_text = "The harvest this year, sire."
 mouse_filter = 0
 text = "0
 "

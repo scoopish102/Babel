@@ -4,19 +4,21 @@ class_name GUI extends Control
 @onready var tabBar := $BottomBar/TabBar
 @onready var optionBar := $BottomBar/Options
 @onready var infoBox := $InfoBox
+@onready var turnButton := $Turn/Backdrop
 
 var tabSelected: int = 0
 var optionSelected: int = -1
 
 signal updateCursor(buildingType: StringName)
-
 signal cursorSelect(selected: bool)
-
 signal attemptPlaceTile(tile: GameTilemap.Terrain)
-
 signal attemptPlaceBuilding(building: BuildingScripts.Building)
-
 signal processBuildButtons(cursorSelected: bool, buildingName: StringName)
+signal processInteract()
+signal changeWorkerCount(change: int)
+signal destroyBuilding()
+signal processInfoTab()
+signal nextTurn()
 
 enum OptionMode {
 	BUILD,
@@ -30,12 +32,18 @@ enum InfoBoxMode {
 	SHOW
 }
 
-func process(player: Game.Player, cursorCoords: Vector2, cursorSelected: bool):
+func process(player: Game.Player, cursorCoords: Vector2, cursorSelected: bool, hasBuilding: bool, turn: int):
 	resources.get_child(0).setLabels(player.resources[&"Food"].amount, player.resources[&"Food"].change)
 	resources.get_child(1).setLabels(player.resources[&"Earth"].amount, player.resources[&"Earth"].change)
 	#resources.get_child(2).setLabels(player.resources["Bronze"].amount, player.resources["Bronze"].change)
 	resources.get_child(2).setLabels(player.resources[&"Labor"].amount, player.resources[&"Labor"].change)
+	turnButton.get_child(1).set_text("Turn " + str(turn))
 	for i in range(len(tabBar.get_children())):
+		if i == 1: 
+			if cursorSelected and hasBuilding: tabBar.get_child(i).button.disabled = false
+			else: 
+				tabBar.get_child(i).button.disabled = true
+				#if tabSelected == 1: tabSelected = 0
 		if tabBar.get_child(i).process(i as OptionMode == tabSelected): 
 			tabSelected = i as OptionMode
 			optionSelected = -1
@@ -47,7 +55,7 @@ func process(player: Game.Player, cursorCoords: Vector2, cursorSelected: bool):
 		OptionMode.INTERACT: 
 			interactOptions()
 		OptionMode.INFO: 
-			infoOptions(cursorCoords)
+			infoOptions()
 	processInfoBox(cursorSelected)
 
 func buildOptions():
@@ -65,11 +73,10 @@ func buildOptions():
 				infoBoxMode = InfoBoxMode.HIDE
 
 func interactOptions():
-	pass
+	processInteract.emit()
 
-func infoOptions(cursorCoords: Vector2):
-	var fOps = optionBar.get_child(2)
-	fOps.get_child(1).set_text("Tile at: (" + str(cursorCoords.x) + ", " + str(cursorCoords.y) + ")")
+func infoOptions():
+	processInfoTab.emit()
 
 var infoBoxMode = InfoBoxMode.HIDE
 
@@ -87,9 +94,9 @@ func processInfoBox(cursorSelected: bool):
 			if tabSelected == 0 and optionSelected != -1: infoBoxForBuild(cursorSelected)
 
 var FIP = {
-	"Food": "res://code/resources/miniResourceIcons/food.tres",
-	"Earth": "res://code/resources/miniResourceIcons/earth.tres",
-	"Labor": "res://code/resources/miniResourceIcons/labor.tres"
+	&"Food": "res://code/resources/miniResourceIcons/food.tres",
+	&"Earth": "res://code/resources/miniResourceIcons/earth.tres",
+	&"Labor": "res://code/resources/miniResourceIcons/labor.tres"
 }
 
 func infoBoxForBuild(cursorSelected):
@@ -119,3 +126,22 @@ func infoBoxCancelPressed():
 	optionSelected = -1
 	updateCursor.emit(&"None")
 	infoBoxMode = InfoBoxMode.HIDE
+
+func lessWorkers(): changeWorkerCount.emit(-1)
+
+func moreWorkers(): changeWorkerCount.emit(1)
+
+func destroyBuildingPressed(): destroyBuilding.emit()
+
+var tween
+
+func turnButtonPressed(): 
+	if turnButton.get_child(0).get_child(0).is_stopped():
+		turnButton.get_child(0).get_child(0).start()
+	else: return
+	nextTurn.emit()
+	#turnButton.get_child(0).rotation += 10
+	if tween: tween.kill()
+	tween = get_tree().create_tween()
+	turnButton.get_child(0).rotation = 0
+	tween.tween_property(turnButton.get_child(0), "rotation_degrees", 360, 1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
