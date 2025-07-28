@@ -137,15 +137,23 @@ func process(delta, tileMap, mousePos):
 	#print(cameraPosition)
 	updatePosition(tileMap)
 	
-	
 	if not cursor.selected: 
-		cursor.tile = screenPositionToTileCoordinates(mousePos)
+		#cursor.tile = screenPositionToTileCoordinates(mousePos + Vector2(fmod(cameraPosition.x, Global.tileSize.x),fmod(cameraPosition.y, Global.tileSize.y)))
 		cursor.tileDisplay = screenPositionToTileDisplayCoordinates(mousePos + Vector2(cameraPosition))
+		#var isocampos = Vector2(cameraPosition.x+cameraPosition.y, cameraPosition.y-cameraPosition.x)
+		#var fullMapsOffset = Vector2(isocampos.x/(Global.mapSize.x*Global.tileSize.x), 
+		#		isocampos.y/(Global.mapSize.y*Global.tileSize.y))
+		#fullMapsOffset = floor(fullMapsOffset)
+		cursor.tile = Vector2(0, 0)
 		if cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x > len(tileDisplayMap) or cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x < 0: 
 			cursor.process(Vector2(0, 0), true, 1)
-		else: cursor.process(tileDisplayMap[cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x].global_position, 
+		else: 
+			cursor.tile = tileDisplayMap[cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x].mapPosition
+			cursor.tile = tileDisplayPosToTileCoordinates(cursor.tile) + Vector2(1, 1)
+			cursor.process(tileDisplayMap[cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x].global_position, 
 				checkCoordsOutOfBounds(tileMap, cursor.tile), 
 				tileDisplayMap[cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x].z_index)
+			#cursor.tile = tileDisplayPosToTileCoordinates(Vector2(cursor.global_position) + Vector2(cameraPosition))
 	else: 
 		if cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x > len(tileDisplayMap) or cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x < 0: 
 			cursor.selected = false

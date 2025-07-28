@@ -68,9 +68,9 @@ func _process(delta):
 	tilemapDisplay.process(delta, tilemap, get_global_mouse_position())
 	ui.process(player, tilemapDisplay.cursor.tile, tilemapDisplay.cursor.selected)
 	player.process(tilemap.buildingMap)
-	if Input.is_action_just_pressed("ui_debug"): pass
+	if Input.is_action_just_pressed("ui_debug"): 
 		#var tileAtMouse = tilemapDisplay.screenPositionToTileCoordinates(get_global_mouse_position())
-		#print(tileAtMouse)
+		print(tilemapDisplay.cursor.tile)
 		#print(tilemap.terrainMap[tileAtMouse.x + tileAtMouse.y * tilemap.mapSize.x])
 		#if tilemapDisplay.checkCoordsOutOfBounds(tilemap, tileAtMouse): print("abc")
 		#print(tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * tilemap.mapSize.x)
@@ -90,7 +90,7 @@ func attemptPlaceTile(tile: GameTilemap.Terrain): pass
 
 func attemptPlaceBuilding(building: BuildingScripts.Building):
 	if player.canBeRedeemed(building.cost):
-		player.redeemCost(building.cost)
+		#player.redeemCost(building.cost)
 		updateBuildingAtCursor(building)
 	else: building.call_deferred("free")
 
