@@ -4,9 +4,11 @@ enum Terrain {
 	Air, Grass, Sand, Water, Dirt, Platform
 }
 
-var terrainMap : Array[Terrain] = []
-var buildingMap : Array[BuildingScripts.Building] = []
+var terrainMap : Array[Array] = []
+var buildingMap : Array[Array] = []
 var mapSize : Vector2i
+var mapHeight: int = 10
+var waterLevel: int = 0
 
 func getOrthogonalNeighbors(center: Vector2i) -> Dictionary[StringName, Vector2i]:
 	var neighbors: Dictionary[StringName, Vector2i]
@@ -43,16 +45,18 @@ func getAllNeighbors(center: Vector2i) -> Dictionary[StringName, Vector2i]:
 			neighbors.erase(direction)
 	return neighbors
 
-func _init(size : Vector2i):
+func _init(size : Vector2i, height: int):
 	mapSize = size
-	for y in range(mapSize.y):
-		for x in range(mapSize.x):
-			#The tilemap is arranged so that the first to the last value corresponds
-			#to left to right, up to down in the tilemap's display ingame. Thus
-			#x values increase the index incrementally while y values increase it
-			#by the size of the map's width
-			terrainMap.append(0)
-			buildingMap.append(null)
+	mapHeight = height
+	var tempt = []
+	var tempb = []
+	for h in range(mapHeight):
+		for y in range(mapSize.y):
+			for x in range(mapSize.x):
+				tempt.append(0)
+				tempb.append(null)
+		terrainMap.append(tempt.duplicate())
+		buildingMap.append(tempb.duplicate())
 	#print(terrainMap)
 
 func generateWorld(noise):
@@ -62,19 +66,22 @@ func generateWorld(noise):
 	var rad = (mapSize.x+mapSize.y)/4 - 5
 	var temp = 0
 	var dist = 0
+	var strength = 0
 	var randomOffset = Vector2i(randi()%1000, randi()%1000)
-	for y in range(mapSize.y):
-		for x in range(mapSize.x):
-			dist = floor(sqrt((x-center.x)**2 + (y-center.y)**2))
-			temp = noise.get_noise_2dv(Vector2i(x, y) + randomOffset)
-			if dist < 4: terrainMap[y*mapSize.x+x] = Terrain.Grass
-			elif dist + temp*5 < rad: terrainMap[y*mapSize.x+x] = Terrain.Grass
-			else: terrainMap[y*mapSize.x+x] = Terrain.Water
-	buildingMap[center.y*mapSize.x+center.x] = BuildingScripts.City.new()
-	buildingMap[center.y*mapSize.x+center.x-1] = BuildingScripts.Farm.new()
-	buildingMap[(center.y+1)*mapSize.x+center.x] = BuildingScripts.Kiln.new()
-	buildingMap[(center.y+1)*mapSize.x+center.x].workers = 1
-	buildingMap[center.y*mapSize.x+center.x-1].workers = 1
+	for h in range(mapHeight):
+		for y in range(mapSize.y):
+			for x in range(mapSize.x):
+				dist = floor(sqrt((x-center.x)**2 + (y-center.y)**2))
+				temp = noise.get_noise_2dv(Vector2i(x, y) + randomOffset)
+				if h == 0: 
+					if dist < 4: terrainMap[0][y*mapSize.x+x] = Terrain.Grass
+					elif dist + temp*(5) < rad: terrainMap[0][y*mapSize.x+x] = Terrain.Grass
+					else: terrainMap[0][y*mapSize.x+x] = Terrain.Air
+	buildingMap[0][center.y*mapSize.x+center.x] = BuildingScripts.City.new()
+	buildingMap[0][center.y*mapSize.x+center.x-1] = BuildingScripts.Farm.new()
+	buildingMap[0][(center.y+1)*mapSize.x+center.x] = BuildingScripts.Kiln.new()
+	buildingMap[0][(center.y+1)*mapSize.x+center.x].workers = 1
+	buildingMap[0][center.y*mapSize.x+center.x-1].workers = 1
 	#print(center.y*mapSize.x+center.x)
 	#print(buildingMap[center.y*mapSize.x+center.x].update())
 	#print(buildingMap[(center.y+1)*mapSize.x+center.x].update())

@@ -1,14 +1,34 @@
-[gd_scene load_steps=4 format=3 uid="uid://f4a7jdx0xwyd"]
+[gd_scene load_steps=6 format=3 uid="uid://f4a7jdx0xwyd"]
 
 [ext_resource type="Script" uid="uid://7kqilhlc7hnq" path="res://code/scripts/tileDisplay.gd" id="1_kldms"]
 [ext_resource type="SpriteFrames" uid="uid://k1h3ydumuynp" path="res://code/resources/terrainSprites.tres" id="2_6qxuq"]
 [ext_resource type="SpriteFrames" uid="uid://ds2lwk6c4bx85" path="res://code/resources/buildingSprites.tres" id="3_da8dj"]
+[ext_resource type="Texture2D" uid="uid://c12vlpq5rosds" path="res://assets/graphics/ui.png" id="3_m3lf1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2rbtc"]
+atlas = ExtResource("3_m3lf1")
+region = Rect2(64, 80, 64, 32)
 
 [node name="tileDisplay" type="Node2D"]
 scale = Vector2(2, 2)
 script = ExtResource("1_kldms")
 
+[node name="lowerLayer" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_6qxuq")
+animation = &"Water"
+offset = Vector2(0, 32)
+
 [node name="terrain" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_6qxuq")
+animation = &"Grass"
+
+[node name="cookie cutter" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(0.755386, 0.755386, 0.755386, 1)
+clip_children = 1
+texture = SubResource("AtlasTexture_2rbtc")
+
+[node name="terrain" type="AnimatedSprite2D" parent="cookie cutter"]
 sprite_frames = ExtResource("2_6qxuq")
 animation = &"Dirt"
 
@@ -16,3 +36,10 @@ animation = &"Dirt"
 z_index = 2
 sprite_frames = ExtResource("3_da8dj")
 animation = &"City"
+
+[node name="secondLayer" type="AnimatedSprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.294118)
+z_index = 3
+sprite_frames = ExtResource("2_6qxuq")
+animation = &"Platform"
+offset = Vector2(0, -32)

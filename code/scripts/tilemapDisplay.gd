@@ -11,6 +11,8 @@ var tileDisplayMap : Array[TileDisplay]
 var cameraPosition : Vector2 = Vector2.ZERO
 var cameraVelocity : Vector2 = Vector2.ZERO
 var cameraAcceleration : Vector2 = Vector2.ZERO
+var layer: int = 0
+
 var minPos : Vector2
 var maxPos : Vector2
 var origin : Vector2
@@ -22,7 +24,7 @@ func start(tileMap : GameTilemap):
 			var newTileDisplay = tileDisplayScene.instantiate()
 			tileDisplayMap.append(newTileDisplay)
 			add_child(newTileDisplay)
-			newTileDisplay.updateDisplay(tileMap.terrainMap[x + y], tileMap.buildingMap[x + y])
+			#newTileDisplay.updateDisplay(tileMap.terrainMap[layer][x + y], tileMap.buildingMap[0][x + y])
 	updatePosition(tileMap)
 	minPos = Vector2(-((tileMap.mapSize.x)*Global.tileSize.x-tileMap.mapSize.y*Global.tileSize.y), -Global.mapSize.y*Global.tileSize.y/2)
 	maxPos = Vector2(((tileMap.mapSize.x)*Global.tileSize.x-tileMap.mapSize.y*Global.tileSize.y), ((tileMap.mapSize.x)*Global.tileSize.x-tileMap.mapSize.y*Global.tileSize.y)-Global.mapSize.y*Global.tileSize.y/2)
@@ -49,7 +51,15 @@ func updatePosition(tileMap : GameTilemap):
 			if checkCoordsOutOfBounds(tileMap, relativeTilePosition):
 				tileDisplay.outOfBoundsDisplay()
 			else:
-				tileDisplay.updateDisplay(tileMap.terrainMap[relativeTilePosition.x+relativeTilePosition.y*tileMap.mapSize.x], tileMap.buildingMap[relativeTilePosition.x+relativeTilePosition.y*tileMap.mapSize.x])
+				var sec = GameTilemap.Terrain.Air
+				if layer+1 < tileMap.mapHeight: sec = tileMap.terrainMap[layer+1][relativeTilePosition.x+relativeTilePosition.y*tileMap.mapSize.x]
+				var tri = GameTilemap.Terrain.Air
+				if layer+2 < tileMap.mapHeight: tri = tileMap.terrainMap[layer+2][relativeTilePosition.x+relativeTilePosition.y*tileMap.mapSize.x]
+				var low = GameTilemap.Terrain.Air
+				if layer-1 >= 0: low = tileMap.terrainMap[layer-1][relativeTilePosition.x+relativeTilePosition.y*tileMap.mapSize.x]
+				tileDisplay.updateDisplay(tileMap.terrainMap[layer][relativeTilePosition.x+relativeTilePosition.y*tileMap.mapSize.x], 
+						tileMap.buildingMap[layer][relativeTilePosition.x+relativeTilePosition.y*tileMap.mapSize.x],
+						sec, tri, low, layer, tileMap.waterLevel)
 			tileDisplay.updatePosition()
 
 func checkCoordsOutOfBounds(tileMap : GameTilemap, coords: Vector2) -> bool:
@@ -136,6 +146,11 @@ func process(delta, tileMap, mousePos):
 		cameraPosition.x = rightBoundFunction(cameraPosition.y)"""
 	
 	cameraPosition = floor(cameraPosition)
+	
+	"""if Input.is_action_just_pressed(&"ui_layerUp"): 
+		if layer < tileMap.mapHeight-1: layer += 1
+	elif Input.is_action_just_pressed(&"ui_layerDown"): 
+		if layer > 0: layer -= 1"""
 	#print(cameraPosition)
 	updatePosition(tileMap)
 	
@@ -153,13 +168,12 @@ func process(delta, tileMap, mousePos):
 		#fullMapsOffset = floor(fullMapsOffset)
 		cursor.tile = Vector2(0, 0)
 		if cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x >= len(tileDisplayMap) or cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x < 0: 
-			cursor.process(Vector2(0, 0), true, 1)
+			cursor.process(Vector2(0, 0), true)
 		else: 
 			cursor.tile = tileDisplayMap[cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x].mapPosition
 			cursor.tile = tileDisplayPosToTileCoordinates(cursor.tile) + Vector2(1, 1)
 			cursor.process(tileDisplayMap[cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x].global_position, 
-				checkCoordsOutOfBounds(tileMap, cursor.tile), 
-				tileDisplayMap[cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x].z_index)
+				checkCoordsOutOfBounds(tileMap, cursor.tile))
 			#cursor.tile = tileDisplayPosToTileCoordinates(Vector2(cursor.global_position) + Vector2(cameraPosition))
 	else: 
 		if cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x >= len(tileDisplayMap) or cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x < 0: 
@@ -167,6 +181,5 @@ func process(delta, tileMap, mousePos):
 			return
 		else: 
 			cursor.process(tileDisplayMap[cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x].global_position, 
-					checkCoordsOutOfBounds(tileMap, cursor.tile), 
-					tileDisplayMap[cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x].z_index)
+					checkCoordsOutOfBounds(tileMap, cursor.tile))
 			#print(tileMap.buildingMap[cursor.tile.x + cursor.tile.y*Global.mapSize.x])

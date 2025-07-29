@@ -4,6 +4,7 @@ class_name Game extends Node2D
 @onready var ui := $CanvasLayer/UI
 
 @export var gameSize : Vector2i
+@export var gameHeight: int
 @export var noise : FastNoiseLite
 
 var tilemap : GameTilemap
@@ -14,6 +15,7 @@ class Player:
 	var resources : Dictionary[StringName, ResourceScripts.RResource]
 	var score : int
 	var buildingCount : int
+	var platformCount : int
 	
 	func _init():
 		self.resources = {
@@ -23,6 +25,7 @@ class Player:
 			&"Labor": ResourceScripts.RResource.new(&"Labor", 2, true)}
 		self.score = 0
 		self.buildingCount = 0
+		self.platformCount = 0
 	
 	func redeemCost(ticket: Dictionary[StringName, int]):
 		#var totalConsumed = 0
@@ -44,14 +47,15 @@ class Player:
 			if not (self.resources[resource].getAmount() + ticket[resource] >= 0): return false
 		return true
 	
-	func compileBuildingBudgets(buildingMap: Array[BuildingScripts.Building]) -> Dictionary[StringName, int]:
+	func compileBuildingBudgets(buildingMap: Array[Array]) -> Dictionary[StringName, int]:
 		var finalBudget: Dictionary[StringName, int] = {}
-		for building in buildingMap:
-			if not building == null: 
-				finalBudget = ResourceScripts.mergeTickets(finalBudget, building.update())
+		for map in buildingMap:
+			for building in map:
+				if not building == null: 
+					finalBudget = ResourceScripts.mergeTickets(finalBudget, building.update())
 		return finalBudget
 	
-	func process(buildingMap: Array[BuildingScripts.Building]):
+	func process(buildingMap: Array[Array]):
 		for res in self.resources.keys():
 			self.resources[res].change = 0
 		var buildingBudget : Dictionary[StringName, int] = compileBuildingBudgets(buildingMap)
@@ -66,7 +70,7 @@ var player = Player.new()
 func _ready():
 	#print(Global.mapSize)
 	#gameSize = Vector2(50, 50)
-	tilemap = GameTilemap.new(gameSize)
+	tilemap = GameTilemap.new(gameSize, gameHeight)
 	tilemap.generateWorld(noise)
 	tilemapDisplay.start(tilemap)
 	#print(player.resources)
@@ -80,8 +84,8 @@ func _process(delta):
 	if (tilemapDisplay.cursor.tile.x < 0 or tilemapDisplay.cursor.tile.y < 0 or 
 			tilemapDisplay.cursor.tile.x >= tilemap.mapSize.x or tilemapDisplay.cursor.tile.y >= tilemap.mapSize.y):
 		hasBuildingInCursor = false
-	else: hasBuildingInCursor = tilemap.buildingMap[tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * tilemap.mapSize.x] != null
-	ui.process(player, tilemapDisplay.cursor.tile, tilemapDisplay.cursor.selected, hasBuildingInCursor, turn)
+	else: hasBuildingInCursor = tilemap.buildingMap[0][tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * tilemap.mapSize.x] != null
+	ui.process(player, tilemapDisplay.cursor.tile, tilemapDisplay.cursor.selected, hasBuildingInCursor, turn, tilemapDisplay.layer, tilemap.mapHeight)
 	player.process(tilemap.buildingMap)
 	if Input.is_action_just_pressed("ui_debug"): pass
 		#var tileAtMouse = tilemapDisplay.screenPositionToTileCoordinates(get_global_mouse_position())
@@ -95,19 +99,27 @@ func updateCursorDisplay(buildingType: StringName):
 	tilemapDisplay.cursor.building.set_animation(buildingType)
 
 func updateBuildingAtCursor(building: BuildingScripts.Building):
-	tilemap.buildingMap[tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * tilemap.mapSize.x] = building
+	tilemap.buildingMap[tilemapDisplay.layer][tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * tilemap.mapSize.x] = building
 	#print(tilemap.buildingMap[tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * Global.mapSize.x])
 
 func buildingAtPos(pos: Vector2):
-	return tilemap.buildingMap[pos.x + pos.y * tilemap.mapSize.x]
+	return tilemap.buildingMap[tilemapDisplay.layer][pos.x + pos.y * tilemap.mapSize.x]
 
 func tileAtPos(pos: Vector2):
-	return tilemap.terrainMap[pos.x + pos.y * tilemap.mapSize.x]
+	return tilemap.terrainMap[tilemapDisplay.layer][pos.x + pos.y * tilemap.mapSize.x]
 
 func updateTileAtCursor(tile: GameTilemap.Terrain):
-	tilemap.tileMap[tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * tilemap.mapSize.x] =  tile
+	tilemap.terrainMap[tilemapDisplay.layer][tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * tilemap.mapSize.x] =  tile
 
-func attemptPlaceTile(tile: GameTilemap.Terrain): pass
+func updateTileAtLayerAbove(tile: GameTilemap.Terrain):
+	tilemap.terrainMap[tilemapDisplay.layer+1][tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * tilemap.mapSize.x] =  tile
+
+func attemptPlaceTile(tile: GameTilemap.Terrain): 
+	if tile == GameTilemap.Terrain.Platform:
+		if player.canBeRedeemed({&"Earth": int(-2), &"Labor": int(-1)}):
+			player.redeemCost({&"Earth": int(-2), &"Labor": int(-1)})
+			updateTileAtLayerAbove(GameTilemap.Terrain.Platform)
+			player.platformCount += 1
 
 func attemptPlaceBuilding(building: BuildingScripts.Building):
 	if player.canBeRedeemed(building.cost):
@@ -117,8 +129,36 @@ func attemptPlaceBuilding(building: BuildingScripts.Building):
 	else: building.call_deferred("free")
 
 func processBuildButtons(cursorSelected: bool, buildingName: StringName):
+	var cost: Dictionary[StringName, int]
+	var hasNeighbors: bool = false
+	for neighbor in tilemap.getAllNeighbors(tilemapDisplay.cursor.tile).values():
+		if tilemap.buildingMap[tilemapDisplay.layer][neighbor.x+neighbor.y*tilemap.mapSize.x] != null:
+			hasNeighbors = true
+			break
+	if (tilemap.terrainMap[tilemapDisplay.layer][tilemapDisplay.cursor.tile.x+tilemapDisplay.cursor.tile.y*tilemap.mapSize.x]
+			== GameTilemap.Terrain.Platform): hasNeighbors = true
+	if buildingName == &"Platform":
+		cost = {&"Earth": int(-2), &"Labor": int(-1)}
+		var hasLowerNeighbor: bool = false
+		if (tilemap.terrainMap[tilemapDisplay.layer][tilemapDisplay.cursor.tile.x+tilemapDisplay.cursor.tile.y*tilemap.mapSize.x]
+				!= GameTilemap.Terrain.Air): hasLowerNeighbor = true
+		ui.infoBox.build.disabled = ((not cursorSelected) or (not player.canBeRedeemed(cost)) or (tilemapDisplay.layer+1 >= tilemap.mapHeight-1)
+				or tilemap.terrainMap[tilemapDisplay.layer+1][tilemapDisplay.cursor.tile.x+tilemapDisplay.cursor.tile.y*tilemap.mapSize.x]
+				!= GameTilemap.Terrain.Air or (not hasLowerNeighbor) or (not hasNeighbors))
+		ui.infoBox.build.tooltip_text = ""
+		#player.canBeRedeemed(cost) 
+		if not cursorSelected: ui.infoBox.build.tooltip_text += "Select a tile first. "
+		else:
+			if not player.canBeRedeemed(cost): ui.infoBox.build.tooltip_text += "Insufficient resources. "
+			if (not hasLowerNeighbor): ui.infoBox.build.tooltip_text += "Cannot build floating platform. "
+			if (not hasNeighbors): ui.infoBox.build.tooltip_text += "No neighboring buildings. "
+			if (tilemapDisplay.layer+1 < tilemap.mapHeight and tilemap.terrainMap[tilemapDisplay.layer+1][tilemapDisplay.cursor.tile.x+tilemapDisplay.cursor.tile.y*tilemap.mapSize.x]
+					!= GameTilemap.Terrain.Air): ui.infoBox.build.tooltip_text += "Cannot build inside a tile. "
+			if (tilemapDisplay.layer+1 >= tilemap.mapHeight-1): ui.infoBox.build.tooltip_text += "Max height limit. "
+			#MAX HEIGHT LIMIT IS TEMPORARY LOL!!!
+		return
+	
 	var building: BuildingScripts.Building
-	var cost
 	match buildingName:
 		&"City": building = BuildingScripts.City.new()
 		&"Farm": building = BuildingScripts.Farm.new()
@@ -126,14 +166,9 @@ func processBuildButtons(cursorSelected: bool, buildingName: StringName):
 	cost = building.cost
 	#print(cursorSelected, cost.canBeRedeemed(player.resources))
 	#print(player.canBeRedeemed(cost))
-	player.canBeRedeemed(cost)
-	var hasNeighbors: bool = false
-	for neighbor in tilemap.getAllNeighbors(tilemapDisplay.cursor.tile).values():
-		if tilemap.buildingMap[neighbor.x+neighbor.y*tilemap.mapSize.x] != null:
-			hasNeighbors = true
-			break
+	#player.canBeRedeemed(cost)
 	ui.infoBox.build.disabled = ((not cursorSelected) or (not player.canBeRedeemed(cost)) or 
-			tilemap.buildingMap[tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * tilemap.mapSize.x] != null or
+			tilemap.buildingMap[tilemapDisplay.layer][tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * tilemap.mapSize.x] != null or
 			(not hasNeighbors))
 	ui.infoBox.build.tooltip_text = ""
 	if not cursorSelected: 
@@ -141,12 +176,16 @@ func processBuildButtons(cursorSelected: bool, buildingName: StringName):
 	else:
 		if not player.canBeRedeemed(cost): 
 			ui.infoBox.build.tooltip_text += "Insufficient resources. "
-		if (tilemap.buildingMap[tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * tilemap.mapSize.x] != null):
+		if (tilemap.buildingMap[tilemapDisplay.layer][tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * tilemap.mapSize.x] != null):
 			ui.infoBox.build.tooltip_text += "Tile occupied. "
 		if (not hasNeighbors):
 			ui.infoBox.build.tooltip_text += "No neighboring buildings. "
-		if tilemap.terrainMap[tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * tilemap.mapSize.x] == GameTilemap.Terrain.Water:
-			ui.infoBox.build.tooltip_text += "Cannot build on water. "
+		if (tilemap.terrainMap[tilemapDisplay.layer][tilemapDisplay.cursor.tile.x + 
+				tilemapDisplay.cursor.tile.y * tilemap.mapSize.x] in [GameTilemap.Terrain.Water, GameTilemap.Terrain.Air]):
+			ui.infoBox.build.tooltip_text += "Cannot build on air or water. "
+		if tilemapDisplay.layer+1 < tilemap.mapHeight and (not tilemap.terrainMap[tilemapDisplay.layer+1][tilemapDisplay.cursor.tile.x + 
+				tilemapDisplay.cursor.tile.y * tilemap.mapSize.x] in [GameTilemap.Terrain.Platform, GameTilemap.Terrain.Air]):
+			ui.infoBox.build.tooltip_text += "Cannot build inside a tile. "
 	building.call_deferred("free")
 	#ui.infoBox.cancel.disabled = (not cursorSelected)
 
@@ -182,7 +221,7 @@ func changeBuildingWorkers(change: int):
 func destroyBuilding():
 	player.buildingCount -= 1
 	var building = tilemap.buildingMap[tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * tilemap.mapSize.x]
-	tilemap.buildingMap[tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * tilemap.mapSize.x] = null
+	tilemap.buildingMap[tilemapDisplay.layer][tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * tilemap.mapSize.x] = null
 	building.call_deferred("free")
 
 func processInfoTab():
@@ -209,3 +248,5 @@ func nextTurn():
 	#tween = get_tree().create_tween()
 	#tween.tween_property(tilemapDisplay, "modulate", Color(0.22, 0.259, 0.569), 0.5).set_trans(Tween.TRANS_QUAD)
 	#tween.tween_property(tilemapDisplay, "modulate", Color(1.0, 1.0, 1.0), 0.5).set_trans(Tween.TRANS_QUAD)
+
+func incrementLayer(increment: int): tilemapDisplay.layer += increment

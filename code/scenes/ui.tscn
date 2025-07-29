@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://dc4b48xoehxxs"]
+[gd_scene load_steps=58 format=3 uid="uid://dc4b48xoehxxs"]
 
 [ext_resource type="Texture2D" uid="uid://c12vlpq5rosds" path="res://assets/graphics/ui.png" id="1_01mra"]
 [ext_resource type="Script" uid="uid://t0cr2qtujtfa" path="res://code/scripts/ui.gd" id="1_dn3ly"]
@@ -11,6 +11,8 @@
 [ext_resource type="Texture2D" uid="uid://mtm6glhsddi0" path="res://assets/graphics/turn.png" id="7_cq43s"]
 [ext_resource type="Script" uid="uid://jy0hws5gsyd2" path="res://code/scripts/infoBox.gd" id="8_etrss"]
 [ext_resource type="LabelSettings" uid="uid://bn3tdb4cin7nn" path="res://code/resources/TabLabelSettings.tres" id="8_r0vx6"]
+[ext_resource type="StyleBox" uid="uid://b62g8vhso8vo5" path="res://code/resources/cuneiStyleBox.tres" id="11_47kd1"]
+[ext_resource type="Texture2D" uid="uid://bctsseohhqbvk" path="res://assets/graphics/terrains.png" id="12_hg4rc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cgm38"]
 atlas = ExtResource("1_01mra")
@@ -26,6 +28,53 @@ region = Rect2(32, 96, 32, 32)
 [sub_resource type="LabelSettings" id="LabelSettings_q2fyj"]
 font = ExtResource("4_qbhuc")
 font_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_41u3d"]
+texture = ExtResource("1_01mra")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(64, 0, 64, 64)
+modulate_color = Color(0.960784, 0.862745, 0.65098, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_44hmj"]
+font = ExtResource("4_qbhuc")
+font_size = 32
+
+[sub_resource type="InputEventKey" id="InputEventKey_hg4rc"]
+device = -1
+keycode = 69
+unicode = 101
+
+[sub_resource type="Shortcut" id="Shortcut_fjpdc"]
+events = [SubResource("InputEventKey_hg4rc")]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cq43s"]
+atlas = ExtResource("1_01mra")
+region = Rect2(27, 269, 10, 6)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_44hmj"]
+atlas = ExtResource("1_01mra")
+region = Rect2(43, 269, 10, 6)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hg4rc"]
+atlas = ExtResource("1_01mra")
+region = Rect2(11, 269, 10, 6)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fjpdc"]
+atlas = ExtResource("1_01mra")
+region = Rect2(43, 301, 10, 6)
+
+[sub_resource type="InputEventKey" id="InputEventKey_44hmj"]
+device = -1
+keycode = 81
+unicode = 113
+
+[sub_resource type="Shortcut" id="Shortcut_pmi6l"]
+events = [SubResource("InputEventKey_44hmj")]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_44hmj"]
 load_path = "res://.godot/imported/ui.png-b68d05428b174b0b50ae265d62b45f7a.ctex"
@@ -71,19 +120,32 @@ atlas = ExtResource("6_yd6wg")
 region = Rect2(32, 280, 64, 64)
 margin = Rect2(0, -4, 0, 0)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_cq43s"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_eu83c"]
+atlas = ExtResource("12_hg4rc")
+region = Rect2(280, 424, 80, 72)
+margin = Rect2(0, -4, 0, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nlcp4"]
+atlas = ExtResource("12_hg4rc")
+region = Rect2(288, 424, 64, 72)
+margin = Rect2(0, -4, 0, 0)
+
+[sub_resource type="LabelSettings" id="LabelSettings_eu83c"]
+font = ExtResource("4_qbhuc")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qfaga"]
 atlas = ExtResource("1_01mra")
 region = Rect2(13, 155, 6, 10)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_44hmj"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_vgmoh"]
 atlas = ExtResource("1_01mra")
 region = Rect2(13, 139, 6, 10)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_hg4rc"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_34x7q"]
 atlas = ExtResource("1_01mra")
 region = Rect2(13, 171, 6, 10)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fjpdc"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_1j6wp"]
 atlas = ExtResource("1_01mra")
 region = Rect2(45, 139, 6, 10)
 
@@ -414,6 +476,69 @@ mouse_filter = 1
 theme = ExtResource("4_v3ivv")
 text = "0"
 
+[node name="LayerControl" type="HBoxContainer" parent="TopBar/Backdrop/Resources"]
+layout_mode = 2
+size_flags_horizontal = 10
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="TopBar/Backdrop/Resources/LayerControl"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_styles/normal = SubResource("StyleBoxTexture_41u3d")
+text = "Layer 5"
+label_settings = SubResource("LabelSettings_44hmj")
+vertical_alignment = 1
+
+[node name="Panel" type="Panel" parent="TopBar/Backdrop/Resources/LayerControl"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("11_47kd1")
+
+[node name="Change Layer" type="VBoxContainer" parent="TopBar/Backdrop/Resources/LayerControl/Panel"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+offset_right = 64.0
+offset_bottom = 64.0
+size_flags_horizontal = 8
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Buffer" type="Control" parent="TopBar/Backdrop/Resources/LayerControl/Panel/Change Layer"]
+custom_minimum_size = Vector2(8, 4)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Up" type="TextureButton" parent="TopBar/Backdrop/Resources/LayerControl/Panel/Change Layer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_vertical = 6
+focus_mode = 0
+shortcut = SubResource("Shortcut_fjpdc")
+texture_normal = SubResource("AtlasTexture_cq43s")
+texture_pressed = SubResource("AtlasTexture_44hmj")
+texture_hover = SubResource("AtlasTexture_hg4rc")
+texture_disabled = SubResource("AtlasTexture_fjpdc")
+stretch_mode = 5
+
+[node name="Down" type="TextureButton" parent="TopBar/Backdrop/Resources/LayerControl/Panel/Change Layer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_vertical = 6
+focus_mode = 0
+shortcut = SubResource("Shortcut_pmi6l")
+texture_normal = SubResource("AtlasTexture_cq43s")
+texture_pressed = SubResource("AtlasTexture_44hmj")
+texture_hover = SubResource("AtlasTexture_hg4rc")
+texture_disabled = SubResource("AtlasTexture_fjpdc")
+stretch_mode = 5
+flip_v = true
+
+[node name="Buffer2" type="Control" parent="TopBar/Backdrop/Resources/LayerControl/Panel/Change Layer"]
+custom_minimum_size = Vector2(8, 4)
+layout_mode = 2
+mouse_filter = 2
+
 [node name="Turn" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 1
@@ -541,7 +666,6 @@ axis_stretch_horizontal = 2
 axis_stretch_vertical = 1
 
 [node name="Build" type="HBoxContainer" parent="BottomBar/Options"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -552,8 +676,13 @@ mouse_filter = 2
 theme_override_constants/separation = 0
 
 [node name="City" parent="BottomBar/Options/Build" instance=ExtResource("6_f4awu")]
+custom_minimum_size = Vector2(96, 64)
 layout_mode = 2
 mouse_filter = 2
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
 hoverModulate = Color(0.756863, 0.756863, 0.756863, 1)
 typeName = &"City"
 icon = SubResource("AtlasTexture_rijo4")
@@ -563,14 +692,29 @@ Produces 2 [img]res://code/resources/miniResourceIcons/labor.tres[/img] and cons
 Stable residence is the difference between wilderness and civilization."
 
 [node name="TextureRect" parent="BottomBar/Options/Build/City" index="1"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
 mouse_filter = 2
+expand_mode = 3
 
 [node name="Label" parent="BottomBar/Options/Build/City" index="2"]
 mouse_filter = 2
 
 [node name="Farm" parent="BottomBar/Options/Build" instance=ExtResource("6_f4awu")]
+custom_minimum_size = Vector2(96, 64)
 layout_mode = 2
 mouse_filter = 2
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
 typeName = &"Farm"
 icon = SubResource("AtlasTexture_njd7v")
 description = "Costs 2 [img]res://code/resources/miniResourceIcons/earth.tres[/img] and 1 [img]res://code/resources/miniResourceIcons/labor.tres[/img] to build. 
@@ -579,6 +723,8 @@ Can support 2 [img]res://code/resources/miniResourceIcons/labor.tres[/img]. Prod
 Food is the foundation, and necessity, of every civilization."
 
 [node name="TextureRect" parent="BottomBar/Options/Build/Farm" index="1"]
+offset_left = 16.0
+offset_right = -16.0
 mouse_filter = 2
 texture = SubResource("AtlasTexture_njd7v")
 
@@ -587,8 +733,13 @@ mouse_filter = 2
 text = "FARM"
 
 [node name="Kiln" parent="BottomBar/Options/Build" instance=ExtResource("6_f4awu")]
+custom_minimum_size = Vector2(96, 64)
 layout_mode = 2
 mouse_filter = 2
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
 typeName = &"Kiln"
 icon = SubResource("AtlasTexture_kb3em")
 description = "Costs 2 [img]res://code/resources/miniResourceIcons/earth.tres[/img] and 1 [img]res://code/resources/miniResourceIcons/labor.tres[/img] to build.
@@ -598,6 +749,8 @@ The power of fire harnessed to create the building blocks of a civilization."
 
 [node name="TextureRect" parent="BottomBar/Options/Build/Kiln" index="1"]
 modulate = Color(0.972549, 0.913725, 0.960784, 1)
+offset_left = 16.0
+offset_right = -16.0
 mouse_filter = 2
 texture = SubResource("AtlasTexture_kb3em")
 
@@ -605,7 +758,44 @@ texture = SubResource("AtlasTexture_kb3em")
 mouse_filter = 2
 text = "KILN"
 
+[node name="Platform" parent="BottomBar/Options/Build" instance=ExtResource("6_f4awu")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 64)
+layout_mode = 2
+mouse_filter = 2
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+typeName = &"Platform"
+icon = SubResource("AtlasTexture_eu83c")
+description = "Costs 2 [img]res://code/resources/miniResourceIcons/earth.tres[/img] and 1 [img]res://code/resources/miniResourceIcons/labor.tres[/img] to build.
+Creates a platform above the current tile. Buildings can be built atop platforms. Must be built upon a solid tile.
+
+\"Come, let us build ourselves a city, with a tower that reaches to the heavens, so that we may make a name for ourselves.\""
+
+[node name="GButton" parent="BottomBar/Options/Build/Platform" index="0"]
+offset_top = -1.0
+offset_bottom = -1.0
+
+[node name="TextureRect" parent="BottomBar/Options/Build/Platform" index="1"]
+modulate = Color(0.972549, 0.913725, 0.960784, 1)
+offset_left = 16.0
+offset_right = -16.0
+mouse_filter = 2
+texture = SubResource("AtlasTexture_nlcp4")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" parent="BottomBar/Options/Build/Platform" index="2"]
+offset_left = -3.0
+offset_right = 3.0
+mouse_filter = 2
+text = "PLATFORM"
+label_settings = SubResource("LabelSettings_eu83c")
+
 [node name="Interact" type="HBoxContainer" parent="BottomBar/Options"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -629,10 +819,10 @@ custom_minimum_size = Vector2(16, 28)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
-texture_normal = SubResource("AtlasTexture_cq43s")
-texture_pressed = SubResource("AtlasTexture_44hmj")
-texture_hover = SubResource("AtlasTexture_hg4rc")
-texture_disabled = SubResource("AtlasTexture_fjpdc")
+texture_normal = SubResource("AtlasTexture_qfaga")
+texture_pressed = SubResource("AtlasTexture_vgmoh")
+texture_hover = SubResource("AtlasTexture_34x7q")
+texture_disabled = SubResource("AtlasTexture_1j6wp")
 stretch_mode = 5
 
 [node name="Label" type="RichTextLabel" parent="BottomBar/Options/Interact/Workers"]
@@ -652,10 +842,10 @@ custom_minimum_size = Vector2(16, 28)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
-texture_normal = SubResource("AtlasTexture_cq43s")
-texture_pressed = SubResource("AtlasTexture_44hmj")
-texture_hover = SubResource("AtlasTexture_hg4rc")
-texture_disabled = SubResource("AtlasTexture_fjpdc")
+texture_normal = SubResource("AtlasTexture_qfaga")
+texture_pressed = SubResource("AtlasTexture_vgmoh")
+texture_hover = SubResource("AtlasTexture_34x7q")
+texture_disabled = SubResource("AtlasTexture_1j6wp")
 stretch_mode = 5
 flip_h = true
 
@@ -729,7 +919,7 @@ label_settings = SubResource("LabelSettings_qj60q")
 vertical_alignment = 1
 
 [node name="InfoBox" type="VBoxContainer" parent="."]
-custom_minimum_size = Vector2(256, 288)
+custom_minimum_size = Vector2(256, 352)
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -938,6 +1128,8 @@ custom_minimum_size = Vector2(8, 8)
 layout_mode = 2
 mouse_filter = 2
 
+[connection signal="pressed" from="TopBar/Backdrop/Resources/LayerControl/Panel/Change Layer/Up" to="." method="layerUp"]
+[connection signal="pressed" from="TopBar/Backdrop/Resources/LayerControl/Panel/Change Layer/Down" to="." method="layerDown"]
 [connection signal="pressed" from="Turn/Backdrop/Token" to="." method="turnButtonPressed"]
 [connection signal="pressed" from="BottomBar/Options/Interact/Workers/Less" to="." method="lessWorkers"]
 [connection signal="pressed" from="BottomBar/Options/Interact/Workers/More" to="." method="moreWorkers"]
@@ -954,3 +1146,4 @@ mouse_filter = 2
 [editable path="BottomBar/Options/Build/City"]
 [editable path="BottomBar/Options/Build/Farm"]
 [editable path="BottomBar/Options/Build/Kiln"]
+[editable path="BottomBar/Options/Build/Platform"]

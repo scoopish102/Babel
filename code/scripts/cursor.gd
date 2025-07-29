@@ -18,7 +18,7 @@ func _ready():
 func set_selected(selected: bool):
 	self.selected = selected
 
-func process(pos: Vector2, outOfBounds: bool, z: int):
+func process(pos: Vector2, outOfBounds: bool):
 	#sprite.z_index = z + 1
 	#overlay.z_index = z + 3
 	self.outOfBounds = outOfBounds
@@ -35,6 +35,8 @@ func process(pos: Vector2, outOfBounds: bool, z: int):
 		sprite.modulate = defaultColor
 		spriteOverlay.modulate = defaultColor
 		spriteOverlay.modulate.a = 0.3
+	if building.animation == &"Platform": building.offset.y = -16
+	else: building.offset.y = 0
 
 func _unhandled_input(event):
 	if not self.outOfBounds and event.is_action_released("ui_select"): 

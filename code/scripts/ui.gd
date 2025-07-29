@@ -5,6 +5,8 @@ class_name GUI extends Control
 @onready var optionBar := $BottomBar/Options
 @onready var infoBox := $InfoBox
 @onready var turnButton := $Turn/Backdrop
+@onready var layerText := $TopBar/Backdrop/Resources/LayerControl/Label
+@onready var layerControl := $"TopBar/Backdrop/Resources/LayerControl/Panel/Change Layer"
 
 var tabSelected: int = 0
 var optionSelected: int = -1
@@ -19,6 +21,7 @@ signal changeWorkerCount(change: int)
 signal destroyBuilding()
 signal processInfoTab()
 signal nextTurn()
+signal incrementLayer(increment: int)
 
 enum OptionMode {
 	BUILD,
@@ -32,12 +35,17 @@ enum InfoBoxMode {
 	SHOW
 }
 
-func process(player: Game.Player, cursorCoords: Vector2, cursorSelected: bool, hasBuilding: bool, turn: int):
+func process(player: Game.Player, cursorCoords: Vector2, cursorSelected: bool, hasBuilding: bool, turn: int, layer: int, maxLayer: int):
 	resources.get_child(0).setLabels(player.resources[&"Food"].amount, player.resources[&"Food"].change)
 	resources.get_child(1).setLabels(player.resources[&"Earth"].amount, player.resources[&"Earth"].change)
 	#resources.get_child(2).setLabels(player.resources["Bronze"].amount, player.resources["Bronze"].change)
 	resources.get_child(2).setLabels(player.resources[&"Labor"].amount, player.resources[&"Labor"].change)
 	turnButton.get_child(1).set_text("Turn " + str(turn))
+	layerText.set_text("Height " + str(layer))
+	if layer >= maxLayer-1: layerControl.get_child(1).disabled = true
+	else: layerControl.get_child(1).disabled = false
+	if layer <= 0: layerControl.get_child(2).disabled = true
+	else: layerControl.get_child(2).disabled = false
 	for i in range(len(tabBar.get_children())):
 		if i == 1: 
 			if cursorSelected and hasBuilding: tabBar.get_child(i).button.disabled = false
@@ -90,7 +98,7 @@ func processInfoBox(cursorSelected: bool):
 		InfoBoxMode.SHOW:
 			infoBox.visible = true
 			infoBox.content.visible = true
-			infoBox.position.y = 296
+			infoBox.position.y = 296-64
 			if tabSelected == 0 and optionSelected != -1: infoBoxForBuild(cursorSelected)
 
 var FIP = {
@@ -112,15 +120,19 @@ func infoBoxToggled(toggle):
 	else: infoBoxMode = InfoBoxMode.SHOW
 
 func infoBoxBuildPressed():
-	var building : BuildingScripts.Building
 	var bOps = optionBar.get_child(0)
 	var selectedBuilding = bOps.get_child(optionSelected)
+	if selectedBuilding.typeName == &"Platform": 
+		attemptPlaceTile.emit(GameTilemap.Terrain.Platform)
+		cursorSelect.emit(false)
+		return
+	var building : BuildingScripts.Building
 	match selectedBuilding.typeName:
 		&"City": building = BuildingScripts.City.new()
 		&"Farm": building = BuildingScripts.Farm.new()
 		&"Kiln": building = BuildingScripts.Kiln.new()
 	attemptPlaceBuilding.emit(building)
-	#cursorSelect.emit(false)
+	cursorSelect.emit(false)
 
 func infoBoxCancelPressed():
 	optionSelected = -1
@@ -145,3 +157,7 @@ func turnButtonPressed():
 	tween = get_tree().create_tween()
 	turnButton.get_child(0).rotation = 0
 	tween.tween_property(turnButton.get_child(0), "rotation_degrees", 360, 1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+func layerUp(): incrementLayer.emit(1)
+
+func layerDown(): incrementLayer.emit(-1)

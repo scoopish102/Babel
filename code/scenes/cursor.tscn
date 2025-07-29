@@ -1,9 +1,89 @@
-[gd_scene load_steps=6 format=3 uid="uid://bcfbmg4eyck7n"]
+[gd_scene load_steps=14 format=3 uid="uid://bcfbmg4eyck7n"]
 
 [ext_resource type="Texture2D" uid="uid://c12vlpq5rosds" path="res://assets/graphics/ui.png" id="1_155p2"]
 [ext_resource type="Script" uid="uid://bytgmw7b4d75u" path="res://code/scripts/cursor.gd" id="1_nnlxc"]
-[ext_resource type="SpriteFrames" uid="uid://ds2lwk6c4bx85" path="res://code/resources/buildingSprites.tres" id="3_67u12"]
+[ext_resource type="Texture2D" uid="uid://bctsseohhqbvk" path="res://assets/graphics/terrains.png" id="3_a2psi"]
 [ext_resource type="Texture2D" uid="uid://c5vfq611uceik" path="res://assets/graphics/buildings.png" id="3_tsft6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gdio8"]
+atlas = ExtResource("3_tsft6")
+region = Rect2(0, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7bvxc"]
+atlas = ExtResource("3_tsft6")
+region = Rect2(128, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_304k4"]
+atlas = ExtResource("3_tsft6")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_upevh"]
+atlas = ExtResource("3_tsft6")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rnbfe"]
+atlas = ExtResource("3_tsft6")
+region = Rect2(0, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6vcg1"]
+atlas = ExtResource("3_tsft6")
+region = Rect2(128, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_do5un"]
+atlas = ExtResource("3_a2psi")
+region = Rect2(288, 432, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_txopw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gdio8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7bvxc")
+}],
+"loop": true,
+"name": &"City",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_304k4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_upevh")
+}],
+"loop": true,
+"name": &"Farm",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rnbfe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6vcg1")
+}],
+"loop": true,
+"name": &"Kiln",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": null
+}],
+"loop": true,
+"name": &"None",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_do5un")
+}],
+"loop": true,
+"name": &"Platform",
+"speed": 5.0
+}]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_76byq"]
 atlas = ExtResource("1_155p2")
@@ -17,8 +97,8 @@ modulate = Color(1, 1, 1, 0.294118)
 z_index = 1
 y_sort_enabled = true
 scale = Vector2(2, 2)
-sprite_frames = ExtResource("3_67u12")
-animation = &"City"
+sprite_frames = SubResource("SpriteFrames_txopw")
+animation = &"Platform"
 
 [node name="Sprite" type="Sprite2D" parent="."]
 z_index = 1
