@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://dc4b48xoehxxs"]
+[gd_scene load_steps=61 format=3 uid="uid://dc4b48xoehxxs"]
 
 [ext_resource type="Texture2D" uid="uid://c12vlpq5rosds" path="res://assets/graphics/ui.png" id="1_01mra"]
 [ext_resource type="Script" uid="uid://t0cr2qtujtfa" path="res://code/scripts/ui.gd" id="1_dn3ly"]
@@ -120,18 +120,28 @@ atlas = ExtResource("6_yd6wg")
 region = Rect2(32, 280, 64, 64)
 margin = Rect2(0, -4, 0, 0)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_eu83c"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_41u3d"]
 atlas = ExtResource("12_hg4rc")
-region = Rect2(280, 424, 80, 72)
+region = Rect2(160, 424, 64, 72)
 margin = Rect2(0, -4, 0, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nlcp4"]
 atlas = ExtResource("12_hg4rc")
-region = Rect2(288, 424, 64, 72)
+region = Rect2(160, 424, 64, 72)
 margin = Rect2(0, -4, 0, 0)
 
 [sub_resource type="LabelSettings" id="LabelSettings_eu83c"]
 font = ExtResource("4_qbhuc")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eu83c"]
+atlas = ExtResource("12_hg4rc")
+region = Rect2(288, 424, 64, 72)
+margin = Rect2(0, -4, 0, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jvahs"]
+atlas = ExtResource("12_hg4rc")
+region = Rect2(288, 424, 64, 72)
+margin = Rect2(0, -4, 0, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qfaga"]
 atlas = ExtResource("1_01mra")
@@ -207,6 +217,11 @@ region = Rect2(24, 168, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_7gvq2"]
 atlas = ExtResource("1_01mra")
 region = Rect2(24, 136, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wmf8q"]
+atlas = ExtResource("12_hg4rc")
+region = Rect2(280, 424, 80, 72)
+margin = Rect2(0, -4, 0, 0)
 
 [sub_resource type="LabelSettings" id="LabelSettings_0xipo"]
 font = ExtResource("4_qbhuc")
@@ -768,9 +783,9 @@ patch_margin_top = 8
 patch_margin_right = 8
 patch_margin_bottom = 8
 typeName = &"Platform"
-icon = SubResource("AtlasTexture_eu83c")
+icon = SubResource("AtlasTexture_41u3d")
 description = "Costs 2 [img]res://code/resources/miniResourceIcons/earth.tres[/img] and 1 [img]res://code/resources/miniResourceIcons/labor.tres[/img] to build.
-Creates a platform above the current tile. Buildings can be built atop platforms. Must be built upon a solid tile.
+Creates a platform above the current tile. Buildings can be built atop platforms. Platforms must be built upon a solid tile.
 
 \"Come, let us build ourselves a city, with a tower that reaches to the heavens, so that we may make a name for ourselves.\""
 
@@ -792,6 +807,42 @@ offset_left = -3.0
 offset_right = 3.0
 mouse_filter = 2
 text = "PLATFORM"
+label_settings = SubResource("LabelSettings_eu83c")
+
+[node name="PlatformWater" parent="BottomBar/Options/Build" instance=ExtResource("6_f4awu")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 64)
+layout_mode = 2
+mouse_filter = 2
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+typeName = &"PlatformWater"
+icon = SubResource("AtlasTexture_eu83c")
+description = "Costs 2 [img]res://code/resources/miniResourceIcons/earth.tres[/img] and 1 [img]res://code/resources/miniResourceIcons/labor.tres[/img] to build.
+Creates a platform above a water tile. Buildings can be built atop platforms. 
+
+\"Come, let us build ourselves a city, with a tower that reaches to the heavens, so that we may make a name for ourselves.\""
+
+[node name="GButton" parent="BottomBar/Options/Build/PlatformWater" index="0"]
+offset_top = -1.0
+offset_bottom = -1.0
+
+[node name="TextureRect" parent="BottomBar/Options/Build/PlatformWater" index="1"]
+modulate = Color(0.972549, 0.913725, 0.960784, 1)
+offset_left = 16.0
+offset_right = -16.0
+mouse_filter = 2
+texture = SubResource("AtlasTexture_jvahs")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" parent="BottomBar/Options/Build/PlatformWater" index="2"]
+offset_left = -3.0
+offset_right = 3.0
+mouse_filter = 2
+text = "WATER PLAT."
 label_settings = SubResource("LabelSettings_eu83c")
 
 [node name="Interact" type="HBoxContainer" parent="BottomBar/Options"]
@@ -862,6 +913,7 @@ mouse_filter = 2
 [node name="Label" type="RichTextLabel" parent="BottomBar/Options/Interact"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 128.0
 theme_override_fonts/normal_font = ExtResource("4_qbhuc")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
@@ -1021,14 +1073,22 @@ mouse_filter = 2
 custom_minimum_size = Vector2(64, 32)
 layout_mode = 2
 mouse_filter = 2
+texture = SubResource("AtlasTexture_wmf8q")
+
+[node name="Seperator2" type="Control" parent="InfoBox/Content/Content/Caption"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+mouse_filter = 2
 
 [node name="Label" type="Label" parent="InfoBox/Content/Content/Caption"]
+custom_minimum_size = Vector2(152, 0)
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 1
-text = "CITY
-at (x, y)"
+text = "ASADASDADSASADASDasdasdasdasd"
 label_settings = SubResource("LabelSettings_0xipo")
+autowrap_mode = 1
+text_overrun_behavior = 1
 
 [node name="Info" type="HBoxContainer" parent="InfoBox/Content/Content"]
 layout_mode = 2
@@ -1147,3 +1207,4 @@ mouse_filter = 2
 [editable path="BottomBar/Options/Build/Farm"]
 [editable path="BottomBar/Options/Build/Kiln"]
 [editable path="BottomBar/Options/Build/Platform"]
+[editable path="BottomBar/Options/Build/PlatformWater"]

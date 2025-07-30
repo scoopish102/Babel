@@ -51,15 +51,7 @@ func updatePosition(tileMap : GameTilemap):
 			if checkCoordsOutOfBounds(tileMap, relativeTilePosition):
 				tileDisplay.outOfBoundsDisplay()
 			else:
-				var sec = GameTilemap.Terrain.Air
-				if layer+1 < tileMap.mapHeight: sec = tileMap.terrainMap[layer+1][relativeTilePosition.x+relativeTilePosition.y*tileMap.mapSize.x]
-				var tri = GameTilemap.Terrain.Air
-				if layer+2 < tileMap.mapHeight: tri = tileMap.terrainMap[layer+2][relativeTilePosition.x+relativeTilePosition.y*tileMap.mapSize.x]
-				var low = GameTilemap.Terrain.Air
-				if layer-1 >= 0: low = tileMap.terrainMap[layer-1][relativeTilePosition.x+relativeTilePosition.y*tileMap.mapSize.x]
-				tileDisplay.updateDisplay(tileMap.terrainMap[layer][relativeTilePosition.x+relativeTilePosition.y*tileMap.mapSize.x], 
-						tileMap.buildingMap[layer][relativeTilePosition.x+relativeTilePosition.y*tileMap.mapSize.x],
-						sec, tri, low, layer, tileMap.waterLevel)
+				tileDisplay.updateDisplay(relativeTilePosition, tileMap, layer, tileMap.waterLevel)
 			tileDisplay.updatePosition()
 
 func checkCoordsOutOfBounds(tileMap : GameTilemap, coords: Vector2) -> bool:
@@ -174,7 +166,11 @@ func process(delta, tileMap, mousePos):
 			cursor.tile = tileDisplayPosToTileCoordinates(cursor.tile) + Vector2(1, 1)
 			cursor.process(tileDisplayMap[cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x].global_position, 
 				checkCoordsOutOfBounds(tileMap, cursor.tile))
-			#cursor.tile = tileDisplayPosToTileCoordinates(Vector2(cursor.global_position) + Vector2(cameraPosition))
+			if not cursor.outOfBounds: 
+				cursor.lower.visible = (layer > 0 and tileMap.terrainMap[layer][cursor.tile.x+cursor.tile.y*tileMap.mapSize.x] == GameTilemap.Terrain.Air)
+				cursor.lowest.visible = (layer-1 > 0 and tileMap.terrainMap[layer-1][cursor.tile.x+cursor.tile.y*tileMap.mapSize.x] == GameTilemap.Terrain.Air)
+				cursor.superlow.visible = (layer-2 > 0 and tileMap.terrainMap[layer-2][cursor.tile.x+cursor.tile.y*tileMap.mapSize.x] == GameTilemap.Terrain.Air)
+				#cursor.tile = tileDisplayPosToTileCoordinates(Vector2(cursor.global_position) + Vector2(cameraPosition))
 	else: 
 		if cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x >= len(tileDisplayMap) or cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x < 0: 
 			cursor.selected = false

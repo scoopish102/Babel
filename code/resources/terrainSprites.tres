@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=19 format=3 uid="uid://k1h3ydumuynp"]
+[gd_resource type="SpriteFrames" load_steps=20 format=3 uid="uid://k1h3ydumuynp"]
 
 [ext_resource type="Texture2D" uid="uid://bctsseohhqbvk" path="res://assets/graphics/terrains.png" id="1_ul31v"]
 
@@ -34,9 +34,17 @@ region = Rect2(0, 128, 128, 128)
 atlas = ExtResource("1_ul31v")
 region = Rect2(128, 128, 128, 128)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_68snl"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_vueqw"]
+atlas = ExtResource("1_ul31v")
+region = Rect2(128, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0shdj"]
 atlas = ExtResource("1_ul31v")
 region = Rect2(256, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dq3v6"]
+atlas = ExtResource("1_ul31v")
+region = Rect2(384, 384, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_o4j2n"]
 atlas = ExtResource("1_ul31v")
@@ -65,10 +73,6 @@ region = Rect2(384, 256, 128, 128)
 [sub_resource type="AtlasTexture" id="AtlasTexture_ujaig"]
 atlas = ExtResource("1_ul31v")
 region = Rect2(0, 384, 128, 128)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7hrxf"]
-atlas = ExtResource("1_ul31v")
-region = Rect2(128, 384, 128, 128)
 
 [resource]
 animations = [{
@@ -116,7 +120,13 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_68snl")
+"texture": SubResource("AtlasTexture_vueqw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0shdj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dq3v6")
 }],
 "loop": false,
 "name": &"Platform",
@@ -141,6 +151,9 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_gldj4")
 }, {
 "duration": 1.0,
@@ -148,9 +161,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ujaig")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7hrxf")
 }],
 "loop": false,
 "name": &"Water",

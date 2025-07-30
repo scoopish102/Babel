@@ -110,7 +110,8 @@ var FIP = {
 func infoBoxForBuild(cursorSelected):
 	var bOps = optionBar.get_child(0)
 	var selectedBuilding = bOps.get_child(optionSelected)
-	infoBox.title.text = selectedBuilding.typeName
+	if selectedBuilding.typeName == &"PlatformWater": infoBox.title.text = "Water\nPlatform"
+	else: infoBox.title.text = selectedBuilding.typeName
 	infoBox.icon.texture = selectedBuilding.icon
 	infoBox.infoText.text = selectedBuilding.description
 	processBuildButtons.emit(cursorSelected, selectedBuilding.typeName)
@@ -158,6 +159,10 @@ func turnButtonPressed():
 	turnButton.get_child(0).rotation = 0
 	tween.tween_property(turnButton.get_child(0), "rotation_degrees", 360, 1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
-func layerUp(): incrementLayer.emit(1)
+func layerUp(): 
+	incrementLayer.emit(1)
+	cursorSelect.emit(false)
 
-func layerDown(): incrementLayer.emit(-1)
+func layerDown(): 
+	incrementLayer.emit(-1)
+	cursorSelect.emit(false)

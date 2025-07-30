@@ -7,7 +7,7 @@ enum Terrain {
 var terrainMap : Array[Array] = []
 var buildingMap : Array[Array] = []
 var mapSize : Vector2i
-var mapHeight: int = 10
+var mapHeight: int = 1
 var waterLevel: int = 0
 
 func getOrthogonalNeighbors(center: Vector2i) -> Dictionary[StringName, Vector2i]:
@@ -45,19 +45,33 @@ func getAllNeighbors(center: Vector2i) -> Dictionary[StringName, Vector2i]:
 			neighbors.erase(direction)
 	return neighbors
 
-func _init(size : Vector2i, height: int):
+func _init(size : Vector2i):
 	mapSize = size
-	mapHeight = height
+	mapHeight = 1
 	var tempt = []
 	var tempb = []
-	for h in range(mapHeight):
+	for h in range(mapHeight+1):
 		for y in range(mapSize.y):
 			for x in range(mapSize.x):
 				tempt.append(0)
 				tempb.append(null)
-		terrainMap.append(tempt.duplicate())
-		buildingMap.append(tempb.duplicate())
+		self.terrainMap.append(tempt.duplicate())
+		self.buildingMap.append(tempb.duplicate())
 	#print(terrainMap)
+
+func addLayer():
+	mapHeight += 1
+	var tempt = []
+	var tempb = []
+	for y in range(mapSize.y):
+		for x in range(mapSize.x):
+			tempt.append(0)
+			tempb.append(null)
+	self.terrainMap.append(tempt.duplicate())
+	self.buildingMap.append(tempb.duplicate())
+	if mapHeight == len(self.terrainMap): self.terrainMap.append(tempt.duplicate())
+	if mapHeight == len(self.buildingMap): self.buildingMap.append(tempb.duplicate())
+	#print(terrainMap[mapHeight-1])
 
 func generateWorld(noise):
 	@warning_ignore("integer_division")
@@ -74,9 +88,10 @@ func generateWorld(noise):
 				dist = floor(sqrt((x-center.x)**2 + (y-center.y)**2))
 				temp = noise.get_noise_2dv(Vector2i(x, y) + randomOffset)
 				if h == 0: 
-					if dist < 4: terrainMap[0][y*mapSize.x+x] = Terrain.Grass
-					elif dist + temp*(5) < rad: terrainMap[0][y*mapSize.x+x] = Terrain.Grass
-					else: terrainMap[0][y*mapSize.x+x] = Terrain.Air
+					if dist < 2: terrainMap[h][y*mapSize.x+x] = Terrain.Grass
+					if dist + temp*(4-h) < rad-h: 
+						if h == 0: terrainMap[h][y*mapSize.x+x] = Terrain.Grass
+					else: terrainMap[h][y*mapSize.x+x] = Terrain.Air
 	buildingMap[0][center.y*mapSize.x+center.x] = BuildingScripts.City.new()
 	buildingMap[0][center.y*mapSize.x+center.x-1] = BuildingScripts.Farm.new()
 	buildingMap[0][(center.y+1)*mapSize.x+center.x] = BuildingScripts.Kiln.new()
