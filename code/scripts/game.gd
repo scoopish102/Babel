@@ -16,6 +16,8 @@ class Player:
 	var score : int
 	var buildingCount : int
 	var platformCount : int
+	var rainPerTurn : float
+	var rainNextTurn : float
 	
 	func _init():
 		self.resources = {
@@ -26,6 +28,11 @@ class Player:
 		self.score = 0
 		self.buildingCount = 0
 		self.platformCount = 0
+		self.rainPerTurn = randi_range(5, 8)
+		self.rainNextTurn = self.rainPerTurn
+	
+	func determineRainNextTurn():
+		rainNextTurn = (floor(randf_range(0.75, 1.75)*rainPerTurn))
 	
 	func redeemCost(ticket: Dictionary[StringName, int]):
 		#var totalConsumed = 0
@@ -47,18 +54,19 @@ class Player:
 			if not (self.resources[resource].getAmount() + ticket[resource] >= 0): return false
 		return true
 	
-	func compileBuildingBudgets(buildingMap: Array[Array]) -> Dictionary[StringName, int]:
+	func compileBuildingBudgets(waterLevel: int, buildingMap: Array[Array]) -> Dictionary[StringName, int]:
 		var finalBudget: Dictionary[StringName, int] = {}
-		for map in buildingMap:
-			for building in map:
+		for layer in range(len(buildingMap)):
+			if layer < waterLevel: continue
+			for building in buildingMap[layer]:
 				if not building == null: 
 					finalBudget = ResourceScripts.mergeTickets(finalBudget, building.update())
 		return finalBudget
 	
-	func process(buildingMap: Array[Array]):
+	func process(waterLevel: int, buildingMap: Array[Array]):
 		for res in self.resources.keys():
 			self.resources[res].change = 0
-		var buildingBudget : Dictionary[StringName, int] = compileBuildingBudgets(buildingMap)
+		var buildingBudget : Dictionary[StringName, int] = compileBuildingBudgets(waterLevel, buildingMap)
 		redeemBudget(buildingBudget)
 	
 	func update():
@@ -77,6 +85,13 @@ func _ready():
 	#ui.updateCursor.connect(updateCursorDisplay)
 	#ui.cursorSelect.connect(tilemapDisplay.cursor.set_selected)
 	#print(ResourceScripts.mergeTickets({&"A": 2, &"B": -2}, {&"A": 2, &"C": 2}))
+	player.determineRainNextTurn()
+	if tilemap.floodPercentage + player.rainNextTurn < 100: 
+		ui.floodPercentNextTurn.text = " + " + str(int(roundf(player.rainNextTurn))) + "% NEXT TURN"
+		ui.floodPercentNextTurn.label_settings.font_color = Color(0.0, 0.22, 0.573)
+	else: 
+		ui.floodPercentNextTurn.text = " LAYER " + str(tilemap.waterLevel) + " WILL BE FLOODED NEXT TURN"
+		ui.floodPercentNextTurn.label_settings.font_color = Color(1.0, 0.0, 0.0)
 
 func _process(delta):
 	tilemapDisplay.process(delta, tilemap, get_global_mouse_position())
@@ -84,26 +99,17 @@ func _process(delta):
 	if (tilemapDisplay.cursor.tile.x < 0 or tilemapDisplay.cursor.tile.y < 0 or 
 			tilemapDisplay.cursor.tile.x >= tilemap.mapSize.x or tilemapDisplay.cursor.tile.y >= tilemap.mapSize.y):
 		hasBuildingInCursor = false
-	else: hasBuildingInCursor = tilemap.buildingMap[0][tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * tilemap.mapSize.x] != null
+	else: hasBuildingInCursor = tilemap.buildingMap[tilemapDisplay.layer][tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * 
+			tilemap.mapSize.x] != null and not tilemapDisplay.layer < tilemap.waterLevel
 	ui.process(player, tilemapDisplay.cursor.tile, tilemapDisplay.cursor.selected, hasBuildingInCursor, turn, 
-			tilemapDisplay.layer, tilemap.mapHeight)
-	player.process(tilemap.buildingMap)
+			tilemapDisplay.layer, tilemap.mapHeight, tilemap.waterLevel, tilemap.floodPercentage, player.rainNextTurn)
+	player.process(tilemap.waterLevel, tilemap.buildingMap)
 	if Input.is_action_just_pressed("ui_debug"): 
+		updateTileAtCursor(GameTilemap.Terrain.Platform)
+		#print(tilemap.getBottomEmptyTileCount(tilemapDisplay.cursor.tile, tilemapDisplay.layer))
 		pass
-		#print(tilemap.mapHeight)
-		#print(len(tilemap.terrainMap))
-		#var tileAtMouse = tilemapDisplay.screenPositionToTileCoordinates(get_global_mouse_position())
-		#print(tilemapDisplay.cursor.tile)
-		#print(tilemap.terrainMap[tileAtMouse.x + tileAtMouse.y * tilemap.mapSize.x])
-		#if tilemapDisplay.checkCoordsOutOfBounds(tilemap, tileAtMouse): print("abc")
-		#print(tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * tilemap.mapSize.x)
-		#print(tilemap.buildingMap[tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * Global.mapSize.x].buildingName)
 
 func updateCursorDisplay(buildingType: StringName):
-	if buildingType == &"Water\nPlatform": 
-		tilemapDisplay.cursor.building.set_animation(&"Platform")
-		tilemapDisplay.cursor.building.frame = 1
-		return
 	tilemapDisplay.cursor.building.set_animation(buildingType)
 
 func updateBuildingAtCursor(building: BuildingScripts.Building):
@@ -129,10 +135,16 @@ func attemptPlaceTile(tile: GameTilemap.Terrain):
 			updateTileAtLayerAbove(GameTilemap.Terrain.Platform)
 			player.platformCount += 1
 			#print(tilemap.mapHeight - 1 - tilemapDisplay.layer)
-			if tilemap.mapHeight - 1 - tilemapDisplay.layer <= 2: 
+			if tilemap.mapHeight-1 <= tilemapDisplay.layer: 
 				tilemap.addLayer()
 				#tilemap.addLayer()
 				#tilemap.mapHeight -= 1
+
+func attemptPlaceWaterPlatform(): 
+	if player.canBeRedeemed({&"Earth": int(-2), &"Labor": int(-1)}):
+		player.redeemCost({&"Earth": int(-2), &"Labor": int(-1)})
+		updateTileAtCursor(GameTilemap.Terrain.Platform)
+		player.platformCount += 1
 
 func attemptPlaceBuilding(building: BuildingScripts.Building):
 	if player.canBeRedeemed(building.cost):
@@ -217,7 +229,7 @@ func processBuildButtons(cursorSelected: bool, buildingName: StringName):
 		if (not hasNeighbors):
 			ui.infoBox.build.tooltip_text += "No neighboring buildings. "
 		if (tilemap.terrainMap[tilemapDisplay.layer][tilemapDisplay.cursor.tile.x + 
-				tilemapDisplay.cursor.tile.y * tilemap.mapSize.x] in [GameTilemap.Terrain.Water, GameTilemap.Terrain.Air]):
+				tilemapDisplay.cursor.tile.y * tilemap.mapSize.x] == GameTilemap.Terrain.Air):
 			ui.infoBox.build.tooltip_text += "Cannot build on air or water. "
 		if tilemapDisplay.layer+1 < tilemap.mapHeight and (not tilemap.terrainMap[tilemapDisplay.layer+1][tilemapDisplay.cursor.tile.x + 
 				tilemapDisplay.cursor.tile.y * tilemap.mapSize.x] in [GameTilemap.Terrain.Platform, GameTilemap.Terrain.Air]):
@@ -228,7 +240,7 @@ func processBuildButtons(cursorSelected: bool, buildingName: StringName):
 func processInteract():
 	var nOps = ui.optionBar.get_child(1)
 	var building = buildingAtPos(Vector2(tilemapDisplay.cursor.tile))
-	if building == null: 
+	if building == null or tilemapDisplay.layer < tilemap.waterLevel: 
 		#ui.tabSelected = 0
 		for child in nOps.get_children(): child.visible = false
 		return
@@ -240,14 +252,18 @@ func processInteract():
 		nOps.get_child(0).get_child(3).disabled = (not building.workers < building.workerSlots) or (not player.resources[&"Labor"].change > 0)
 	else: nOps.get_child(0).visible = false
 	var production = ResourceScripts.ticketToText(building.update())
-	nOps.get_child(2).set_text(building.buildingName + " at (" + str(tilemapDisplay.cursor.tile.x) + ", " + 
+	if production != "":
+		nOps.get_child(2).set_text(building.buildingName + " at (" + str(tilemapDisplay.cursor.tile.x) + ", " + 
 			str(tilemapDisplay.cursor.tile.y) + ", " + str(int(tilemapDisplay.layer)) + "). " + production + " per turn.")
-	if player.buildingCount <= 1: 
+	else: nOps.get_child(2).set_text(building.buildingName + " at (" + str(tilemapDisplay.cursor.tile.x) + ", " + 
+			str(tilemapDisplay.cursor.tile.y) + ", " + str(int(tilemapDisplay.layer)) + "). Produces nothing.")
+	if player.buildingCount <= 1 and not player.resources[&"Labor"].amount >= 1: 
 		nOps.get_child(4).disabled = true
 		return
 	if building is BuildingScripts.City: 
-		if player.resources[&"Labor"].change - 2 >= 0: nOps.get_child(4).disabled = false
-		else: nOps.get_child(4).disabled = true
+		nOps.get_child(4).disabled = false
+		#if player.resources[&"Labor"].change - 2 >= 0: nOps.get_child(4).disabled = false
+		#else: nOps.get_child(4).disabled = true
 	else: nOps.get_child(4).disabled = false #temporary measure
 
 func changeBuildingWorkers(change: int):
@@ -256,7 +272,8 @@ func changeBuildingWorkers(change: int):
 
 func destroyBuilding():
 	player.buildingCount -= 1
-	var building = tilemap.buildingMap[tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * tilemap.mapSize.x]
+	player.resources[&"Labor"].amount -= 1
+	var building = tilemap.buildingMap[tilemapDisplay.layer][tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * tilemap.mapSize.x]
 	tilemap.buildingMap[tilemapDisplay.layer][tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * tilemap.mapSize.x] = null
 	building.call_deferred("free")
 
@@ -277,16 +294,59 @@ func processInfoTab():
 	fOps.get_child(1).set_text(tileName + " tile" + buildingName + " at: (" + str(int(tilemapDisplay.cursor.tile.x)) + 
 			", " + str(int(tilemapDisplay.cursor.tile.y)) + ", " + str(int(tilemapDisplay.layer)) + ")")
 
-#var tween
+var tween: Tween
+var otherTween: Tween
 
 func nextTurn():
+	if ui.turnButton.get_child(0).get_child(0).is_stopped():
+		ui.turnButton.get_child(0).get_child(0).start()
+	else: return
+	
+	if player.resources[&"Food"].amount + player.resources[&"Food"].change < 0:
+		var ays: ChoiceNotification = ui.choiceNotificationBlueprint.instantiate()
+		ui.add_child(ays)
+		ays.centerOnScreen()
+		ays.setContent(
+			"Next Turn Confirmation", "You do not produce enough food to sustain your population. 
+			\nIf you cannot find a way to stabilize your food production, you will lose the game next turn."
+		)
+		ays.setChoices("Proceed anyway?")
+		var result = await ays.getChoice()
+		ays.queue_free()
+		if not result: return
+	
 	turn += 1
 	player.update()
 	#tilemapDisplay.modulate = Color(1.0, 1.0, 1.0)
-	#if tween: tween.kill()
-	#tween = get_tree().create_tween()
-	#tween.tween_property(tilemapDisplay, "modulate", Color(0.22, 0.259, 0.569), 0.5).set_trans(Tween.TRANS_QUAD)
+	if tween: tween.kill()
+	tween = get_tree().create_tween()
+	if otherTween: otherTween.kill()
+	otherTween = get_tree().create_tween()
+	var rainThisTurn: float = player.rainNextTurn
+	var total = tilemap.floodPercentage + rainThisTurn
+	#tilemap.floodPercentage += (player.rainPerTurn + floor(randf_range(0.5, 1.5)*player.rainPerTurn))/2
+	ui.turnButton.get_child(0).rotation = 0
+	tween.set_parallel(false)
+	otherTween.tween_property(ui.turnButton.get_child(0), "rotation_degrees", 360, 1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	if tilemap.floodPercentage + rainThisTurn >= 100:
+		var ratio: float = (100-tilemap.floodPercentage) / rainThisTurn
+		tween.tween_property(tilemap, "floodPercentage", 100, ratio).set_trans(Tween.TRANS_QUAD)#.set_ease(Tween.EASE_IN_OUT)
+		tween.tween_callback(cullFlood)
+		tween.tween_property(tilemap, "floodPercentage", posmod(total, 100), 1-ratio)
+	else:
+		tween.tween_property(tilemap, "floodPercentage", total, 1).set_trans(Tween.TRANS_QUAD)#.set_ease(Tween.EASE_IN_OUT)
+	#tween.tween_property(ui.floodProgressVertical, "value", tilemap.floodPercentage, 1).set_trans(Tween.TRANS_QUAD)
 	#tween.tween_property(tilemapDisplay, "modulate", Color(1.0, 1.0, 1.0), 0.5).set_trans(Tween.TRANS_QUAD)
+	player.determineRainNextTurn()
+
+func cullFlood():
+	if tilemap.floodPercentage >= 100:
+		tilemap.waterLevel += floor(float(tilemap.floodPercentage)/100)
+		tilemap.floodPercentage = posmod(tilemap.floodPercentage, 100)
+	for layer in range(len(tilemap.buildingMap)):
+		if layer < tilemap.waterLevel:
+			for building in tilemap.buildingMap[layer]:
+				if building != null and building is BuildingScripts.ProductionBuilding: building.workers = 0
 
 func incrementLayer(increment: int): 
 	tilemapDisplay.layer += increment

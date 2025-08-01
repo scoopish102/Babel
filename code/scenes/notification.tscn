@@ -1,0 +1,163 @@
+[gd_scene load_steps=11 format=3 uid="uid://dubkr27umy28b"]
+
+[ext_resource type="Script" uid="uid://bkijwna3rjahm" path="res://code/scripts/notification.gd" id="1_8xvt8"]
+[ext_resource type="Texture2D" uid="uid://c12vlpq5rosds" path="res://assets/graphics/ui.png" id="1_et4bn"]
+[ext_resource type="Theme" uid="uid://bo7cnjum0jm1g" path="res://code/resources/uiTheme.tres" id="2_8xvt8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4n5jf"]
+atlas = ExtResource("1_et4bn")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ia3jb"]
+atlas = ExtResource("1_et4bn")
+region = Rect2(104, 232, 16, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xshkd"]
+texture = ExtResource("1_et4bn")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.47, 0.1316, 0.1316, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3fekl"]
+texture = ExtResource("1_et4bn")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.74, 0.222, 0.222, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nammf"]
+texture = ExtResource("1_et4bn")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.64, 0.192, 0.192, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3gu4v"]
+texture = ExtResource("1_et4bn")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.84, 0.252, 0.252, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0yy87"]
+atlas = ExtResource("1_et4bn")
+region = Rect2(0, 0, 64, 64)
+
+[node name="Notification" type="VBoxContainer"]
+offset_right = 256.0
+offset_bottom = 192.0
+theme_override_constants/separation = 0
+script = ExtResource("1_8xvt8")
+
+[node name="Tab" type="NinePatchRect" parent="."]
+self_modulate = Color(0.960784, 0.8, 0.564706, 1)
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+mouse_filter = 1
+texture = SubResource("AtlasTexture_4n5jf")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Tab"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="Buffer" type="Control" parent="Tab/HBoxContainer"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+mouse_filter = 1
+
+[node name="Title" type="RichTextLabel" parent="Tab/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+theme = ExtResource("2_8xvt8")
+text = "Truth Nuke"
+vertical_alignment = 1
+
+[node name="Buffer2" type="Control" parent="Tab/HBoxContainer"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+mouse_filter = 1
+
+[node name="ExitButton" type="Button" parent="Tab/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+focus_mode = 0
+theme = ExtResource("2_8xvt8")
+theme_override_colors/icon_disabled_color = Color(0.47, 0.47, 0.47, 1)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 1)
+theme_override_icons/icon = SubResource("AtlasTexture_ia3jb")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_xshkd")
+theme_override_styles/hover = SubResource("StyleBoxTexture_3fekl")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_nammf")
+theme_override_styles/normal = SubResource("StyleBoxTexture_3gu4v")
+
+[node name="Backdrop" type="NinePatchRect" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+texture = SubResource("AtlasTexture_0yy87")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Backdrop"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Backdrop/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Text" type="RichTextLabel" parent="Backdrop/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+mouse_filter = 1
+theme = ExtResource("2_8xvt8")
+text = "\"Come, let us build ourselves a city, with a tower that reaches to the heavens, so that we may make a name for ourselves.\""
+fit_content = true
+
+[connection signal="pressed" from="Tab/HBoxContainer/ExitButton" to="." method="exitButtonPressed"]

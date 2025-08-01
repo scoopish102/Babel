@@ -69,8 +69,6 @@ func updateSprite(layer, waterLevel, outOfBounds: bool = false):
 				terrainDisplay.set_animation(&"None")
 		GameTilemap.Terrain.Grass:
 			terrainDisplay.set_animation(&"Grass")
-		GameTilemap.Terrain.Sand:
-			terrainDisplay.set_animation(&"Sand")
 		GameTilemap.Terrain.Platform:
 			terrainDisplay.set_animation(&"Platform")
 	if terrainDisplay.animation == &"Water": 
@@ -104,8 +102,6 @@ func updateSprite(layer, waterLevel, outOfBounds: bool = false):
 			else: secondLayerDisplay.set_animation(&"None")
 		GameTilemap.Terrain.Grass:
 			secondLayerDisplay.set_animation(&"Grass")
-		GameTilemap.Terrain.Sand:
-			secondLayerDisplay.set_animation(&"Sand")
 		GameTilemap.Terrain.Platform:
 			secondLayerDisplay.set_animation(&"Platform")
 	if secondLayerDisplay.animation == &"Water": 
@@ -116,9 +112,9 @@ func updateSprite(layer, waterLevel, outOfBounds: bool = false):
 			#secondLayerDisplay.set_animation(&"None")
 			secondLayerDisplay.frame = 1
 	elif secondLayerDisplay.animation == &"Platform":
-		if waterLevel > layer: 
+		if waterLevel > layer+1: 
 			secondLayerDisplay.frame = 2
-		elif waterLevel == layer: secondLayerDisplay.frame = 1
+		elif waterLevel == layer+1: secondLayerDisplay.frame = 1
 		else: secondLayerDisplay.frame = 0
 	else:
 		if waterLevel > layer+1: secondLayerDisplay.modulate = Color(0.192, 0.324, 0.8, 0.471)
@@ -136,8 +132,6 @@ func updateSprite(layer, waterLevel, outOfBounds: bool = false):
 			else: lowerLayerDisplay.set_animation(&"None")
 		GameTilemap.Terrain.Grass:
 			lowerLayerDisplay.set_animation(&"Grass")
-		GameTilemap.Terrain.Sand:
-			lowerLayerDisplay.set_animation(&"Sand")
 		GameTilemap.Terrain.Platform:
 			lowerLayerDisplay.set_animation(&"Platform")
 	if lowerLayerDisplay.animation == &"Water": 
@@ -145,9 +139,9 @@ func updateSprite(layer, waterLevel, outOfBounds: bool = false):
 			lowerLayerDisplay.frame = 2
 		elif layer-1 == waterLevel: lowerLayerDisplay.frame = 1
 	elif lowerLayerDisplay.animation == &"Platform":
-		if waterLevel > layer: 
+		if waterLevel > layer-1: 
 			lowerLayerDisplay.frame = 2
-		elif waterLevel == layer: lowerLayerDisplay.frame = 1
+		elif waterLevel == layer-1: lowerLayerDisplay.frame = 1
 		else: lowerLayerDisplay.frame = 0
 	else:
 		if waterLevel > layer-1:
@@ -166,8 +160,6 @@ func updateSprite(layer, waterLevel, outOfBounds: bool = false):
 			else: lowestLayer.set_animation(&"None")
 		GameTilemap.Terrain.Grass:
 			lowestLayer.set_animation(&"Grass")
-		GameTilemap.Terrain.Sand:
-			lowestLayer.set_animation(&"Sand")
 		GameTilemap.Terrain.Platform:
 			lowestLayer.set_animation(&"Platform")
 	if lowestLayer.animation == &"Water": 
@@ -176,9 +168,9 @@ func updateSprite(layer, waterLevel, outOfBounds: bool = false):
 			else: lowestLayer.frame = 2
 		else: lowestLayer.frame = 1
 	elif lowestLayer.animation == &"Platform":
-		if waterLevel > layer: 
+		if waterLevel > layer-2: 
 			lowestLayer.frame = 2
-		elif waterLevel == layer: lowestLayer.frame = 1
+		elif waterLevel == layer-2: lowestLayer.frame = 1
 		else: lowestLayer.frame = 0
 	else:
 		if waterLevel > layer-2: lowestLayer.modulate = Color(0.12, 0.202, 0.5)

@@ -164,13 +164,34 @@ func process(delta, tileMap, mousePos):
 		else: 
 			cursor.tile = tileDisplayMap[cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x].mapPosition
 			cursor.tile = tileDisplayPosToTileCoordinates(cursor.tile) + Vector2(1, 1)
-			cursor.process(tileDisplayMap[cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x].global_position, 
-				checkCoordsOutOfBounds(tileMap, cursor.tile))
-			if not cursor.outOfBounds: 
-				cursor.lower.visible = (layer > 0 and tileMap.terrainMap[layer][cursor.tile.x+cursor.tile.y*tileMap.mapSize.x] == GameTilemap.Terrain.Air)
-				cursor.lowest.visible = (layer-1 > 0 and tileMap.terrainMap[layer-1][cursor.tile.x+cursor.tile.y*tileMap.mapSize.x] == GameTilemap.Terrain.Air)
-				cursor.superlow.visible = (layer-2 > 0 and tileMap.terrainMap[layer-2][cursor.tile.x+cursor.tile.y*tileMap.mapSize.x] == GameTilemap.Terrain.Air)
+			if not checkCoordsOutOfBounds(tileMap, cursor.tile): 
+				#cursor.halflay.visible = (tileMap.terrainMap[layer][cursor.tile.x+cursor.tile.y*tileMap.mapSize.x] == GameTilemap.Terrain.Air
+				#		and tileMap.waterLevel == layer)
+				"""if (layer > 0 and tileMap.terrainMap[layer][cursor.tile.x+cursor.tile.y*tileMap.mapSize.x] == GameTilemap.Terrain.Air): 
+					cursor.lower.visible = true
+					cursor.halflay.visible = (tileMap.terrainMap[layer][cursor.tile.x+cursor.tile.y*tileMap.mapSize.x] == GameTilemap.Terrain.Air
+							and tileMap.terrainMap[layer-1][cursor.tile.x+cursor.tile.y*tileMap.mapSize.x] == GameTilemap.Terrain.Air
+							and tileMap.waterLevel == layer-1)
+				else: cursor.lower.visible = false
+				if (layer-1 > 0 and tileMap.terrainMap[layer-1][cursor.tile.x+cursor.tile.y*tileMap.mapSize.x] == GameTilemap.Terrain.Air):
+					cursor.lowest.visible = true
+					cursor.halflay.visible = (tileMap.terrainMap[layer][cursor.tile.x+cursor.tile.y*tileMap.mapSize.x] == GameTilemap.Terrain.Air
+							and tileMap.terrainMap[layer-1][cursor.tile.x+cursor.tile.y*tileMap.mapSize.x] == GameTilemap.Terrain.Air
+							and tileMap.terrainMap[layer-2][cursor.tile.x+cursor.tile.y*tileMap.mapSize.x] == GameTilemap.Terrain.Air
+							and tileMap.waterLevel == layer-2)
+				else: cursor.lowest.visible = false
+				if (layer-2 > 0 and tileMap.terrainMap[layer-2][cursor.tile.x+cursor.tile.y*tileMap.mapSize.x] == GameTilemap.Terrain.Air):
+					cursor.superlow.visible = true
+					cursor.halflay.visible = (tileMap.terrainMap[layer][cursor.tile.x+cursor.tile.y*tileMap.mapSize.x] == GameTilemap.Terrain.Air
+							and tileMap.terrainMap[layer-1][cursor.tile.x+cursor.tile.y*tileMap.mapSize.x] == GameTilemap.Terrain.Air
+							and tileMap.terrainMap[layer-2][cursor.tile.x+cursor.tile.y*tileMap.mapSize.x] == GameTilemap.Terrain.Air
+							and tileMap.terrainMap[layer-3][cursor.tile.x+cursor.tile.y*tileMap.mapSize.x] == GameTilemap.Terrain.Air
+							and tileMap.waterLevel == layer-3)
+				else: cursor.superlow.visible = false"""
+				handleCursorLowerIndicators(tileMap)
+				cursor.process(tileDisplayMap[cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x].global_position, false)
 				#cursor.tile = tileDisplayPosToTileCoordinates(Vector2(cursor.global_position) + Vector2(cameraPosition))
+			else: cursor.process(tileDisplayMap[cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x].global_position, true)
 	else: 
 		if cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x >= len(tileDisplayMap) or cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x < 0: 
 			cursor.selected = false
@@ -179,3 +200,47 @@ func process(delta, tileMap, mousePos):
 			cursor.process(tileDisplayMap[cursor.tileDisplay.x + cursor.tileDisplay.y*Global.mapSize.x].global_position, 
 					checkCoordsOutOfBounds(tileMap, cursor.tile))
 			#print(tileMap.buildingMap[cursor.tile.x + cursor.tile.y*Global.mapSize.x])
+
+func handleCursorLowerIndicators(tileMap: GameTilemap):
+	var spaceBelow: float = tileMap.getBottomEmptyTileCount(cursor.tile, layer)
+	cursor.halflay.visible = false
+	cursor.lower.visible = false
+	cursor.lowest.visible = false
+	cursor.superlow.visible = false
+	cursor.overlay.offset.y = -1
+	cursor.overlay.z_index = cursor.sprite.z_index-1
+	cursor.halflay.offset.y = 15
+	cursor.halflay.z_index = cursor.sprite.z_index-1
+	if fmod(spaceBelow, 1) != 0:
+		cursor.halflay.visible = true
+	if spaceBelow >= 1:
+		cursor.lower.visible = true
+		cursor.overlay.z_index = cursor.lower.z_index-2
+		cursor.halflay.z_index = cursor.lower.z_index-2
+	if spaceBelow >= 2:
+		cursor.lowest.visible = true
+		cursor.overlay.z_index = cursor.lowest.z_index-2
+		cursor.halflay.z_index = cursor.lowest.z_index-2
+	if spaceBelow >= 3:
+		cursor.superlow.visible = true
+		cursor.overlay.z_index = cursor.superlow.z_index-2
+		cursor.halflay.z_index = cursor.superlow.z_index-2
+	cursor.overlay.offset.y = (int(cursor.lower.visible)*32 + int(cursor.lowest.visible)*32 + 
+			int(cursor.superlow.visible)*32 + int(cursor.halflay.visible)*16) - 1
+	cursor.halflay.offset.y = (16 + int(cursor.lower.visible)*32 + int(cursor.lowest.visible)*32 + 
+			int(cursor.superlow.visible)*32) - 1
+	"""if cursor.lower.visible: 
+		cursor.overlay.offset.y = cursor.lower.offset.y+16
+		cursor.overlay.z_index = cursor.lower.z_index
+		cursor.halflay.offset.y = cursor.lower.offset.y+32
+		cursor.halflay.z_index = cursor.lower.z_index-1
+	if cursor.lowest.visible: 
+		cursor.overlay.offset.y = cursor.lowest.offset.y+16
+		cursor.overlay.z_index = cursor.lowest.z_index
+		cursor.halflay.offset.y = cursor.lowest.offset.y+32
+		cursor.halflay.z_index = cursor.lowest.z_index-1
+	if cursor.superlow.visible: 
+		cursor.overlay.offset.y = cursor.superlow.offset.y+16
+		cursor.overlay.z_index = cursor.superlow.z_index
+		cursor.halflay.offset.y = cursor.superlow.offset.y+32
+		cursor.halflay.z_index = cursor.superlow.z_index-1"""

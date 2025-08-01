@@ -1,8 +1,9 @@
-[gd_scene load_steps=61 format=3 uid="uid://dc4b48xoehxxs"]
+[gd_scene load_steps=70 format=3 uid="uid://dc4b48xoehxxs"]
 
 [ext_resource type="Texture2D" uid="uid://c12vlpq5rosds" path="res://assets/graphics/ui.png" id="1_01mra"]
 [ext_resource type="Script" uid="uid://t0cr2qtujtfa" path="res://code/scripts/ui.gd" id="1_dn3ly"]
 [ext_resource type="PackedScene" uid="uid://c14bf6s4vagiv" path="res://code/scenes/resourceDisplay.tscn" id="2_dt1xk"]
+[ext_resource type="PackedScene" uid="uid://bt7o13ihknqng" path="res://code/scenes/choiceNotification.tscn" id="3_ui5cb"]
 [ext_resource type="FontFile" uid="uid://c0luxgh1umj2h" path="res://assets/fonts/DigitalDisco.ttf" id="4_qbhuc"]
 [ext_resource type="Theme" uid="uid://bo7cnjum0jm1g" path="res://code/resources/uiTheme.tres" id="4_v3ivv"]
 [ext_resource type="PackedScene" uid="uid://diigoqrv4ir82" path="res://code/scenes/customTabButton.tscn" id="5_42caq"]
@@ -13,6 +14,51 @@
 [ext_resource type="LabelSettings" uid="uid://bn3tdb4cin7nn" path="res://code/resources/TabLabelSettings.tres" id="8_r0vx6"]
 [ext_resource type="StyleBox" uid="uid://b62g8vhso8vo5" path="res://code/resources/cuneiStyleBox.tres" id="11_47kd1"]
 [ext_resource type="Texture2D" uid="uid://bctsseohhqbvk" path="res://assets/graphics/terrains.png" id="12_hg4rc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ynu8e"]
+atlas = ExtResource("1_01mra")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gard7"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rfvho"]
+texture = ExtResource("1_01mra")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 384, 64, 32)
+modulate_color = Color(0.1754, 0.350386, 0.999978, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_p7d4x"]
+texture = ExtResource("1_01mra")
+axis_stretch_horizontal = 1
+region_rect = Rect2(64, 352, 64, 32)
+modulate_color = Color(0.321569, 0.501961, 1, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bgl5d"]
+atlas = ExtResource("1_01mra")
+region = Rect2(64, 320, 32, 32)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hiwah"]
+bg_color = Color(0.82, 0.68552, 0.4838, 0.588235)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(1, 1, 1, 0)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0)
+anti_aliasing = false
+
+[sub_resource type="LabelSettings" id="LabelSettings_pmi6l"]
+font = ExtResource("4_qbhuc")
+
+[sub_resource type="LabelSettings" id="LabelSettings_hg4rc"]
+font = ExtResource("4_qbhuc")
+font_color = Color(0, 0.219074, 0.572571, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cgm38"]
 atlas = ExtResource("1_01mra")
@@ -265,6 +311,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_dn3ly")
+choiceNotificationBlueprint = ExtResource("3_ui5cb")
 
 [node name="TopBar" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 96)
@@ -285,8 +332,7 @@ anchor_bottom = 1.0
 offset_top = -32.0
 grow_horizontal = 2
 grow_vertical = 0
-texture = ExtResource("1_01mra")
-region_rect = Rect2(64, 0, 64, 64)
+texture = SubResource("AtlasTexture_ynu8e")
 patch_margin_left = 8
 patch_margin_top = 8
 patch_margin_right = 8
@@ -294,15 +340,92 @@ patch_margin_bottom = 8
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
-[node name="Label" type="Label" parent="TopBar/Seperator"]
+[node name="VerticalBarDisplay" type="ProgressBar" parent="TopBar/Seperator"]
+layout_direction = 2
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 32.0
+grow_horizontal = 2
+pivot_offset = Vector2(512, 0)
+theme_override_styles/background = SubResource("StyleBoxEmpty_gard7")
+theme_override_styles/fill = SubResource("StyleBoxTexture_rfvho")
+value = 22.0
+allow_greater = true
+allow_lesser = true
+show_percentage = false
+
+[node name="ProgressBar" type="ProgressBar" parent="TopBar/Seperator"]
+layout_direction = 2
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 64.0
+grow_horizontal = 2
+scale = Vector2(-1, 0.5)
+pivot_offset = Vector2(512, 0)
+theme_override_styles/background = SubResource("StyleBoxEmpty_gard7")
+theme_override_styles/fill = SubResource("StyleBoxTexture_p7d4x")
+value = 20.0
+fill_mode = 1
+show_percentage = false
+
+[node name="FrontWave" type="TextureRect" parent="TopBar/Seperator/ProgressBar"]
+modulate = Color(0.321569, 0.501961, 1, 1)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
+offset_left = -212.8
+offset_top = 32.0
+offset_right = -180.8
+offset_bottom = 32.0
+grow_horizontal = 0
 grow_vertical = 2
-text = "   RESOURCES"
+scale = Vector2(0.5, 0.5)
+texture = SubResource("AtlasTexture_bgl5d")
+
+[node name="floodLayer" type="PanelContainer" parent="TopBar/Seperator"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -69.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hiwah")
+
+[node name="Label" type="Label" parent="TopBar/Seperator/floodLayer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "LAYER 2"
 label_settings = ExtResource("8_r0vx6")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="floodPercent" type="PanelContainer" parent="TopBar/Seperator"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 44.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hiwah")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopBar/Seperator/floodPercent"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TopBar/Seperator/floodPercent/HBoxContainer"]
+layout_mode = 2
+text = "FLOOD PROGRESS: 20%"
+label_settings = SubResource("LabelSettings_pmi6l")
+vertical_alignment = 1
+
+[node name="nextTurn" type="Label" parent="TopBar/Seperator/floodPercent/HBoxContainer"]
+layout_mode = 2
+text = "+ 10% NEXT TURN"
+label_settings = SubResource("LabelSettings_hg4rc")
 vertical_alignment = 1
 
 [node name="Backdrop" type="NinePatchRect" parent="TopBar"]
@@ -589,7 +712,9 @@ layout_mode = 2
 offset_right = 128.0
 offset_bottom = 128.0
 pivot_offset = Vector2(64, 64)
+tooltip_text = "Press to begin the next turn."
 focus_mode = 0
+theme = ExtResource("4_v3ivv")
 theme_override_colors/font_disabled_color = Color(0.596078, 0.596078, 0.596078, 1)
 theme_override_colors/font_hover_color = Color(0, 0.422575, 0.800736, 1)
 theme_override_colors/font_color = Color(0, 0.528379, 0.99102, 1)
@@ -823,7 +948,7 @@ icon = SubResource("AtlasTexture_eu83c")
 description = "Costs 2 [img]res://code/resources/miniResourceIcons/earth.tres[/img] and 1 [img]res://code/resources/miniResourceIcons/labor.tres[/img] to build.
 Creates a platform above a water tile. Buildings can be built atop platforms. 
 
-\"Come, let us build ourselves a city, with a tower that reaches to the heavens, so that we may make a name for ourselves.\""
+\"...On that day all the springs of the great deep burst forth, and the floodgates of the heavens were opened.\""
 
 [node name="GButton" parent="BottomBar/Options/Build/PlatformWater" index="0"]
 offset_top = -1.0

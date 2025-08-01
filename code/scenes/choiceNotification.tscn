@@ -1,0 +1,164 @@
+[gd_scene load_steps=13 format=3 uid="uid://bt7o13ihknqng"]
+
+[ext_resource type="PackedScene" uid="uid://dubkr27umy28b" path="res://code/scenes/notification.tscn" id="1_8ge3t"]
+[ext_resource type="Script" uid="uid://7eecch5wom44" path="res://code/scripts/choiceNotification.gd" id="2_or2op"]
+[ext_resource type="Theme" uid="uid://bo7cnjum0jm1g" path="res://code/resources/uiTheme.tres" id="2_xl87r"]
+[ext_resource type="Texture2D" uid="uid://c12vlpq5rosds" path="res://assets/graphics/ui.png" id="3_or2op"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_d72c5"]
+texture = ExtResource("3_or2op")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.085, 0.3, 0, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5vujj"]
+texture = ExtResource("3_or2op")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.17, 0.6, 0, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ok3k4"]
+texture = ExtResource("3_or2op")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.141667, 0.5, 0, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_e4s80"]
+texture = ExtResource("3_or2op")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.198333, 0.7, 0, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xshkd"]
+texture = ExtResource("3_or2op")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.47, 0.1316, 0.1316, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3fekl"]
+texture = ExtResource("3_or2op")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.74, 0.222, 0.222, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nammf"]
+texture = ExtResource("3_or2op")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.64, 0.192, 0.192, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3gu4v"]
+texture = ExtResource("3_or2op")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.84, 0.252, 0.252, 1)
+
+[node name="ChoiceNotification" instance=ExtResource("1_8ge3t")]
+offset_bottom = 256.0
+script = ExtResource("2_or2op")
+
+[node name="Title" parent="Tab/HBoxContainer" index="1"]
+text = "Next turn confirmation"
+
+[node name="Text" parent="Backdrop/MarginContainer/VBoxContainer" index="0"]
+text = "You do not produce enough food to sustain your population. If you go on to the next turn, you will begin to lose food.
+If you run out of food you will lose the game."
+
+[node name="ChoiceTitle" type="RichTextLabel" parent="Backdrop/MarginContainer/VBoxContainer" index="1"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+mouse_filter = 1
+theme = ExtResource("2_xl87r")
+text = "Proceed Anyway?"
+fit_content = true
+
+[node name="Buffer" type="Control" parent="Backdrop/MarginContainer/VBoxContainer" index="2"]
+custom_minimum_size = Vector2(8, 4)
+layout_mode = 2
+mouse_filter = 1
+
+[node name="Choices" type="HBoxContainer" parent="Backdrop/MarginContainer/VBoxContainer" index="3"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Yes" type="Button" parent="Backdrop/MarginContainer/VBoxContainer/Choices" index="0"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+focus_mode = 0
+theme = ExtResource("2_xl87r")
+theme_override_colors/icon_disabled_color = Color(0.47, 0.47, 0.47, 1)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 1)
+theme_override_styles/disabled = SubResource("StyleBoxTexture_d72c5")
+theme_override_styles/hover = SubResource("StyleBoxTexture_5vujj")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_ok3k4")
+theme_override_styles/normal = SubResource("StyleBoxTexture_e4s80")
+text = "YES
+"
+
+[node name="Buffer" type="Control" parent="Backdrop/MarginContainer/VBoxContainer/Choices" index="1"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+mouse_filter = 1
+
+[node name="No" type="Button" parent="Backdrop/MarginContainer/VBoxContainer/Choices" index="2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+focus_mode = 0
+theme = ExtResource("2_xl87r")
+theme_override_colors/icon_disabled_color = Color(0.47, 0.47, 0.47, 1)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 1)
+theme_override_styles/disabled = SubResource("StyleBoxTexture_xshkd")
+theme_override_styles/hover = SubResource("StyleBoxTexture_3fekl")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_nammf")
+theme_override_styles/normal = SubResource("StyleBoxTexture_3gu4v")
+text = "NO"
+
+[connection signal="pressed" from="Backdrop/MarginContainer/VBoxContainer/Choices/Yes" to="." method="yesPressed"]
+[connection signal="pressed" from="Backdrop/MarginContainer/VBoxContainer/Choices/No" to="." method="noPressed"]

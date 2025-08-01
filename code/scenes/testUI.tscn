@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://bajaa6jymdo5j"]
+
+[ext_resource type="Script" uid="uid://bhky2fd3tdo6p" path="res://testUI.gd" id="1_lwb7e"]
+[ext_resource type="PackedScene" uid="uid://bt7o13ihknqng" path="res://code/scenes/choiceNotification.tscn" id="2_plrwu"]
+[ext_resource type="PackedScene" uid="uid://dubkr27umy28b" path="res://code/scenes/notification.tscn" id="3_plrwu"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lwb7e")
+
+[node name="ChoiceNotification" parent="." instance=ExtResource("2_plrwu")]
+layout_mode = 0
+offset_left = 130.0
+offset_top = 102.0
+offset_right = 514.0
+offset_bottom = 358.0
+mouse_filter = 2
+
+[node name="Notification" parent="." instance=ExtResource("3_plrwu")]
+layout_mode = 0
+offset_left = 697.0
+offset_top = 122.0
+offset_right = 953.0
+offset_bottom = 314.0

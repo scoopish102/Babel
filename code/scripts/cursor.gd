@@ -7,6 +7,7 @@ class_name Cursor extends Node2D
 @onready var lower := $lowerindicator
 @onready var lowest := $lowestindicator
 @onready var superlow := $superLowest
+@onready var halflay := $halflay
 var tile : Vector2i = Vector2i.ZERO
 var tileDisplay : Vector2i = Vector2i.ZERO
 var selected : bool = false
@@ -38,19 +39,8 @@ func process(pos: Vector2, outOfBounds: bool):
 		sprite.modulate = defaultColor
 		spriteOverlay.modulate = defaultColor
 		spriteOverlay.modulate.a = 0.3
-	if building.animation == &"Platform": building.offset.y = -16
+	if building.animation == &"Platform" and building.frame == 0: building.offset.y = -16
 	else: building.offset.y = 0
-	self.overlay.offset.y = 0
-	self.overlay.z_index = sprite.z_index
-	if self.lower.visible: 
-		self.overlay.offset.y = self.lower.offset.y+16
-		self.overlay.z_index = self.lower.z_index
-	if self.lowest.visible: 
-		self.overlay.offset.y = self.lowest.offset.y+16
-		self.overlay.z_index = self.lowest.z_index
-	if self.superlow.visible: 
-		self.overlay.offset.y = self.superlow.offset.y+16
-		self.overlay.z_index = self.superlow.z_index
 
 func _unhandled_input(event):
 	if not self.outOfBounds and event.is_action_released("ui_select"): 

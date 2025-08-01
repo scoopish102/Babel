@@ -23,6 +23,7 @@ cameraSpeed = 1
 
 [connection signal="attemptPlaceBuilding" from="CanvasLayer/UI" to="." method="attemptPlaceBuilding"]
 [connection signal="attemptPlaceTile" from="CanvasLayer/UI" to="." method="attemptPlaceTile"]
+[connection signal="attemptPlaceWaterPlatform" from="CanvasLayer/UI" to="." method="attemptPlaceWaterPlatform"]
 [connection signal="changeWorkerCount" from="CanvasLayer/UI" to="." method="changeBuildingWorkers"]
 [connection signal="cursorSelect" from="CanvasLayer/UI" to="TilemapDisplay/Cursor" method="set_selected"]
 [connection signal="destroyBuilding" from="CanvasLayer/UI" to="." method="destroyBuilding"]

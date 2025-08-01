@@ -1,7 +1,7 @@
 class_name GameTilemap extends Object
 
 enum Terrain {
-	Air, Grass, Sand, Water, Dirt, Platform
+	Air, Grass, Platform
 }
 
 var terrainMap : Array[Array] = []
@@ -9,6 +9,22 @@ var buildingMap : Array[Array] = []
 var mapSize : Vector2i
 var mapHeight: int = 1
 var waterLevel: int = 0
+var floodPercentage: float = 0
+
+func getBottomEmptyTileCount(tile: Vector2, layer: int) -> float:
+	#Water isn't empty btw schlawg
+	var count: float = 0
+	var empty: bool
+	var i: int = 0
+	if layer < waterLevel: return 0
+	while (i <= layer):
+		empty = terrainMap[layer-i][tile.x+tile.y*mapSize.x] == Terrain.Air
+		if empty: 
+			if waterLevel == layer-i: count += 0.5
+			else: count += 1
+		else: break
+		i += 1
+	return count
 
 func getOrthogonalNeighbors(center: Vector2i) -> Dictionary[StringName, Vector2i]:
 	var neighbors: Dictionary[StringName, Vector2i]

@@ -11,6 +11,5 @@ tileDisplayScene = ExtResource("2_y4n5u")
 
 [node name="Cursor" parent="." instance=ExtResource("3_xsebq")]
 z_index = 1
-y_sort_enabled = true
 defaultColor = Color(0.960784, 1, 0, 1)
 selectedColor = Color(1, 0, 0, 1)
