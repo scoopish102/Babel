@@ -3,14 +3,14 @@
 [ext_resource type="Texture2D" uid="uid://c12vlpq5rosds" path="res://assets/graphics/ui.png" id="1_u64qu"]
 [ext_resource type="Texture2D" uid="uid://c5vfq611uceik" path="res://assets/graphics/buildings.png" id="2_mo5h8"]
 [ext_resource type="Script" uid="uid://b3sjrl5ooim2r" path="res://code/scripts/customOptionButton.gd" id="2_y3bmu"]
-[ext_resource type="FontFile" uid="uid://c0luxgh1umj2h" path="res://assets/fonts/DigitalDisco.ttf" id="3_2ede3"]
+[ext_resource type="FontFile" uid="uid://bkh8e8v78wfdn" path="res://assets/fonts/EnterCommand.ttf" id="4_mepiv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2u7aw"]
 atlas = ExtResource("2_mo5h8")
 region = Rect2(32, 152, 64, 64)
 
 [sub_resource type="LabelSettings" id="LabelSettings_fh2ah"]
-font = ExtResource("3_2ede3")
+font = ExtResource("4_mepiv")
 
 [node name="City" type="NinePatchRect"]
 custom_minimum_size = Vector2(64, 64)

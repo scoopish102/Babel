@@ -10,6 +10,15 @@ script = ExtResource("1_vx8kw")
 gameSize = Vector2i(25, 25)
 gameHeight = 10
 noise = ExtResource("2_iabw2")
+prologueText = "	\"All the springs of the great deep burst forth, and the floodgates of the heavens were opened.\" 
+	A great deluge has fallen upon the land. Mighty floods sweep away cities. Endless rain pours from the skies.
+	Now, all that remains is this little city on a mountaintop. Leading your people, will you build into Heaven and save them from their fate? Or will you meet a watery grave deep below the limitless sea?"
+gameStartInfoText = "	Place buildings with the \"BUILD\" menu. 
+	Navigate the current layer using WASD or Arrow keys. Navigate between higher and lower layers using E and Q respectively. 
+	Interact with buildings and configure how many workers they have by selecting the tile the building is on and selecting the \"INTERACT\" menu. 
+	Press the button in the top right corner to advance to the next turn. 
+	The flood bar tells you how close the next layer is to being overrun with floodwaters. When a layer is consumed by floodwaters, the buildings on that layer become inaccesible and no longer produce resources. Every turn the flood progress increases by a certain amoun. There will be no flooding for the first 5 turns. 
+	You lose the game if you run out of food or your last city is washed away by the floods. Try to acheive the highest score you can, and survive for as long as possible!"
 metadata/_edit_horizontal_guides_ = [324.0]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]

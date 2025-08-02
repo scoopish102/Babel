@@ -15,9 +15,13 @@ class Player:
 	var resources : Dictionary[StringName, ResourceScripts.RResource]
 	var score : int
 	var buildingCount : int
+	var cityCount : int
 	var platformCount : int
 	var rainPerTurn : float
 	var rainNextTurn : float
+	var favor : float
+	var grace : int
+	var effects : Dictionary[StringName, int]
 	
 	func _init():
 		self.resources = {
@@ -27,12 +31,22 @@ class Player:
 			&"Labor": ResourceScripts.RResource.new(&"Labor", 2, true)}
 		self.score = 0
 		self.buildingCount = 0
+		self.cityCount = 0
 		self.platformCount = 0
-		self.rainPerTurn = randi_range(5, 8)
+		self.rainPerTurn = 10
 		self.rainNextTurn = self.rainPerTurn
+		self.favor = 0.4
+		self.grace = 5
+		self.effects = {}
 	
-	func determineRainNextTurn():
-		rainNextTurn = (floor(randf_range(0.75, 1.75)*rainPerTurn))
+	func determineRainNextTurn(turn: int):
+		if grace > 0:
+			rainNextTurn = 0
+			grace -= 1
+		else:
+			rainNextTurn = (floor(randf_range(0.75, 1.75)*rainPerTurn))
+			if self.effects.has(&"Calm Waters"): rainNextTurn *= 0.75
+			if self.effects.has(&"Great Storm"): rainNextTurn *= 1.25
 	
 	func redeemCost(ticket: Dictionary[StringName, int]):
 		#var totalConsumed = 0
@@ -66,14 +80,25 @@ class Player:
 	func process(waterLevel: int, buildingMap: Array[Array]):
 		for res in self.resources.keys():
 			self.resources[res].change = 0
+		if self.effects.has(&"Refugees"): self.resources[&"Labor"].change += self.effects[&"Refugees"]
+		if self.effects.has(&"Bumper Crop"): self.resources[&"Food"].change += 2
+		if self.effects.has(&"Bring the Heat"): self.resources[&"Earth"].change += 2
 		var buildingBudget : Dictionary[StringName, int] = compileBuildingBudgets(waterLevel, buildingMap)
 		redeemBudget(buildingBudget)
 	
 	func update():
 		for resource in self.resources.keys():
 			self.resources[resource].update()
+		self.resources[&"Labor"].addAmount(1)
+		if self.effects.has(&"Plague"): self.resources[&"Labor"] .addAmount(-2)
+		for effect in self.effects.keys():
+			if effect == &"Refugees": continue
+			self.effects[effect] -= 1
+			if self.effects[effect] < 0: self.effects.erase(effect)
 
 var player = Player.new()
+@export_multiline var prologueText: String
+@export_multiline var gameStartInfoText: String
 
 func _ready():
 	#print(Global.mapSize)
@@ -85,13 +110,33 @@ func _ready():
 	#ui.updateCursor.connect(updateCursorDisplay)
 	#ui.cursorSelect.connect(tilemapDisplay.cursor.set_selected)
 	#print(ResourceScripts.mergeTickets({&"A": 2, &"B": -2}, {&"A": 2, &"C": 2}))
-	player.determineRainNextTurn()
+	player.determineRainNextTurn(turn)
 	if tilemap.floodPercentage + player.rainNextTurn < 100: 
 		ui.floodPercentNextTurn.text = " + " + str(int(roundf(player.rainNextTurn))) + "% NEXT TURN"
 		ui.floodPercentNextTurn.label_settings.font_color = Color(0.0, 0.22, 0.573)
 	else: 
 		ui.floodPercentNextTurn.text = " LAYER " + str(tilemap.waterLevel) + " WILL BE FLOODED NEXT TURN"
 		ui.floodPercentNextTurn.label_settings.font_color = Color(1.0, 0.0, 0.0)
+	var prolog: SingleOptionNotification = ui.singleOptionNotificationBlueprint.instantiate()
+	ui.add_child(prolog)
+	ui.notifications.append(prolog)
+	prolog.size.y -= 32
+	prolog.centerOnScreen()
+	prolog.setContent("Prologue", prologueText)
+	prolog.setOption("Begin game")
+	await prolog.result
+	ui.notifications.erase(prolog)
+	prolog.queue_free()
+	var infolog: SingleOptionNotification = ui.singleOptionNotificationBlueprint.instantiate()
+	ui.add_child(infolog)
+	ui.notifications.append(infolog)
+	infolog.size.x += 96
+	infolog.size.y += 64
+	infolog.centerOnScreen()
+	infolog.setContent("Game Start Info", gameStartInfoText)
+	infolog.setOption("Okay")
+	await infolog.result
+	ui.notifications.erase(infolog)
 
 func _process(delta):
 	tilemapDisplay.process(delta, tilemap, get_global_mouse_position())
@@ -102,10 +147,13 @@ func _process(delta):
 	else: hasBuildingInCursor = tilemap.buildingMap[tilemapDisplay.layer][tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * 
 			tilemap.mapSize.x] != null and not tilemapDisplay.layer < tilemap.waterLevel
 	ui.process(player, tilemapDisplay.cursor.tile, tilemapDisplay.cursor.selected, hasBuildingInCursor, turn, 
-			tilemapDisplay.layer, tilemap.mapHeight, tilemap.waterLevel, tilemap.floodPercentage, player.rainNextTurn)
+			tilemapDisplay.layer, tilemap.mapHeight, tilemap.waterLevel, tilemap.floodPercentage)
 	player.process(tilemap.waterLevel, tilemap.buildingMap)
 	if Input.is_action_just_pressed("ui_debug"): 
-		updateTileAtCursor(GameTilemap.Terrain.Platform)
+		var event = EventScripts.Event.new().blueprint(ui, &"Divine Favor")
+		processEvent(event)
+		#event.free()
+		#updateTileAtCursor(GameTilemap.Terrain.Platform)
 		#print(tilemap.getBottomEmptyTileCount(tilemapDisplay.cursor.tile, tilemapDisplay.layer))
 		pass
 
@@ -257,7 +305,7 @@ func processInteract():
 			str(tilemapDisplay.cursor.tile.y) + ", " + str(int(tilemapDisplay.layer)) + "). " + production + " per turn.")
 	else: nOps.get_child(2).set_text(building.buildingName + " at (" + str(tilemapDisplay.cursor.tile.x) + ", " + 
 			str(tilemapDisplay.cursor.tile.y) + ", " + str(int(tilemapDisplay.layer)) + "). Produces nothing.")
-	if player.buildingCount <= 1 and not player.resources[&"Labor"].amount >= 1: 
+	if player.buildingCount <= 1 or not player.resources[&"Labor"].amount >= 1: 
 		nOps.get_child(4).disabled = true
 		return
 	if building is BuildingScripts.City: 
@@ -272,7 +320,7 @@ func changeBuildingWorkers(change: int):
 
 func destroyBuilding():
 	player.buildingCount -= 1
-	player.resources[&"Labor"].amount -= 1
+	#player.resources[&"Labor"].amount -= 1
 	var building = tilemap.buildingMap[tilemapDisplay.layer][tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * tilemap.mapSize.x]
 	tilemap.buildingMap[tilemapDisplay.layer][tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * tilemap.mapSize.x] = null
 	building.call_deferred("free")
@@ -294,6 +342,48 @@ func processInfoTab():
 	fOps.get_child(1).set_text(tileName + " tile" + buildingName + " at: (" + str(int(tilemapDisplay.cursor.tile.x)) + 
 			", " + str(int(tilemapDisplay.cursor.tile.y)) + ", " + str(int(tilemapDisplay.layer)) + ")")
 
+func generateEvent() -> EventScripts.Event:
+	var rand = randf_range(0.0, 1.0)
+	var events: Array[StringName]
+	if rand <= player.favor:
+		events = [&"Calm Waters", &"Exceeding Quotas", &"Heaven\'s Mercy", &"Bountiful Harvests", &"Industrious Spirit"]
+		if tilemap.floodPercentage >= 10: 
+			events.append(&"Divine Favor")
+			if player.favor >= 0.5: 
+				events.append(&"Divine Favor")
+				events.append(&"Calm Waters")
+	else:
+		events = [&"Great Storm", &"Flash Flood", &"Furious Waves"] # &"Famine", &"City Fire", &"Plague", &"Heaven\'s Wrath"
+		if player.resources[&"Food"].amount > 0: events.append(&"Famine")
+		if player.resources[&"Earth"].amount > 0: events.append(&"City Fire")
+		if player.resources[&"Labor"].amount > 0: events.append(&"Plague")
+		if player.grace > 0: events.append(&"Heaven\'s Wrath")
+	rand = randi_range(0, len(events)-1)
+	var event = EventScripts.Event.new().blueprint(ui, events[rand])
+	return event
+
+func processEvent(event: EventScripts.Event):
+	match event.eventName:
+		&"Calm Waters": player.effects[&"Calm Waters"] = 10
+		&"Great Storm": player.effects[&"Great Storm"] = 10
+		&"Furious Waves": player.rainNextTurn += 20
+		#&"Divine Favor": tilemap.floodPercentage = 0
+		&"Flash Flood": player.rainNextTurn += 10
+		&"Heaven\'s Mercy": player.grace += 5
+		&"Heaven\'s Wrath": player.grace = 0
+		&"Bountiful Harvests": player.resources[&"Food"].addAmount(4)
+		&"Exceeding Quotas": player.resources[&"Earth"].addAmount(4)
+		&"Industrious Spirit": player.resources[&"Labor"].addAmount(4)
+		&"Famine": player.resources[&"Food"].setAmount(player.resources[&"Food"].amount/2)
+		&"City Fire": player.resources[&"Earth"].setAmount(player.resources[&"Earth"].amount/2)
+		&"Plague": player.effects[&"Plague"] = 5
+		&"Bumper Crop": player.effects[&"Bumper Crop"] = 5
+		&"Bring the Heat": player.effects[&"Bring the Heat"] = 5
+		&"Refugees": 
+			if not player.effects.has(&"Refugees"): player.effects[&"Refugees"] = 1
+			else: player.effects[&"Refugees"] += 1
+	event.free()
+
 var tween: Tween
 var otherTween: Tween
 
@@ -304,6 +394,7 @@ func nextTurn():
 	
 	if player.resources[&"Food"].amount + player.resources[&"Food"].change < 0:
 		var ays: ChoiceNotification = ui.choiceNotificationBlueprint.instantiate()
+		ui.notifications.append(ays)
 		ui.add_child(ays)
 		ays.centerOnScreen()
 		ays.setContent(
@@ -312,6 +403,7 @@ func nextTurn():
 		)
 		ays.setChoices("Proceed anyway?")
 		var result = await ays.getChoice()
+		ui.notifications.erase(ays)
 		ays.queue_free()
 		if not result: return
 	
@@ -337,7 +429,12 @@ func nextTurn():
 		tween.tween_property(tilemap, "floodPercentage", total, 1).set_trans(Tween.TRANS_QUAD)#.set_ease(Tween.EASE_IN_OUT)
 	#tween.tween_property(ui.floodProgressVertical, "value", tilemap.floodPercentage, 1).set_trans(Tween.TRANS_QUAD)
 	#tween.tween_property(tilemapDisplay, "modulate", Color(1.0, 1.0, 1.0), 0.5).set_trans(Tween.TRANS_QUAD)
-	player.determineRainNextTurn()
+	player.determineRainNextTurn(turn)
+	if randf_range(0.0, 1.0) > 0.93: 
+		var event: EventScripts.Event = generateEvent()
+		if event.eventName == &"Divine Favor":
+			tween.tween_property(tilemap, "floodPercentage", 0, 1).set_trans(Tween.TRANS_QUAD)
+		else: processEvent(event)
 
 func cullFlood():
 	if tilemap.floodPercentage >= 100:

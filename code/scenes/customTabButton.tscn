@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://diigoqrv4ir82"]
+[gd_scene load_steps=4 format=3 uid="uid://diigoqrv4ir82"]
 
 [ext_resource type="Texture2D" uid="uid://c12vlpq5rosds" path="res://assets/graphics/ui.png" id="1_b3q2a"]
 [ext_resource type="Script" uid="uid://bpritywrouxo2" path="res://code/scripts/customTabButton.gd" id="2_thymo"]
-[ext_resource type="FontFile" uid="uid://c0luxgh1umj2h" path="res://assets/fonts/DigitalDisco.ttf" id="3_rpbed"]
 [ext_resource type="LabelSettings" uid="uid://bn3tdb4cin7nn" path="res://code/resources/TabLabelSettings.tres" id="4_8phn8"]
 
 [node name="Tab" type="NinePatchRect"]
@@ -30,7 +29,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 0
-theme_override_fonts/font = ExtResource("3_rpbed")
 theme_override_font_sizes/font_size = 0
 text = "
 "

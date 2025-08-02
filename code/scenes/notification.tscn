@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://dubkr27umy28b"]
+[gd_scene load_steps=12 format=3 uid="uid://dubkr27umy28b"]
 
 [ext_resource type="Script" uid="uid://bkijwna3rjahm" path="res://code/scripts/notification.gd" id="1_8xvt8"]
 [ext_resource type="Texture2D" uid="uid://c12vlpq5rosds" path="res://assets/graphics/ui.png" id="1_et4bn"]
 [ext_resource type="Theme" uid="uid://bo7cnjum0jm1g" path="res://code/resources/uiTheme.tres" id="2_8xvt8"]
+[ext_resource type="FontFile" uid="uid://bkh8e8v78wfdn" path="res://assets/fonts/EnterCommand.ttf" id="4_4n5jf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4n5jf"]
 atlas = ExtResource("1_et4bn")
@@ -61,8 +62,9 @@ atlas = ExtResource("1_et4bn")
 region = Rect2(0, 0, 64, 64)
 
 [node name="Notification" type="VBoxContainer"]
-offset_right = 256.0
-offset_bottom = 192.0
+offset_left = 120.0
+offset_right = 376.0
+offset_bottom = 128.0
 theme_override_constants/separation = 0
 script = ExtResource("1_8xvt8")
 
@@ -98,6 +100,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 1
 theme = ExtResource("2_8xvt8")
+theme_override_fonts/normal_font = ExtResource("4_4n5jf")
 text = "Truth Nuke"
 vertical_alignment = 1
 
@@ -157,6 +160,8 @@ size_flags_horizontal = 3
 size_flags_vertical = 2
 mouse_filter = 1
 theme = ExtResource("2_8xvt8")
+theme_override_fonts/normal_font = ExtResource("4_4n5jf")
+bbcode_enabled = true
 text = "\"Come, let us build ourselves a city, with a tower that reaches to the heavens, so that we may make a name for ourselves.\""
 fit_content = true
 

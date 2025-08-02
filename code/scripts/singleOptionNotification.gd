@@ -6,7 +6,7 @@ class_name SingleOptionNotification extends Notification
 #signal result(result: bool)
 
 func setOption(option: String = "Okay"):
-	self.optionText.text = option
+	self.optionButton.text = option
 
 func exitButtonPressed():
 	result.emit(false)

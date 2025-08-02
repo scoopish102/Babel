@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://dh5syg6bedl81"]
+[gd_scene load_steps=10 format=3 uid="uid://dh5syg6bedl81"]
 
 [ext_resource type="PackedScene" uid="uid://dubkr27umy28b" path="res://code/scenes/notification.tscn" id="1_vlrdg"]
 [ext_resource type="Theme" uid="uid://bo7cnjum0jm1g" path="res://code/resources/uiTheme.tres" id="2_5xwm0"]
 [ext_resource type="Script" uid="uid://bcl1wopdyjie0" path="res://code/scripts/singleOptionNotification.gd" id="2_mtdwv"]
 [ext_resource type="Texture2D" uid="uid://c12vlpq5rosds" path="res://assets/graphics/ui.png" id="3_mtdwv"]
+[ext_resource type="FontFile" uid="uid://bkh8e8v78wfdn" path="res://assets/fonts/EnterCommand.ttf" id="4_mtdwv"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bjmol"]
 texture = ExtResource("3_mtdwv")
@@ -50,18 +51,17 @@ region_rect = Rect2(0, 192, 64, 64)
 modulate_color = Color(0.960784, 0.8, 0.564706, 1)
 
 [node name="SingleOptionNotification" instance=ExtResource("1_vlrdg")]
-offset_right = 512.0
-offset_bottom = 320.0
+offset_right = 544.0
+offset_bottom = 288.0
 script = ExtResource("2_mtdwv")
 
 [node name="Title" parent="Tab/HBoxContainer" index="1"]
 text = "Prologue"
 
 [node name="Text" parent="Backdrop/MarginContainer/VBoxContainer" index="0"]
-text = "	\"In the six hundredth year... on the seventeenth day of the second month— on that day all the springs of the great deep burst forth, and the floodgates of the heavens were opened.\"
-	A great deluge has fallen upon the land. Mighty floods sweep away cities. Endless rain pours from the skies. The wrath of Heaven is upon your people.
-	Now, all that remains is this little city on a mountaintop. Rather than escape onboard a ship and abandon your people, you have chosen to stay and lead them. Will you build into Heaven and save your people from their fate? Or will you meet a watery grave deep below the limitless sea?
-	"
+text = "	\"All the springs of the great deep burst forth, and the floodgates of the heavens were opened.\"
+	A great deluge has fallen upon the land. Mighty floods sweep away cities. Endless rain pours from the skies.
+	Now, all that remains is this little city on a mountaintop. Rather than escape onboard a ship and abandon your people, you have chosen to stay and lead them. Will you build into Heaven and save your people from their fate? Or will you meet a watery grave deep below the limitless sea?"
 
 [node name="Buffer" type="Control" parent="Backdrop/MarginContainer/VBoxContainer" index="1"]
 custom_minimum_size = Vector2(8, 4)
@@ -86,6 +86,7 @@ theme_override_colors/icon_pressed_color = Color(1, 1, 1, 1)
 theme_override_colors/icon_normal_color = Color(1, 1, 1, 1)
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_mtdwv")
 theme_override_styles/disabled = SubResource("StyleBoxTexture_bjmol")
 theme_override_styles/hover = SubResource("StyleBoxTexture_f4mr6")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_ukiuu")

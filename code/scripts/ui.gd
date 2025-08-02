@@ -15,6 +15,9 @@ class_name GUI extends Control
 
 @export var notificationBlueprint: PackedScene
 @export var choiceNotificationBlueprint: PackedScene
+@export var singleOptionNotificationBlueprint: PackedScene
+
+var notifications: Array = []
 
 var tabSelected: int = 0
 var optionSelected: int = -1
@@ -44,14 +47,33 @@ enum InfoBoxMode {
 	SHOW
 }
 
+#function gleamed from the wisdom of u/Nkzar on r/Godot. awesome work to an odd problem
+func clean(dirty_array: Array) -> Array:
+	var clean_array := []
+	for item in dirty_array:
+		if is_instance_valid(item): clean_array.append(item)
+	return clean_array
+
 func process(player: Game.Player, cursorCoords: Vector2, cursorSelected: bool, hasBuilding: bool, turn: int, layer: int, maxLayer: int,
-		waterLevel, floodLevel, rainNextTurn):
+		waterLevel, floodLevel):
 	resources.get_child(0).setLabels(player.resources[&"Food"].amount, player.resources[&"Food"].change)
 	resources.get_child(1).setLabels(player.resources[&"Earth"].amount, player.resources[&"Earth"].change)
 	#resources.get_child(2).setLabels(player.resources["Bronze"].amount, player.resources["Bronze"].change)
 	resources.get_child(2).setLabels(player.resources[&"Labor"].amount, player.resources[&"Labor"].change)
 	
 	turnButton.get_child(1).set_text("Turn " + str(turn))
+	
+	notifications = clean(notifications)
+	
+	if (player.resources[&"Labor"].change < 0): 
+		turnButton.get_child(0).disabled = true
+		turnButton.get_child(0).tooltip_text = "Resolve labor shortage first."
+	elif len(notifications) > 0:
+		turnButton.get_child(0).disabled = true
+		turnButton.get_child(0).tooltip_text = "Resolve notification first."
+	else: 
+		turnButton.get_child(0).disabled = false
+		turnButton.get_child(0).tooltip_text = "Press to begin the next turn."
 	
 	layerText.set_text("Height " + str(layer))
 	if layer >= maxLayer-1: layerControl.get_child(1).disabled = true
@@ -60,15 +82,15 @@ func process(player: Game.Player, cursorCoords: Vector2, cursorSelected: bool, h
 	else: layerControl.get_child(2).disabled = false
 	
 	floodPercentLabel.text = "FLOOD PROGRESS: " + str(int(roundf(floodLevel))) + "%"
-	waterLevelLabel.text = "LAYER " + str(waterLevel)
+	waterLevelLabel.text = "HEIGHT " + str(waterLevel)
 	floodProgress.value = floodLevel
 	floodProgress.get_child(0).position.x = floodProgress.size.x * float(100-floodLevel)/100 - 12
 	floodProgressVertical.value = floodLevel + 2
-	if floodLevel + rainNextTurn < 100: 
-		floodPercentNextTurn.text = " + " + str(int(roundf(rainNextTurn))) + "% NEXT TURN"
+	if floodLevel + player.rainNextTurn < 100: 
+		floodPercentNextTurn.text = " + " + str(int(roundf(player.rainNextTurn))) + "% NEXT TURN"
 		floodPercentNextTurn.label_settings.font_color = Color(0.0, 0.22, 0.573)
 	else: 
-		floodPercentNextTurn.text = " LAYER " + str(waterLevel) + " WILL BE FLOODED NEXT TURN"
+		floodPercentNextTurn.text = " HEIGHT " + str(waterLevel) + " WILL BE FLOODED NEXT TURN"
 		floodPercentNextTurn.label_settings.font_color = Color(1.0, 0.0, 0.0)
 	
 	for i in range(len(tabBar.get_children())):
