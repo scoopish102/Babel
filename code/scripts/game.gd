@@ -10,12 +10,14 @@ class_name Game extends Node2D
 var tilemap : GameTilemap
 
 var turn : int = 0
+var gameEnded: bool = false
 
 class Player:
 	var resources : Dictionary[StringName, ResourceScripts.RResource]
 	var score : int
 	var buildingCount : int
 	var cityCount : int
+	var workingBuildingCount : int
 	var platformCount : int
 	var rainPerTurn : float
 	var rainNextTurn : float
@@ -32,6 +34,7 @@ class Player:
 		self.score = 0
 		self.buildingCount = 0
 		self.cityCount = 0
+		self.workingBuildingCount = 0
 		self.platformCount = 0
 		self.rainPerTurn = 10
 		self.rainNextTurn = self.rainPerTurn
@@ -69,12 +72,20 @@ class Player:
 		return true
 	
 	func compileBuildingBudgets(waterLevel: int, buildingMap: Array[Array]) -> Dictionary[StringName, int]:
+		self.workingBuildingCount = 0
+		self.cityCount = 0
+		self.favor = 0.4
 		var finalBudget: Dictionary[StringName, int] = {}
 		for layer in range(len(buildingMap)):
 			if layer < waterLevel: continue
 			for building in buildingMap[layer]:
 				if not building == null: 
 					finalBudget = ResourceScripts.mergeTickets(finalBudget, building.update())
+					self.workingBuildingCount += 1
+					if building.buildingName == &"Temple": self.favor += 0.05
+					if building.buildingName == &"City": self.cityCount += 1
+		self.favor = min(max(self.favor - self.workingBuildingCount*0.01 - self.grace*0.01, 0.05), 0.95)
+		#if self.cityCount == 0: print("LOL U SHOULD BE DEAD")
 		return finalBudget
 	
 	func process(waterLevel: int, buildingMap: Array[Array]):
@@ -90,7 +101,7 @@ class Player:
 		for resource in self.resources.keys():
 			self.resources[resource].update()
 		self.resources[&"Labor"].addAmount(1)
-		if self.effects.has(&"Plague"): self.resources[&"Labor"] .addAmount(-2)
+		if self.effects.has(&"Plague"): self.resources[&"Labor"].addAmount(-2)
 		for effect in self.effects.keys():
 			if effect == &"Refugees": continue
 			self.effects[effect] -= 1
@@ -101,24 +112,39 @@ var player = Player.new()
 @export_multiline var gameStartInfoText: String
 
 func _ready():
+	#RenderingServer.set_default_clear_color(Color(0.01, 0.0, 0.189))
+	$CanvasLayer/ColorRect.visible = true
+	tween = get_tree().create_tween()
+	tween.set_parallel(false)
+	tween.tween_property($CanvasLayer/ColorRect, "color", Color(0.0, 0.0, 0.0, 0.0), 2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	
 	#print(Global.mapSize)
 	#gameSize = Vector2(50, 50)
 	tilemap = GameTilemap.new(gameSize)
-	tilemap.generateWorld(noise)
+	var loaded = not Global.newGame
+	if not loaded:
+		tilemap.generateWorld(noise)
+		player.determineRainNextTurn(turn)
+	else:
+		if loadGame(): loaded = true
+		else: 
+			tilemap.generateWorld(noise)
+			player.determineRainNextTurn(turn)
+			loaded = false
 	tilemapDisplay.start(tilemap)
 	#print(player.resources)
 	#ui.updateCursor.connect(updateCursorDisplay)
 	#ui.cursorSelect.connect(tilemapDisplay.cursor.set_selected)
 	#print(ResourceScripts.mergeTickets({&"A": 2, &"B": -2}, {&"A": 2, &"C": 2}))
-	player.determineRainNextTurn(turn)
 	if tilemap.floodPercentage + player.rainNextTurn < 100: 
 		ui.floodPercentNextTurn.text = " + " + str(int(roundf(player.rainNextTurn))) + "% NEXT TURN"
 		ui.floodPercentNextTurn.label_settings.font_color = Color(0.0, 0.22, 0.573)
 	else: 
 		ui.floodPercentNextTurn.text = " LAYER " + str(tilemap.waterLevel) + " WILL BE FLOODED NEXT TURN"
 		ui.floodPercentNextTurn.label_settings.font_color = Color(1.0, 0.0, 0.0)
+	if loaded: return
 	var prolog: SingleOptionNotification = ui.singleOptionNotificationBlueprint.instantiate()
-	ui.add_child(prolog)
+	ui.notifBox.add_child(prolog)
 	ui.notifications.append(prolog)
 	prolog.size.y -= 32
 	prolog.centerOnScreen()
@@ -128,7 +154,7 @@ func _ready():
 	ui.notifications.erase(prolog)
 	prolog.queue_free()
 	var infolog: SingleOptionNotification = ui.singleOptionNotificationBlueprint.instantiate()
-	ui.add_child(infolog)
+	ui.notifBox.add_child(infolog)
 	ui.notifications.append(infolog)
 	infolog.size.x += 96
 	infolog.size.y += 64
@@ -139,16 +165,17 @@ func _ready():
 	ui.notifications.erase(infolog)
 
 func _process(delta):
-	tilemapDisplay.process(delta, tilemap, get_global_mouse_position())
+	if gameEnded: return
+	if not ui.menu.visible: tilemapDisplay.process(delta, tilemap, get_global_mouse_position())
 	var hasBuildingInCursor: bool
 	if (tilemapDisplay.cursor.tile.x < 0 or tilemapDisplay.cursor.tile.y < 0 or 
 			tilemapDisplay.cursor.tile.x >= tilemap.mapSize.x or tilemapDisplay.cursor.tile.y >= tilemap.mapSize.y):
 		hasBuildingInCursor = false
 	else: hasBuildingInCursor = tilemap.buildingMap[tilemapDisplay.layer][tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * 
 			tilemap.mapSize.x] != null and not tilemapDisplay.layer < tilemap.waterLevel
+	player.process(tilemap.waterLevel, tilemap.buildingMap)
 	ui.process(player, tilemapDisplay.cursor.tile, tilemapDisplay.cursor.selected, hasBuildingInCursor, turn, 
 			tilemapDisplay.layer, tilemap.mapHeight, tilemap.waterLevel, tilemap.floodPercentage)
-	player.process(tilemap.waterLevel, tilemap.buildingMap)
 	if Input.is_action_just_pressed("ui_debug"): 
 		var event = EventScripts.Event.new().blueprint(ui, &"Divine Favor")
 		processEvent(event)
@@ -309,9 +336,9 @@ func processInteract():
 		nOps.get_child(4).disabled = true
 		return
 	if building is BuildingScripts.City: 
-		nOps.get_child(4).disabled = false
-		#if player.resources[&"Labor"].change - 2 >= 0: nOps.get_child(4).disabled = false
-		#else: nOps.get_child(4).disabled = true
+		#nOps.get_child(4).disabled = false
+		if player.resources[&"Labor"].change - 2 >= 0 and player.cityCount > 1: nOps.get_child(4).disabled = false
+		else: nOps.get_child(4).disabled = true
 	else: nOps.get_child(4).disabled = false #temporary measure
 
 func changeBuildingWorkers(change: int):
@@ -346,7 +373,8 @@ func generateEvent() -> EventScripts.Event:
 	var rand = randf_range(0.0, 1.0)
 	var events: Array[StringName]
 	if rand <= player.favor:
-		events = [&"Calm Waters", &"Exceeding Quotas", &"Heaven\'s Mercy", &"Bountiful Harvests", &"Industrious Spirit"]
+		events = [&"Calm Waters", &"Exceeding Quotas", &"Heaven\'s Mercy", &"Bountiful Harvests", &"Industrious Spirit",
+		&"Bumper Crop", &"Bring the Heat", &"Refugees"]
 		if tilemap.floodPercentage >= 10: 
 			events.append(&"Divine Favor")
 			if player.favor >= 0.5: 
@@ -388,27 +416,41 @@ var tween: Tween
 var otherTween: Tween
 
 func nextTurn():
-	if ui.turnButton.get_child(0).get_child(0).is_stopped():
-		ui.turnButton.get_child(0).get_child(0).start()
+	if ui.turnButton.get_child(0).get_child(1).is_stopped():
+		ui.turnButton.get_child(0).get_child(1).start()
 	else: return
 	
 	if player.resources[&"Food"].amount + player.resources[&"Food"].change < 0:
 		var ays: ChoiceNotification = ui.choiceNotificationBlueprint.instantiate()
 		ui.notifications.append(ays)
-		ui.add_child(ays)
+		ui.notifBox.add_child(ays)
 		ays.centerOnScreen()
 		ays.setContent(
 			"Next Turn Confirmation", "You do not produce enough food to sustain your population. 
-			\nIf you cannot find a way to stabilize your food production, you will lose the game next turn."
-		)
+			\nIf you run out of food, your civilization will fall.")
 		ays.setChoices("Proceed anyway?")
 		var result = await ays.getChoice()
 		ui.notifications.erase(ays)
 		ays.queue_free()
 		if not result: return
-	
-	turn += 1
+	if player.cityCount < 0:
+		var ays: ChoiceNotification = ui.choiceNotificationBlueprint.instantiate()
+		ui.notifications.append(ays)
+		ui.notifBox.add_child(ays)
+		ays.centerOnScreen()
+		ays.setContent(
+			"Next Turn Confirmation", "You have no cities established above the waterline. 
+			If you proceed to the next turn, your civilization will fall.")
+		ays.setChoices("Proceed anyway?")
+		var result = await ays.getChoice()
+		ui.notifications.erase(ays)
+		ays.queue_free()
+		if not result: return
+
 	player.update()
+	if player.resources[&"Food"].amount < 0: 
+		loseGame("starvation")
+		return
 	#tilemapDisplay.modulate = Color(1.0, 1.0, 1.0)
 	if tween: tween.kill()
 	tween = get_tree().create_tween()
@@ -425,16 +467,26 @@ func nextTurn():
 		tween.tween_property(tilemap, "floodPercentage", 100, ratio).set_trans(Tween.TRANS_QUAD)#.set_ease(Tween.EASE_IN_OUT)
 		tween.tween_callback(cullFlood)
 		tween.tween_property(tilemap, "floodPercentage", posmod(total, 100), 1-ratio)
+		tween.tween_callback(checkIfNoCities)
 	else:
 		tween.tween_property(tilemap, "floodPercentage", total, 1).set_trans(Tween.TRANS_QUAD)#.set_ease(Tween.EASE_IN_OUT)
 	#tween.tween_property(ui.floodProgressVertical, "value", tilemap.floodPercentage, 1).set_trans(Tween.TRANS_QUAD)
 	#tween.tween_property(tilemapDisplay, "modulate", Color(1.0, 1.0, 1.0), 0.5).set_trans(Tween.TRANS_QUAD)
 	player.determineRainNextTurn(turn)
+	turn += 1
 	if randf_range(0.0, 1.0) > 0.93: 
 		var event: EventScripts.Event = generateEvent()
 		if event.eventName == &"Divine Favor":
 			tween.tween_property(tilemap, "floodPercentage", 0, 1).set_trans(Tween.TRANS_QUAD)
 		else: processEvent(event)
+
+func checkIfNoCities():
+	#print("scoobydoobydoo")
+	player.compileBuildingBudgets(tilemap.waterLevel, tilemap.buildingMap)
+	if player.cityCount <= 0: 
+		#print("scoobydoobytwo")
+		loseGame("flooding")
+		return
 
 func cullFlood():
 	if tilemap.floodPercentage >= 100:
@@ -448,3 +500,129 @@ func cullFlood():
 func incrementLayer(increment: int): 
 	tilemapDisplay.layer += increment
 	#tilemapDisplay.cameraPosition.y += increment * Global.tileSize.y
+
+func saveGame():
+	var saveData = {
+		"turn":turn,
+		"score":player.score,
+		"food":player.resources[&"Food"].amount,
+		"earth":player.resources[&"Earth"].amount,
+		"labor":player.resources[&"Labor"].amount,
+		"buildingCount":player.buildingCount,
+		"platformCount":player.platformCount,
+		"favor":player.favor,
+		"grace":player.grace,
+		"effects":player.effects,
+		"gameSize.x":tilemap.mapSize.x,
+		"gameSize.y":tilemap.mapSize.y,
+		"gameLayers":tilemap.mapHeight,
+		"terrainMapCode":tilemap.getTerrainMapCode(),
+		"buildingMapCode":tilemap.getBuildingMapCode(),
+		"waterLevel":tilemap.waterLevel,
+		"floodPercentage":tilemap.floodPercentage,
+		"rainNextTurn":player.rainNextTurn
+	}
+	var saveFile = FileAccess.open("res://code/saves/save.json", FileAccess.WRITE)
+	var jsonString = JSON.stringify(saveData)
+	saveFile.store_line(jsonString)
+	saveFile.close()
+	#print("Game Saved Successfully?")
+
+func loadGame() -> bool:
+	if not FileAccess.file_exists("res://code/saves/save.json"):
+		print("No save found.")
+		return false
+	var saveFile = FileAccess.open("res://code/saves/save.json", FileAccess.READ)
+	var jsonString = saveFile.get_line()
+	var json = JSON.new()
+	var parse = json.parse(jsonString)
+	if not parse == OK:
+		print("JSON Parse Error: ", json.get_error_message(), " in ", jsonString, " at line ", json.get_error_line())
+		return false
+	var saveData = json.data
+	saveFile.close()
+	turn = saveData["turn"]
+	player.score = saveData["score"]
+	player.resources[&"Food"].amount = saveData["food"]
+	player.resources[&"Earth"].amount = saveData["earth"]
+	player.resources[&"Labor"].amount = saveData["labor"]
+	player.buildingCount = saveData["buildingCount"]
+	player.platformCount = saveData["platformCount"]
+	player.favor = saveData["favor"]
+	player.grace = saveData["grace"]
+	#player.effects = saveData["effects"]
+	for effect in saveData["effects"]:
+		player.effects[effect] = saveData["effects"][effect]
+	tilemap.mapSize = Vector2(saveData["gameSize.x"], saveData["gameSize.y"])
+	tilemap.mapHeight = saveData["gameLayers"]
+	tilemap.convertTerrainMapCode(saveData["terrainMapCode"])
+	tilemap.convertBuildingMapCode(saveData["buildingMapCode"])
+	tilemap.waterLevel = saveData["waterLevel"]
+	tilemap.floodPercentage = saveData["floodPercentage"]
+	player.rainNextTurn = saveData["rainNextTurn"]
+	return true
+"""
+		"turn":turn,
+		"score":player.score,
+		"food":player.resources[&"Food"].amount,
+		"earth":player.resources[&"Earth"].amount,
+		"labor":player.resources[&"Labor"].amount,
+		"buildingCount":player.buildingCount,
+		"platformCount":player.platformCount,
+		"favor":player.favor,
+		"grace":player.grace,
+		"effects":player.effects,
+		"gameSize.x":tilemap.gameSize.x,
+		"gameSize.y":tilemap.gameSize.y,
+		"gameLayers":tilemap.gameHeight,
+		"terrainMap":tilemap.terrainMap,
+		"buildingMapCode":tilemap.getBuildingMapCode(),
+		"waterLevel":tilemap.waterLevel,
+		"floodPercentage":tilemap.floodPercentage
+"""
+
+func returnToMenu():
+	#print("lesgo")
+	get_tree().change_scene_to_file("res://code/scenes/mainMenu.tscn")
+
+var l: Tween
+@export var lossScreenBlueprint: PackedScene
+
+func resign():
+	loseGame("resignation")
+
+func loseGame(why):
+	gameEnded = true
+	l = get_tree().create_tween()
+	l.tween_property(ui, "modulate", Color(0.0, 0.0, 0.0, 0.0), 2).set_trans(Tween.TRANS_CUBIC)
+	tilemapDisplay.cursor.visible = false
+	var lossScreen = lossScreenBlueprint.instantiate()
+	$CanvasLayer.add_child(lossScreen)
+	var epitaph = "May the Lord judge between you and me.\n - Genesis 16:5b"
+	var reason = "The precise reason your civilization fell is unknown. There are many guesses, but none prove conclusive."
+	if why == "starvation":
+		epitaph = ("Because of thirst the infant’s tongue\nsticks to the roof of its mouth;\nThe children beg for bread,"+
+				"\nbut no one gives it to them.\n - Lamentations 4:4")
+		reason = ("In the end, your civilization fell to starvation rather than floodwaters."+
+				" Matters of human mismanagement are as deadly as natural disasters.")
+	elif why == "flooding":
+		epitaph = ("The waters rose and increased greatly on the earth... "+
+				"\nEvery living thing that moved on land perished— birds, livestock, " +  
+				"wild animals, all the creatures that swarm over the earth, and all mankind."+
+				"\n - Genesis 7:18a and 7:21")
+		reason = ("Heaven's wrathful downpour proved too much for your civilization. "+
+				"All that remains of your civilization lies beneath the waves. But will anyone survive to find it?")
+	elif why == "resignation":
+		epitaph = ("Woe! Woe to you, great city, you mighty city of Babylon! In one hour your doom has come!\n - Revelations 18:10b")
+		reason = ("Rather than brave the tides alongside your people, you have left them to their fate. "+
+				"They will surely perish without a leader at the helm.")
+	var stats = ""
+	if why != "flooding": stats = ("\nYour civilization survived " + str(tilemap.waterLevel) +" flood(s) and climbed " + str(tilemap.mapHeight-1) + " layer(s). You built " +
+			str(player.buildingCount) + " building(s) and " + str(player.platformCount) + " platforms. ")
+	else: stats = ("\nYour civilization survived " + str(tilemap.waterLevel-1) +" flood(s) and climbed " + str(tilemap.mapHeight-1) + " layer(s). You built " +
+			str(player.buildingCount) + " building(s) and " + str(player.platformCount) + " platform(s). ")
+	lossScreen.content.text = (epitaph + "\n\n" + reason + "\n" + stats)
+	var saveFile = FileAccess.open("res://code/saves/save.json", FileAccess.WRITE)
+	var jsonString = JSON.stringify({})
+	saveFile.store_line(jsonString)
+	saveFile.close()

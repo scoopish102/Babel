@@ -1,4 +1,4 @@
-[gd_scene load_steps=77 format=4 uid="uid://dc4b48xoehxxs"]
+[gd_scene load_steps=90 format=4 uid="uid://dc4b48xoehxxs"]
 
 [ext_resource type="Texture2D" uid="uid://c12vlpq5rosds" path="res://assets/graphics/ui.png" id="1_01mra"]
 [ext_resource type="Script" uid="uid://t0cr2qtujtfa" path="res://code/scripts/ui.gd" id="1_dn3ly"]
@@ -11,7 +11,8 @@
 [ext_resource type="PackedScene" uid="uid://b5ac0bphkf6pr" path="res://code/scenes/customOptionButton.tscn" id="6_f4awu"]
 [ext_resource type="Texture2D" uid="uid://c5vfq611uceik" path="res://assets/graphics/buildings.png" id="6_yd6wg"]
 [ext_resource type="Texture2D" uid="uid://mtm6glhsddi0" path="res://assets/graphics/turn.png" id="7_cq43s"]
-[ext_resource type="FontFile" uid="uid://bkh8e8v78wfdn" path="res://assets/fonts/EnterCommand.ttf" id="7_nlcp4"]
+[ext_resource type="FontFile" uid="uid://k77wcok0bqum" path="res://assets/fonts/Pixolde-Bold.ttf" id="7_eu83c"]
+[ext_resource type="FontFile" uid="uid://dc2y5ytf5kanj" path="res://assets/fonts/EnterCommand.ttf" id="7_nlcp4"]
 [ext_resource type="Script" uid="uid://jy0hws5gsyd2" path="res://code/scripts/infoBox.gd" id="8_etrss"]
 [ext_resource type="LabelSettings" uid="uid://bn3tdb4cin7nn" path="res://code/resources/TabLabelSettings.tres" id="8_r0vx6"]
 [ext_resource type="StyleBox" uid="uid://b62g8vhso8vo5" path="res://code/resources/cuneiStyleBox.tres" id="11_47kd1"]
@@ -56,10 +57,10 @@ shadow_color = Color(0, 0, 0, 0)
 anti_aliasing = false
 
 [sub_resource type="LabelSettings" id="LabelSettings_eu83c"]
-font = ExtResource("7_nlcp4")
+font = ExtResource("7_eu83c")
 
 [sub_resource type="LabelSettings" id="LabelSettings_hg4rc"]
-font = ExtResource("7_nlcp4")
+font = ExtResource("7_eu83c")
 font_color = Color(0, 0.219074, 0.572571, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cgm38"]
@@ -86,7 +87,7 @@ region_rect = Rect2(64, 0, 64, 64)
 modulate_color = Color(0.960784, 0.862745, 0.65098, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_44hmj"]
-font = ExtResource("7_nlcp4")
+font = ExtResource("7_eu83c")
 font_size = 32
 
 [sub_resource type="InputEventKey" id="InputEventKey_hg4rc"]
@@ -183,7 +184,9 @@ data = PackedByteArray("AAEAAAAOAIAAAwBgRkZUTWgGzH8AAKwcAAAAHEdERUYADwAeAACr/AAA
 font_name = "DigitalDisco"
 style_name = "Medium"
 font_weight = 500
+subpixel_positioning = 0
 msdf_pixel_range = 8
+msdf_size = 128
 cache/0/16/0/ascent = 12.0
 cache/0/16/0/descent = 4.0
 cache/0/16/0/underline_position = 2.39063
@@ -791,7 +794,7 @@ cache/0/18/0/underline_thickness = 0.890625
 cache/0/18/0/scale = 1.0
 cache/0/18/0/textures/0/offsets = PackedInt32Array(87, 0, 169, 15)
 cache/0/18/0/textures/0/image = SubResource("Image_nlcp4")
-cache/0/18/0/glyphs/20/advance = Vector2(4.5, 18)
+cache/0/18/0/glyphs/20/advance = Vector2(5, 18)
 cache/0/18/0/glyphs/20/offset = Vector2(-1, -12)
 cache/0/18/0/glyphs/20/size = Vector2(6, 13)
 cache/0/18/0/glyphs/20/uv_rect = Rect2(1, 1, 6, 13)
@@ -801,12 +804,12 @@ cache/0/18/0/glyphs/21/offset = Vector2(-1, -12)
 cache/0/18/0/glyphs/21/size = Vector2(10, 13)
 cache/0/18/0/glyphs/21/uv_rect = Rect2(9, 1, 10, 13)
 cache/0/18/0/glyphs/21/texture_idx = 0
-cache/0/18/0/glyphs/36/advance = Vector2(10.125, 18)
+cache/0/18/0/glyphs/36/advance = Vector2(10, 18)
 cache/0/18/0/glyphs/36/offset = Vector2(-1, -12)
 cache/0/18/0/glyphs/36/size = Vector2(11, 13)
 cache/0/18/0/glyphs/36/uv_rect = Rect2(21, 1, 11, 13)
 cache/0/18/0/glyphs/36/texture_idx = 0
-cache/0/18/0/glyphs/69/advance = Vector2(10.125, 18)
+cache/0/18/0/glyphs/69/advance = Vector2(10, 18)
 cache/0/18/0/glyphs/69/offset = Vector2(-1, -12)
 cache/0/18/0/glyphs/69/size = Vector2(11, 13)
 cache/0/18/0/glyphs/69/uv_rect = Rect2(34, 1, 11, 13)
@@ -816,12 +819,12 @@ cache/0/18/0/glyphs/134217749/offset = Vector2(-1, -12)
 cache/0/18/0/glyphs/134217749/size = Vector2(11, 13)
 cache/0/18/0/glyphs/134217749/uv_rect = Rect2(47, 1, 11, 13)
 cache/0/18/0/glyphs/134217749/texture_idx = 0
-cache/0/18/0/glyphs/134217764/advance = Vector2(10.125, 18)
+cache/0/18/0/glyphs/134217764/advance = Vector2(10, 18)
 cache/0/18/0/glyphs/134217764/offset = Vector2(-1, -12)
 cache/0/18/0/glyphs/134217764/size = Vector2(12, 13)
 cache/0/18/0/glyphs/134217764/uv_rect = Rect2(60, 1, 12, 13)
 cache/0/18/0/glyphs/134217764/texture_idx = 0
-cache/0/18/0/glyphs/134217797/advance = Vector2(10.125, 18)
+cache/0/18/0/glyphs/134217797/advance = Vector2(10, 18)
 cache/0/18/0/glyphs/134217797/offset = Vector2(-1, -12)
 cache/0/18/0/glyphs/134217797/size = Vector2(12, 13)
 cache/0/18/0/glyphs/134217797/uv_rect = Rect2(74, 1, 12, 13)
@@ -850,9 +853,69 @@ region_rect = Rect2(0, 128, 128, 128)
 atlas = ExtResource("7_cq43s")
 region = Rect2(24, 280, 80, 80)
 
-[sub_resource type="LabelSettings" id="LabelSettings_cq43s"]
-font = ExtResource("7_nlcp4")
+[sub_resource type="LabelSettings" id="LabelSettings_ui5cb"]
+font = ExtResource("7_eu83c")
+font_size = 32
 font_color = Color(0, 0.423529, 0.8, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_cq43s"]
+font = ExtResource("7_eu83c")
+font_color = Color(0, 0.423529, 0.8, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gard7"]
+atlas = ExtResource("1_01mra")
+region = Rect2(88, 216, 16, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bgl5d"]
+texture = ExtResource("1_01mra")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.1504, 0.24628, 0.47, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hiwah"]
+texture = ExtResource("1_01mra")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.2144, 0.35108, 0.67, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xuka8"]
+texture = ExtResource("1_01mra")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.1824, 0.29868, 0.57, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yki2d"]
+texture = ExtResource("1_01mra")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.244637, 0.405528, 0.77194, 1)
+
+[sub_resource type="InputEventKey" id="InputEventKey_ui5cb"]
+device = -1
+keycode = 4194305
+
+[sub_resource type="Shortcut" id="Shortcut_nlcp4"]
+events = [SubResource("InputEventKey_ui5cb")]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rijo4"]
 atlas = ExtResource("6_yd6wg")
@@ -952,7 +1015,7 @@ atlas = ExtResource("1_01mra")
 region = Rect2(104, 200, 16, 17)
 
 [sub_resource type="LabelSettings" id="LabelSettings_qj60q"]
-font = SubResource("FontFile_34x7q")
+font = ExtResource("7_eu83c")
 font_size = 32
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vujkx"]
@@ -969,7 +1032,7 @@ region = Rect2(280, 424, 80, 72)
 margin = Rect2(0, -4, 0, 0)
 
 [sub_resource type="LabelSettings" id="LabelSettings_0xipo"]
-font = ExtResource("7_nlcp4")
+font = ExtResource("7_eu83c")
 font_size = 32
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_t5fdl"]
@@ -1000,6 +1063,42 @@ region = Rect2(72, 200, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_jxhf6"]
 atlas = ExtResource("1_01mra")
 region = Rect2(105, 234, 13, 13)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eu83c"]
+bg_color = Color(0.32, 0.501333, 1, 0.196078)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qfaga"]
+texture = ExtResource("1_01mra")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.7, 0.14, 0.14, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vgmoh"]
+texture = ExtResource("1_01mra")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.6, 0.12, 0.12, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_34x7q"]
+texture = ExtResource("1_01mra")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.8, 0.160784, 0.160784, 1)
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -1324,6 +1423,7 @@ theme_override_constants/separation = 0
 [node name="Label" type="Label" parent="TopBar/Backdrop/Resources/LayerControl"]
 layout_mode = 2
 size_flags_horizontal = 8
+size_flags_vertical = 1
 theme_override_styles/normal = SubResource("StyleBoxTexture_41u3d")
 text = "Layer 5"
 label_settings = SubResource("LabelSettings_44hmj")
@@ -1410,8 +1510,9 @@ axis_stretch_vertical = 1
 [node name="Token" type="Button" parent="Turn/Backdrop"]
 custom_minimum_size = Vector2(0, 128)
 layout_mode = 2
+offset_top = 24.0
 offset_right = 128.0
-offset_bottom = 128.0
+offset_bottom = 152.0
 pivot_offset = Vector2(64, 64)
 tooltip_text = "Press to begin the next turn."
 focus_mode = 0
@@ -1430,23 +1531,69 @@ keep_pressed_outside = true
 icon = SubResource("AtlasTexture_ui5cb")
 icon_alignment = 1
 
+[node name="Label" type="Label" parent="Turn/Backdrop/Token"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -28.0
+offset_top = -21.0
+offset_right = 31.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 32
+text = "0"
+label_settings = SubResource("LabelSettings_ui5cb")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Timer" type="Timer" parent="Turn/Backdrop/Token"]
 one_shot = true
 
-[node name="Label" type="Label" parent="Turn/Backdrop"]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -24.0
-offset_bottom = -8.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "TURN 1"
+[node name="HBoxContainer" type="HBoxContainer" parent="Turn/Backdrop"]
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 32.0
+theme_override_constants/separation = 0
+
+[node name="Buffer" type="Control" parent="Turn/Backdrop/HBoxContainer"]
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Turn/Backdrop/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 32
+text = "Next Turn"
 label_settings = SubResource("LabelSettings_cq43s")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="MenuButton" type="Button" parent="Turn/Backdrop/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+tooltip_text = "Click this to open the menu."
+focus_mode = 0
+theme = ExtResource("4_v3ivv")
+theme_override_colors/icon_disabled_color = Color(0.47, 0.47, 0.47, 1)
+theme_override_colors/icon_hover_pressed_color = Color(1, 0.882054, 0.445368, 1)
+theme_override_colors/icon_hover_color = Color(1, 0.882353, 0.447059, 1)
+theme_override_colors/icon_pressed_color = Color(1, 0.833333, 0, 1)
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 1)
+theme_override_icons/icon = SubResource("AtlasTexture_gard7")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_bgl5d")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_hiwah")
+theme_override_styles/hover = SubResource("StyleBoxTexture_hiwah")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_xuka8")
+theme_override_styles/normal = SubResource("StyleBoxTexture_yki2d")
+toggle_mode = true
+shortcut = SubResource("Shortcut_nlcp4")
 
 [node name="BottomBar" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 96)
@@ -1682,6 +1829,7 @@ text = "WATER PLAT."
 label_settings = SubResource("LabelSettings_eu83c")
 
 [node name="Interact" type="HBoxContainer" parent="BottomBar/Options"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1715,7 +1863,7 @@ stretch_mode = 5
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 mouse_filter = 2
-theme_override_fonts/normal_font = ExtResource("7_nlcp4")
+theme_override_fonts/normal_font = ExtResource("7_eu83c")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 text = "2 [img]res://code/resources/miniResourceIcons/laborLarge.tres[/img]"
@@ -1749,7 +1897,7 @@ mouse_filter = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 128.0
-theme_override_fonts/normal_font = ExtResource("7_nlcp4")
+theme_override_fonts/normal_font = ExtResource("7_eu83c")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 text = "Kiln at (0, 3)"
@@ -1774,7 +1922,7 @@ theme_override_colors/icon_pressed_color = Color(1, 1, 1, 1)
 theme_override_colors/icon_normal_color = Color(1, 0, 0, 1)
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("7_nlcp4")
+theme_override_fonts/font = ExtResource("7_eu83c")
 theme_override_styles/disabled = SubResource("StyleBoxTexture_44hmj")
 theme_override_styles/hover = SubResource("StyleBoxTexture_cq43s")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_pmi6l")
@@ -1783,7 +1931,6 @@ text = "Destroy"
 icon = SubResource("AtlasTexture_pmi6l")
 
 [node name="Info" type="HBoxContainer" parent="BottomBar/Options"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1940,7 +2087,7 @@ custom_minimum_size = Vector2(240, 0)
 layout_mode = 2
 size_flags_horizontal = 8
 mouse_filter = 2
-theme_override_fonts/normal_font = ExtResource("7_nlcp4")
+theme_override_fonts/normal_font = ExtResource("7_eu83c")
 bbcode_enabled = true
 text = "A WHOLE BUNCH OF [img]res://code/resources/miniResourceIcons/food.tres[/img]
 2[img]res://code/resources/miniResourceIcons/food.tres[/img]
@@ -2025,15 +2172,101 @@ custom_minimum_size = Vector2(8, 8)
 layout_mode = 2
 mouse_filter = 2
 
+[node name="NotificationBox" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MenuStuff" type="Control" parent="."]
+visible = false
+layout_mode = 2
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+
+[node name="MenuOverlay" type="PanelContainer" parent="MenuStuff"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_eu83c")
+
+[node name="Menu" type="PanelContainer" parent="MenuStuff"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -152.0
+offset_top = -182.0
+offset_right = 152.0
+offset_bottom = 182.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme = ExtResource("4_v3ivv")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuStuff/Menu"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Resume" type="Button" parent="MenuStuff/Menu/VBoxContainer"]
+layout_mode = 2
+tooltip_text = "Go back to playing the game."
+focus_mode = 0
+theme_override_font_sizes/font_size = 32
+text = "RESUME GAME"
+
+[node name="Save" type="Button" parent="MenuStuff/Menu/VBoxContainer"]
+layout_mode = 2
+tooltip_text = "Save your game for next time."
+focus_mode = 0
+theme_override_font_sizes/font_size = 32
+text = "SAVE GAME"
+
+[node name="Resign" type="Button" parent="MenuStuff/Menu/VBoxContainer"]
+layout_mode = 2
+tooltip_text = "Give up the game and see your score."
+focus_mode = 0
+theme_override_font_sizes/font_size = 32
+text = "RESIGN GAME"
+
+[node name="Return" type="Button" parent="MenuStuff/Menu/VBoxContainer"]
+layout_mode = 2
+tooltip_text = "Return to the main menu. Don't forget to save first."
+focus_mode = 0
+theme_override_font_sizes/font_size = 32
+text = "RETURN TO MENU"
+
+[node name="Quit" type="Button" parent="MenuStuff/Menu/VBoxContainer"]
+layout_mode = 2
+tooltip_text = "Exits the game completely. Don't forget to save first."
+focus_mode = 0
+theme_override_font_sizes/font_size = 32
+theme_override_styles/hover = SubResource("StyleBoxTexture_qfaga")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_vgmoh")
+theme_override_styles/normal = SubResource("StyleBoxTexture_34x7q")
+text = "QUIT TO DESKTOP"
+
 [connection signal="pressed" from="TopBar/Backdrop/Resources/LayerControl/Panel/Change Layer/Up" to="." method="layerUp"]
 [connection signal="pressed" from="TopBar/Backdrop/Resources/LayerControl/Panel/Change Layer/Down" to="." method="layerDown"]
 [connection signal="pressed" from="Turn/Backdrop/Token" to="." method="turnButtonPressed"]
+[connection signal="toggled" from="Turn/Backdrop/HBoxContainer/MenuButton" to="." method="menuToggled"]
 [connection signal="pressed" from="BottomBar/Options/Interact/Workers/Less" to="." method="lessWorkers"]
 [connection signal="pressed" from="BottomBar/Options/Interact/Workers/More" to="." method="moreWorkers"]
 [connection signal="pressed" from="BottomBar/Options/Interact/Destroy Building" to="." method="destroyBuildingPressed"]
 [connection signal="toggled" from="InfoBox/Tab/Caption/Open" to="." method="infoBoxToggled"]
 [connection signal="pressed" from="InfoBox/Content/Content/Buttons/Build" to="." method="infoBoxBuildPressed"]
 [connection signal="pressed" from="InfoBox/Content/Content/Buttons/Cancel" to="." method="infoBoxCancelPressed"]
+[connection signal="pressed" from="MenuStuff/Menu/VBoxContainer/Resume" to="." method="resumeGamePressed"]
+[connection signal="pressed" from="MenuStuff/Menu/VBoxContainer/Save" to="." method="saveGamePressed"]
+[connection signal="pressed" from="MenuStuff/Menu/VBoxContainer/Resign" to="." method="resignGamePressed"]
+[connection signal="pressed" from="MenuStuff/Menu/VBoxContainer/Return" to="." method="returnPressed"]
+[connection signal="pressed" from="MenuStuff/Menu/VBoxContainer/Quit" to="." method="quitToDesktop"]
 
 [editable path="TopBar/Backdrop/Resources/Food"]
 [editable path="TopBar/Backdrop/Resources/Earth"]

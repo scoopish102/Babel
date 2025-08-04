@@ -1,0 +1,7 @@
+the inconsistency found in the font folder can be explained as the result of me screwing around with fonts and 
+accidentally deleting one in an incorrect way while trying to switch them.
+this resulted in a lot of glitches and the only solution was to import the same font (Pixolde-Bold) twice
+and then name one of the files after the old font (EnterCommand)
+i also used the DigitalDisco-Bolt font, all three made by the same guy who makes awesome pixel art fonts
+
+the font Pixolde is actually older than me lol

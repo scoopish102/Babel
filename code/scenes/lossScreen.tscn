@@ -1,0 +1,292 @@
+[gd_scene load_steps=17 format=3 uid="uid://cr7ywup7citx6"]
+
+[ext_resource type="Theme" uid="uid://bo7cnjum0jm1g" path="res://code/resources/uiTheme.tres" id="1_sw7g1"]
+[ext_resource type="Script" uid="uid://ybdo5tnprbj6" path="res://code/scenes/lossScreen.gd" id="2_uagj3"]
+[ext_resource type="Texture2D" uid="uid://bdhpnng6vos85" path="res://assets/graphics/art.png" id="3_kn5yi"]
+[ext_resource type="Texture2D" uid="uid://c12vlpq5rosds" path="res://assets/graphics/ui.png" id="4_lqexb"]
+[ext_resource type="Texture2D" uid="uid://mtm6glhsddi0" path="res://assets/graphics/turn.png" id="5_0aris"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2xpd5"]
+atlas = ExtResource("3_kn5yi")
+region = Rect2(0, 320, 512, 128)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xlgfv"]
+texture = ExtResource("4_lqexb")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.960784, 0.8, 0.564706, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8y0rp"]
+atlas = ExtResource("3_kn5yi")
+region = Rect2(597, 76, 342, 104)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1rffc"]
+atlas = ExtResource("4_lqexb")
+region = Rect2(64, 352, 64, 32)
+filter_clip = true
+
+[sub_resource type="Gradient" id="Gradient_rjxrm"]
+colors = PackedColorArray(0.321569, 0.501961, 1, 1, 0.164706, 0.278431, 0.686275, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_sge3f"]
+gradient = SubResource("Gradient_rjxrm")
+width = 64
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5xbx1"]
+texture = ExtResource("4_lqexb")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.960784, 0.8, 0.564706, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v28ek"]
+atlas = ExtResource("5_0aris")
+region = Rect2(5, 133, 118, 118)
+
+[sub_resource type="Animation" id="Animation_w7oog"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Moon:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_eqql7"]
+resource_name = "spin spin"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Moon:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2, 4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 3.14159, 6.28319]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_w6qc4"]
+_data = {
+&"RESET": SubResource("Animation_w7oog"),
+&"spin spin": SubResource("Animation_eqql7")
+}
+
+[node name="LossScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_sw7g1")
+script = ExtResource("2_uagj3")
+
+[node name="kadingirak" type="TextureRect" parent="."]
+modulate = Color(0, 0.146667, 0.55, 1)
+z_index = 6
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -96.0
+offset_top = -112.0
+offset_right = 96.0
+offset_bottom = -48.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 0
+tooltip_text = "\"Ka-dingir-ak\": Sumerian for Babylon and thus by extension, Babel."
+mouse_filter = 0
+texture = SubResource("AtlasTexture_2xpd5")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Title" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 273.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Buffer" type="Control" parent="Title"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Title"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/margin_left = 320
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 320
+theme_override_constants/margin_bottom = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="Title/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme = ExtResource("1_sw7g1")
+theme_override_styles/panel = SubResource("StyleBoxTexture_xlgfv")
+
+[node name="MarginContainer" type="MarginContainer" parent="Title/MarginContainer/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 32
+
+[node name="Title" type="TextureRect" parent="Title/MarginContainer/PanelContainer/MarginContainer"]
+modulate = Color(0.92, 0.817727, 0.7084, 1)
+z_index = 2
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+texture = SubResource("AtlasTexture_8y0rp")
+stretch_mode = 5
+
+[node name="Control" type="ColorRect" parent="."]
+clip_children = 1
+z_index = 5
+offset_left = 320.0
+offset_top = 190.0
+offset_right = 832.0
+offset_bottom = 273.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Waves" type="NinePatchRect" parent="Control"]
+modulate = Color(1, 1, 1, 0.784314)
+self_modulate = Color(0.321569, 0.501961, 1, 1)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -47.5
+offset_right = 320.0
+offset_bottom = -15.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 8
+texture = SubResource("AtlasTexture_1rffc")
+patch_margin_top = 16
+patch_margin_bottom = 16
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 1
+
+[node name="TextureRect" type="TextureRect" parent="Control/Waves"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 1152.0
+offset_top = 32.0
+offset_right = 1216.0
+offset_bottom = 1152.0
+grow_vertical = 2
+rotation = 1.5708
+texture = SubResource("GradientTexture1D_sge3f")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -375.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/margin_left = 320
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 320
+theme_override_constants/margin_bottom = 64
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme = ExtResource("1_sw7g1")
+theme_override_styles/panel = SubResource("StyleBoxTexture_5xbx1")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "Because of thirst the infant’s tongue
+sticks to the roof of its mouth;
+The children beg for bread, 
+but no one gives it to them.
+- Lamentations 4:4
+
+In the end, your civilization fell to starvation rather than floodwaters. Matters of human mismanagement are as deadly as natural disasters.
+
+Your civilization survived 5 floods and climbed 7 layers. You built 28 buildings and 32 platforms. "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 16
+disabled = true
+text = "RETURN TO MENU"
+
+[node name="Moon" type="TextureRect" parent="."]
+z_index = 1
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 448.0
+offset_top = 24.0
+offset_right = 576.0
+offset_bottom = 152.0
+grow_horizontal = 2
+pivot_offset = Vector2(64, 64)
+size_flags_vertical = 3
+mouse_filter = 2
+texture = SubResource("AtlasTexture_v28ek")
+stretch_mode = 5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_w6qc4")
+}
+autoplay = "spin spin"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Button" to="." method="_on_exit_pressed"]

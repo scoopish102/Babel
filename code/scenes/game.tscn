@@ -1,9 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://xxppq8waxmr0"]
+[gd_scene load_steps=8 format=3 uid="uid://xxppq8waxmr0"]
 
 [ext_resource type="Script" uid="uid://bxsjq3gott2b2" path="res://code/scripts/game.gd" id="1_vx8kw"]
 [ext_resource type="FastNoiseLite" uid="uid://cp5qla707rj28" path="res://code/resources/worldGenNoise.tres" id="2_iabw2"]
+[ext_resource type="PackedScene" uid="uid://cr7ywup7citx6" path="res://code/scenes/lossScreen.tscn" id="3_0mcf6"]
+[ext_resource type="Shader" uid="uid://b6om1mqmrapgf" path="res://code/scripts/stars.gdshader" id="3_5djy4"]
 [ext_resource type="PackedScene" uid="uid://dc4b48xoehxxs" path="res://code/scenes/ui.tscn" id="3_rku7w"]
 [ext_resource type="PackedScene" uid="uid://dgo06r2ac3jgr" path="res://code/scenes/tilemapDisplay.tscn" id="4_wccjh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0mcf6"]
+shader = ExtResource("3_5djy4")
+shader_parameter/bg_color = Vector4(0.01, 0, 0.189, 1)
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_vx8kw")
@@ -19,9 +25,35 @@ gameStartInfoText = "	Place buildings with the \"BUILD\" menu.
 	Press the button in the top right corner to advance to the next turn. 
 	The flood bar tells you how close the next layer is to being overrun with floodwaters. When a layer is consumed by floodwaters, the buildings on that layer become inaccesible and no longer produce resources. Every turn the flood progress increases by a certain amoun. There will be no flooding for the first 5 turns. 
 	You lose the game if you run out of food or your last city is washed away by the floods. Try to acheive the highest score you can, and survive for as long as possible!"
+lossScreenBlueprint = ExtResource("3_0mcf6")
 metadata/_edit_horizontal_guides_ = [324.0]
 
+[node name="Stars" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_0mcf6")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -576.0
+offset_top = -324.0
+offset_right = 576.0
+offset_bottom = 324.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.00799999, 0, 0.12, 1)
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+visible = false
+z_index = 9
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
 
 [node name="UI" parent="CanvasLayer" instance=ExtResource("3_rku7w")]
 
@@ -41,6 +73,9 @@ cameraSpeed = 1
 [connection signal="processBuildButtons" from="CanvasLayer/UI" to="." method="processBuildButtons"]
 [connection signal="processInfoTab" from="CanvasLayer/UI" to="." method="processInfoTab"]
 [connection signal="processInteract" from="CanvasLayer/UI" to="." method="processInteract"]
+[connection signal="resignGame" from="CanvasLayer/UI" to="." method="resign"]
+[connection signal="returnToMenu" from="CanvasLayer/UI" to="." method="returnToMenu"]
+[connection signal="saveGame" from="CanvasLayer/UI" to="." method="saveGame"]
 [connection signal="updateCursor" from="CanvasLayer/UI" to="." method="updateCursorDisplay"]
 
 [editable path="TilemapDisplay"]

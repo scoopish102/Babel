@@ -14,3 +14,10 @@ var FIP = {
 	&"Earth": "[img]res://code/resources/miniResourceIcons/earth.tres[/img]",
 	&"Labor": "[img]res://code/resources/miniResourceIcons/labor.tres[/img]"
 }
+var newGame: bool = true
+var transfer: float = 0
+var tprog: float = 0
+
+const mainMenu: String = "res://code/scenes/mainMenu.tscn"
+const gameScene: String = "res://code/scenes/game.tscn"
+const creditsScene: String = "res://code/scenes/credits.tscn"

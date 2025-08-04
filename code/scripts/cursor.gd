@@ -41,7 +41,6 @@ func process(pos: Vector2, outOfBounds: bool):
 		spriteOverlay.modulate.a = 0.3
 	if building.animation == &"Platform" and building.frame == 0: building.offset.y = -16
 	else: building.offset.y = 0
-
 func _unhandled_input(event):
 	if not self.outOfBounds and event.is_action_released("ui_select"): 
 		self.selected = not self.selected

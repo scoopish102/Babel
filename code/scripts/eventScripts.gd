@@ -32,7 +32,7 @@ class Event extends Object:
 	func createNotification(ui: GUI, title: String, content: String, option: String = "Okay") -> Notification:
 		self.eventName = title
 		notification = ui.singleOptionNotificationBlueprint.instantiate()
-		ui.add_child(notification)
+		ui.notifBox.add_child(notification)
 		ui.notifications.append(notification)
 		notification.size = Vector2(64*4.5, 64*3)# - Vector2(16, 16)
 		notification.centerOnScreen()

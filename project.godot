@@ -11,8 +11,12 @@ config_version=5
 [application]
 
 config/name="Babel"
-run/main_scene="res://code/scenes/game.tscn"
+config/description="Babel is a single-player tile-based strategy game where the goal is to survive a catastrophic flood by building higher and higher up. "
+config/version="alpha"
+run/main_scene="uid://pwa55ab0vrop"
 config/features=PackedStringArray("4.4", "Mobile")
+config/icon="uid://crixms3kq0iy0"
+config/windows_native_icon="res://assets/graphics/cityIcon.ico"
 
 [autoload]
 
@@ -74,3 +78,4 @@ ui_debug={
 
 textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="mobile"
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)

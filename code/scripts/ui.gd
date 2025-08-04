@@ -12,6 +12,16 @@ class_name GUI extends Control
 @onready var floodPercentLabel := $"TopBar/Seperator/floodPercent/HBoxContainer/Label"
 @onready var floodPercentNextTurn := $"TopBar/Seperator/floodPercent/HBoxContainer/nextTurn"
 @onready var waterLevelLabel := $"TopBar/Seperator/floodLayer/Label"
+@onready var menuButton := $"Turn/Backdrop/HBoxContainer/MenuButton"
+@onready var menu := $"MenuStuff"
+@onready var menuButtons := {
+	&"Resume": $"MenuStuff/Menu/VBoxContainer/Resume",
+	&"Save": $"MenuStuff/Menu/VBoxContainer/Save",
+	&"Resign": $"MenuStuff/Menu/VBoxContainer/Resign",
+	&"Return": $"MenuStuff/Menu/VBoxContainer/Return",
+	&"Quit": $"MenuStuff/Menu/VBoxContainer/Quit",
+}
+@onready var notifBox := $NotificationBox
 
 @export var notificationBlueprint: PackedScene
 @export var choiceNotificationBlueprint: PackedScene
@@ -61,7 +71,7 @@ func process(player: Game.Player, cursorCoords: Vector2, cursorSelected: bool, h
 	#resources.get_child(2).setLabels(player.resources["Bronze"].amount, player.resources["Bronze"].change)
 	resources.get_child(2).setLabels(player.resources[&"Labor"].amount, player.resources[&"Labor"].change)
 	
-	turnButton.get_child(1).set_text("Turn " + str(turn))
+	turnButton.get_child(0).get_child(0).set_text(str(turn))
 	
 	notifications = clean(notifications)
 	
@@ -208,3 +218,65 @@ func layerUp():
 func layerDown(): 
 	incrementLayer.emit(-1)
 	cursorSelect.emit(false)
+
+func menuToggled(toggle):
+	if toggle: menu.visible = true
+	else: menu.visible = false
+
+func resumeGamePressed(): 
+	menu.visible = false
+	menuButton.set_pressed(false)
+
+signal saveGame
+
+func saveGamePressed():
+	saveGame.emit()
+
+signal resignGame
+
+func resignGamePressed():
+	var ays: ChoiceNotification = choiceNotificationBlueprint.instantiate()
+	notifications.append(ays)
+	add_child(ays)
+	ays.size.y = 128+64
+	ays.centerOnScreen()
+	ays.setContent(
+		"Resign Game", "	Are you sure you want to give up here? When you resign, you will be unable to play this file again.")
+	ays.setChoices("Resign anyway?")
+	var result = await ays.getChoice()
+	notifications.erase(ays)
+	ays.queue_free()
+	if not result: return
+	resignGame.emit()
+
+signal returnToMenu
+
+func returnPressed():
+	var ays: ChoiceNotification = choiceNotificationBlueprint.instantiate()
+	notifications.append(ays)
+	add_child(ays)
+	ays.size.y = 128+64
+	ays.centerOnScreen()
+	ays.setContent(
+		"Return to Menu", "	Are you sure you want to return to the menu? Don't forget to save your progress.")
+	ays.setChoices("Return anyway?")
+	var result = await ays.getChoice()
+	notifications.erase(ays)
+	ays.queue_free()
+	if not result: return
+	returnToMenu.emit()
+
+func quitToDesktop(): 
+	var ays: ChoiceNotification = choiceNotificationBlueprint.instantiate()
+	notifications.append(ays)
+	add_child(ays)
+	ays.size.y = 128+64
+	ays.centerOnScreen()
+	ays.setContent(
+		"Quit Game", "	Are you sure you want to quit? Don't forget to save your progress.")
+	ays.setChoices("Quit anyway?")
+	var result = await ays.getChoice()
+	notifications.erase(ays)
+	ays.queue_free()
+	if not result: return
+	get_tree().quit()

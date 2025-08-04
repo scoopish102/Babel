@@ -34,13 +34,16 @@ class RResource extends Object:
 		
 	func boundAmounts(debug=false):
 		if self.amount < 0:
+			return true
 			self.amount = 0
 			if debug: print("Resource " + self.name + " is in deficit. (Losing " + str(self.change) + ")")
 			
 	func update():
 		if self.isBudget: self.amount = 0
 		self.amount += self.change
-		self.boundAmounts()
+		if self.boundAmounts():
+			return true
+		else: return false
 
 static func mergeTickets(ticket1: Dictionary[StringName, int], ticket2: Dictionary[StringName, int]) -> Dictionary[StringName, int]:
 	var result : Dictionary[StringName, int]

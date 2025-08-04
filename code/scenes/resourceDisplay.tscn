@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://c12vlpq5rosds" path="res://assets/graphics/ui.png" id="1_2og0d"]
 [ext_resource type="Script" uid="uid://duqd1f1pdtdxx" path="res://code/scripts/resourceDisplay.gd" id="1_w7wpk"]
 [ext_resource type="LabelSettings" uid="uid://cmqcc7hgthww2" path="res://code/resources/ResourceLabelSettings.tres" id="3_dxkki"]
-[ext_resource type="FontFile" uid="uid://bkh8e8v78wfdn" path="res://assets/fonts/EnterCommand.ttf" id="3_kkiko"]
+[ext_resource type="FontFile" uid="uid://k77wcok0bqum" path="res://assets/fonts/Pixolde-Bold.ttf" id="3_kkiko"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6wcl8"]
 atlas = ExtResource("1_2og0d")
