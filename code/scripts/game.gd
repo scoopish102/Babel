@@ -163,6 +163,7 @@ func _ready():
 	infolog.setOption("Okay")
 	await infolog.result
 	ui.notifications.erase(infolog)
+	infolog.queue_free()
 
 func _process(delta):
 	if gameEnded: return
@@ -526,6 +527,16 @@ func saveGame():
 	var jsonString = JSON.stringify(saveData)
 	saveFile.store_line(jsonString)
 	saveFile.close()
+	var infolog: SingleOptionNotification = ui.singleOptionNotificationBlueprint.instantiate()
+	ui.add_child(infolog)
+	ui.notifications.append(infolog)
+	infolog.size = Vector2(256, 128)
+	infolog.centerOnScreen()
+	infolog.setContent("SAVED GAME", "Game successfully saved!")
+	infolog.setOption("Okay")
+	await infolog.result
+	ui.notifications.erase(infolog)
+	infolog.queue_free()
 	#print("Game Saved Successfully?")
 
 func loadGame() -> bool:
@@ -541,23 +552,23 @@ func loadGame() -> bool:
 		return false
 	var saveData = json.data
 	saveFile.close()
-	turn = saveData["turn"]
+	turn = int(saveData["turn"])
 	player.score = saveData["score"]
-	player.resources[&"Food"].amount = saveData["food"]
-	player.resources[&"Earth"].amount = saveData["earth"]
-	player.resources[&"Labor"].amount = saveData["labor"]
-	player.buildingCount = saveData["buildingCount"]
-	player.platformCount = saveData["platformCount"]
+	player.resources[&"Food"].amount = int(saveData["food"])
+	player.resources[&"Earth"].amount = int(saveData["earth"])
+	player.resources[&"Labor"].amount = int(saveData["labor"])
+	player.buildingCount = int(saveData["buildingCount"])
+	player.platformCount =int(saveData["platformCount"])
 	player.favor = saveData["favor"]
-	player.grace = saveData["grace"]
+	player.grace = int(saveData["grace"])
 	#player.effects = saveData["effects"]
 	for effect in saveData["effects"]:
-		player.effects[effect] = saveData["effects"][effect]
+		player.effects[effect] = int(saveData["effects"][effect])
 	tilemap.mapSize = Vector2(saveData["gameSize.x"], saveData["gameSize.y"])
-	tilemap.mapHeight = saveData["gameLayers"]
+	tilemap.mapHeight = int(saveData["gameLayers"])
 	tilemap.convertTerrainMapCode(saveData["terrainMapCode"])
 	tilemap.convertBuildingMapCode(saveData["buildingMapCode"])
-	tilemap.waterLevel = saveData["waterLevel"]
+	tilemap.waterLevel = int(saveData["waterLevel"])
 	tilemap.floodPercentage = saveData["floodPercentage"]
 	player.rainNextTurn = saveData["rainNextTurn"]
 	return true

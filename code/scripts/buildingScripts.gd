@@ -1,5 +1,8 @@
 class_name BuildingScripts extends Object
 
+func _ready():
+	print("Hello World")
+
 class Building extends Object:
 	var cost : Dictionary[StringName, int]
 	var budget : Dictionary[StringName, int]

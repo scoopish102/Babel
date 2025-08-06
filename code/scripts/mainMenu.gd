@@ -11,9 +11,10 @@ func _ready():
 	#$AnimationPlayer.current_animation_position = Global.tprog
 	var saveFile = FileAccess.open("res://code/saves/save.json", FileAccess.READ)
 	var jsonString = saveFile.get_line()
-	var json = JSON.new()
-	var parse = json.parse(jsonString)
-	if parse == 0: $"MarginContainer/VBoxContainer/Continue Game".visible = false
+	#print(jsonString)
+	if jsonString == "{}": $"MarginContainer/VBoxContainer/Continue Game".visible = false
+	else: $"MarginContainer/VBoxContainer/Continue Game".visible = true
+	#print(parse)
 	saveFile.close()
 
 func _process(_delta):
