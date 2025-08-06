@@ -113,9 +113,11 @@ var player = Player.new()
 
 func _ready():
 	#RenderingServer.set_default_clear_color(Color(0.01, 0.0, 0.189))
+	$BackgroundMusic.set_volume_db(-80)
 	$CanvasLayer/ColorRect.visible = true
 	tween = get_tree().create_tween()
-	tween.set_parallel(false)
+	tween.set_parallel(true)
+	tween.tween_property($BackgroundMusic, "volume_db", -15, 2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	tween.tween_property($CanvasLayer/ColorRect, "color", Color(0.0, 0.0, 0.0, 0.0), 2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 	
 	#print(Global.mapSize)
@@ -593,8 +595,17 @@ func loadGame() -> bool:
 """
 
 func returnToMenu():
+	if tween: tween.kill()
+	tween = get_tree().create_tween()
 	#print("lesgo")
+	tween.set_parallel(true)
+	tween.tween_property($ColorRect, "color", Color(0.0, 0.0, 0.0), 1).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween.tween_property($BackgroundMusic, "volume_db", -80, 1).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween.set_parallel(false)
+	tween.tween_callback(loadMenuScene)
 	$BackgroundMusic.saveAudioPosition()
+
+func loadMenuScene():
 	get_tree().change_scene_to_file("res://code/scenes/mainMenu.tscn")
 
 var l: Tween

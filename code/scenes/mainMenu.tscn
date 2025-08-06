@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=4 uid="uid://pwa55ab0vrop"]
+[gd_scene load_steps=34 format=4 uid="uid://pwa55ab0vrop"]
 
 [ext_resource type="Texture2D" uid="uid://bctsseohhqbvk" path="res://assets/graphics/terrains.png" id="1_uanj2"]
 [ext_resource type="Script" uid="uid://dprci285jwqcd" path="res://code/scripts/mainMenu.gd" id="2_eqql7"]
@@ -14,7 +14,7 @@
 [ext_resource type="AudioStream" uid="uid://c1am215s3xme6" path="res://assets/audio/Learning.mp3" id="12_hh858"]
 [ext_resource type="AudioStream" uid="uid://vvm8fkek2g01" path="res://assets/audio/Valley of the Bells.mp3" id="13_tta83"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_eqql7"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tkuam"]
 texture = ExtResource("1_uanj2")
 margins = Vector2i(32, 48)
 separation = Vector2i(64, 64)
@@ -46,7 +46,7 @@ texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
 0:0/0/texture_origin = Vector2i(0, -16)
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_w6qc4"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_168ye"]
 texture = ExtResource("2_w7oog")
 margins = Vector2i(32, 32)
 separation = Vector2i(64, 64)
@@ -63,8 +63,8 @@ texture_region_size = Vector2i(64, 64)
 tile_shape = 1
 tile_layout = 5
 tile_size = Vector2i(64, 32)
-sources/1 = SubResource("TileSetAtlasSource_eqql7")
-sources/2 = SubResource("TileSetAtlasSource_w6qc4")
+sources/1 = SubResource("TileSetAtlasSource_tkuam")
+sources/2 = SubResource("TileSetAtlasSource_168ye")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_uanj2"]
 atlas = ExtResource("5_rjxrm")
@@ -90,16 +90,79 @@ atlas = ExtResource("4_w6qc4")
 region = Rect2(64, 352, 64, 32)
 filter_clip = true
 
-[sub_resource type="Gradient" id="Gradient_w7oog"]
+[sub_resource type="Gradient" id="Gradient_irb20"]
 colors = PackedColorArray(0.321569, 0.501961, 1, 1, 0.164706, 0.278431, 0.686275, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_dnoo6"]
-gradient = SubResource("Gradient_w7oog")
+gradient = SubResource("Gradient_irb20")
 width = 64
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p6adb"]
 atlas = ExtResource("6_dnoo6")
 region = Rect2(5, 133, 118, 118)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tkuam"]
+atlas = ExtResource("4_w6qc4")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_168ye"]
+atlas = ExtResource("4_w6qc4")
+region = Rect2(104, 232, 16, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_irb20"]
+texture = ExtResource("4_w6qc4")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.47, 0.1316, 0.1316, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hh858"]
+texture = ExtResource("4_w6qc4")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.74, 0.222, 0.222, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pceqp"]
+texture = ExtResource("4_w6qc4")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.64, 0.192, 0.192, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_p6adb"]
+texture = ExtResource("4_w6qc4")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.84, 0.252, 0.252, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xkdo6"]
+texture = ExtResource("4_w6qc4")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.960784, 0.8, 0.564706, 1)
 
 [sub_resource type="Animation" id="Animation_w7oog"]
 length = 0.001
@@ -308,14 +371,11 @@ stretch_mode = 5
 [node name="MarginContainer" type="MarginContainer" parent="."]
 z_index = 2
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
+anchors_preset = 12
 anchor_top = 1.0
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -128.0
-offset_top = -368.0
-offset_right = 128.0
+offset_top = -328.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_horizontal = 8
@@ -326,13 +386,19 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="Buttons" type="MarginContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 384
+theme_override_constants/margin_right = 384
+theme_override_constants/margin_bottom = 32
+
+[node name="Buttons" type="VBoxContainer" parent="MarginContainer/Buttons"]
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 2
 theme_override_constants/separation = 16
 
-[node name="New Game" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="New Game" type="Button" parent="MarginContainer/Buttons/Buttons"]
 layout_mode = 2
 focus_mode = 0
 theme = ExtResource("3_eqql7")
@@ -340,7 +406,7 @@ theme_override_fonts/font = ExtResource("7_tkuam")
 theme_override_font_sizes/font_size = 32
 text = "NEW GAME"
 
-[node name="Continue Game" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="Continue Game" type="Button" parent="MarginContainer/Buttons/Buttons"]
 layout_mode = 2
 focus_mode = 0
 theme = ExtResource("3_eqql7")
@@ -348,7 +414,7 @@ theme_override_fonts/font = ExtResource("7_tkuam")
 theme_override_font_sizes/font_size = 32
 text = "CONTINUE GAME"
 
-[node name="Credits" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="Credits" type="Button" parent="MarginContainer/Buttons/Buttons"]
 layout_mode = 2
 focus_mode = 0
 theme = ExtResource("3_eqql7")
@@ -356,13 +422,103 @@ theme_override_fonts/font = ExtResource("7_tkuam")
 theme_override_font_sizes/font_size = 32
 text = "CREDITS"
 
-[node name="Exit" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="Exit" type="Button" parent="MarginContainer/Buttons/Buttons"]
 layout_mode = 2
 focus_mode = 0
 theme = ExtResource("3_eqql7")
 theme_override_fonts/font = ExtResource("7_tkuam")
 theme_override_font_sizes/font_size = 32
 text = "EXIT GAME"
+
+[node name="Credits" type="MarginContainer" parent="MarginContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 128
+theme_override_constants/margin_right = 128
+theme_override_constants/margin_bottom = 32
+
+[node name="Credits" type="VBoxContainer" parent="MarginContainer/Credits"]
+layout_mode = 2
+
+[node name="Tab" type="NinePatchRect" parent="MarginContainer/Credits/Credits"]
+self_modulate = Color(0.960784, 0.8, 0.564706, 1)
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 1
+texture = SubResource("AtlasTexture_tkuam")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Credits/Credits/Tab"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="Buffer" type="Control" parent="MarginContainer/Credits/Credits/Tab/HBoxContainer"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+mouse_filter = 1
+
+[node name="Title" type="RichTextLabel" parent="MarginContainer/Credits/Credits/Tab/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+theme = ExtResource("3_eqql7")
+theme_override_fonts/normal_font = ExtResource("7_tkuam")
+theme_override_font_sizes/normal_font_size = 16
+text = "CREDITS"
+vertical_alignment = 1
+
+[node name="Buffer2" type="Control" parent="MarginContainer/Credits/Credits/Tab/HBoxContainer"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+mouse_filter = 1
+
+[node name="ExitButton" type="Button" parent="MarginContainer/Credits/Credits/Tab/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+focus_mode = 0
+theme = ExtResource("3_eqql7")
+theme_override_colors/icon_disabled_color = Color(0.47, 0.47, 0.47, 1)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 1)
+theme_override_icons/icon = SubResource("AtlasTexture_168ye")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_irb20")
+theme_override_styles/hover = SubResource("StyleBoxTexture_hh858")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_pceqp")
+theme_override_styles/normal = SubResource("StyleBoxTexture_p6adb")
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/Credits/Credits"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme = ExtResource("3_eqql7")
+theme_override_styles/panel = SubResource("StyleBoxTexture_xkdo6")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/Credits/Credits/PanelContainer"]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "Font \"Pixolde Bold\" from [url=https://fontenddev.com/fonts/pixolde/]fontenddev.com[/url]
+Star shader effect by gerardogc2378 from [url=https://godotshaders.com/shader/stars-shader/]godotshaders.com[/url]
+
+Special thanks to:
+My SRELO mentor, Dr. Bhounsule (UIC)
+My friends for game testing
+"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -386,7 +542,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0, 0, 0, 0)
+color = Color(0, 0, 0, 1)
 
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_tkuam")
@@ -394,8 +550,9 @@ volume_db = -15.0
 script = ExtResource("10_168ye")
 tracklist = Array[AudioStream]([ExtResource("10_tkuam"), ExtResource("11_168ye"), ExtResource("12_hh858"), ExtResource("13_tta83")])
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/New Game" to="." method="_on_new_game_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Continue Game" to="." method="_on_continue_game_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Credits" to="." method="_on_credits_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="MarginContainer/Buttons/Buttons/New Game" to="." method="_on_new_game_pressed"]
+[connection signal="pressed" from="MarginContainer/Buttons/Buttons/Continue Game" to="." method="_on_continue_game_pressed"]
+[connection signal="pressed" from="MarginContainer/Buttons/Buttons/Credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="MarginContainer/Buttons/Buttons/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="MarginContainer/Credits/Credits/Tab/HBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
 [connection signal="finished" from="BackgroundMusic" to="BackgroundMusic" method="_on_finished"]

@@ -173,6 +173,7 @@ stretch_mode = 5
 [node name="Control" type="ColorRect" parent="."]
 clip_children = 1
 z_index = 5
+layout_mode = 0
 offset_left = 320.0
 offset_top = 190.0
 offset_right = 832.0

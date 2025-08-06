@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxgva85f00cfi"]
+
+[ext_resource type="Texture2D" uid="uid://c12vlpq5rosds" path="res://assets/graphics/ui.png" id="6_amtum"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Backdrop" type="NinePatchRect" parent="."]
+self_modulate = Color(0.960784, 0.8, 0.564706, 1)
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_amtum")
+region_rect = Rect2(0, 192, 64, 64)
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
