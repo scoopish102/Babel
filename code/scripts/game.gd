@@ -523,7 +523,7 @@ func saveGame():
 		"floodPercentage":tilemap.floodPercentage,
 		"rainNextTurn":player.rainNextTurn
 	}
-	var saveFile = FileAccess.open("res://code/saves/save.json", FileAccess.WRITE)
+	var saveFile = FileAccess.open("user://save.json", FileAccess.WRITE)
 	var jsonString = JSON.stringify(saveData)
 	saveFile.store_line(jsonString)
 	saveFile.close()
@@ -540,10 +540,10 @@ func saveGame():
 	#print("Game Saved Successfully?")
 
 func loadGame() -> bool:
-	if not FileAccess.file_exists("res://code/saves/save.json"):
+	if not FileAccess.file_exists("user://save.json"):
 		print("No save found.")
 		return false
-	var saveFile = FileAccess.open("res://code/saves/save.json", FileAccess.READ)
+	var saveFile = FileAccess.open("user://save.json", FileAccess.READ)
 	var jsonString = saveFile.get_line()
 	var json = JSON.new()
 	var parse = json.parse(jsonString)
@@ -594,6 +594,7 @@ func loadGame() -> bool:
 
 func returnToMenu():
 	#print("lesgo")
+	$BackgroundMusic.saveAudioPosition()
 	get_tree().change_scene_to_file("res://code/scenes/mainMenu.tscn")
 
 var l: Tween
@@ -633,7 +634,8 @@ func loseGame(why):
 	else: stats = ("\nYour civilization survived " + str(tilemap.waterLevel-1) +" flood(s) and climbed " + str(tilemap.mapHeight-1) + " layer(s). You built " +
 			str(player.buildingCount) + " building(s) and " + str(player.platformCount) + " platform(s). ")
 	lossScreen.content.text = (epitaph + "\n\n" + reason + "\n" + stats)
-	var saveFile = FileAccess.open("res://code/saves/save.json", FileAccess.WRITE)
+	var saveFile = FileAccess.open("user://save.json", FileAccess.WRITE)
 	var jsonString = JSON.stringify({})
 	saveFile.store_line(jsonString)
 	saveFile.close()
+	lossScreen.leave.connect(returnToMenu)

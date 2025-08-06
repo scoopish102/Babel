@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dxaddx0646pod"
+path="res://.godot/imported/For Euterpe.mp3-656f27a6c076c0c5eb73325227cb8cea.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/For Euterpe.mp3"
+dest_files=["res://.godot/imported/For Euterpe.mp3-656f27a6c076c0c5eb73325227cb8cea.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

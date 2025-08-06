@@ -15,8 +15,8 @@ config/description="Babel is a single-player tile-based strategy game where the 
 config/version="alpha"
 run/main_scene="uid://pwa55ab0vrop"
 config/features=PackedStringArray("4.4", "Mobile")
-config/icon="uid://crixms3kq0iy0"
-config/windows_native_icon="res://assets/graphics/cityIcon.ico"
+config/icon="uid://f4631yt1o5gj"
+config/windows_native_icon="res://assets/graphics/babel.ico"
 
 [autoload]
 

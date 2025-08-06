@@ -9,7 +9,10 @@ func _ready():
 	RenderingServer.set_default_clear_color(Color(0.0, 0.0, 0.0))
 	i = Global.transfer
 	#$AnimationPlayer.current_animation_position = Global.tprog
-	var saveFile = FileAccess.open("res://code/saves/save.json", FileAccess.READ)
+	if not FileAccess.file_exists("user://save.json"): 
+		var file = FileAccess.open("user://save.json", FileAccess.WRITE)
+		file.store_line(JSON.stringify({}))
+	var saveFile = FileAccess.open("user://save.json", FileAccess.READ)
 	var jsonString = saveFile.get_line()
 	#print(jsonString)
 	if jsonString == "{}": $"MarginContainer/VBoxContainer/Continue Game".visible = false
@@ -29,15 +32,18 @@ func _process(_delta):
 func _on_new_game_pressed():
 	Global.newGame = true
 	#get_tree().change_scene_to_file("res://code/scenes/game.tscn")
+	$BackgroundMusic.saveAudioPosition()
 	loadingAnim("res://code/scenes/game.tscn")
 
 func _on_continue_game_pressed():
 	Global.newGame = false
+	$BackgroundMusic.saveAudioPosition()
 	loadingAnim("res://code/scenes/game.tscn")
 
 func _on_credits_pressed():
 	Global.transfer = i
 	Global.tprog = $AnimationPlayer.current_animation_position
+	$BackgroundMusic.saveAudioPosition()
 	#get_tree().unload_current_scene()
 	get_tree().change_scene_to_file("res://code/scenes/credits.tscn")
 

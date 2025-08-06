@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://xxppq8waxmr0"]
+[gd_scene load_steps=13 format=3 uid="uid://xxppq8waxmr0"]
 
 [ext_resource type="Script" uid="uid://bxsjq3gott2b2" path="res://code/scripts/game.gd" id="1_vx8kw"]
 [ext_resource type="FastNoiseLite" uid="uid://cp5qla707rj28" path="res://code/resources/worldGenNoise.tres" id="2_iabw2"]
@@ -6,6 +6,11 @@
 [ext_resource type="Shader" uid="uid://b6om1mqmrapgf" path="res://code/scripts/stars.gdshader" id="3_5djy4"]
 [ext_resource type="PackedScene" uid="uid://dc4b48xoehxxs" path="res://code/scenes/ui.tscn" id="3_rku7w"]
 [ext_resource type="PackedScene" uid="uid://dgo06r2ac3jgr" path="res://code/scenes/tilemapDisplay.tscn" id="4_wccjh"]
+[ext_resource type="Script" uid="uid://b1d2xj6sn5tu8" path="res://code/scripts/backgroundMusic.gd" id="8_2c17f"]
+[ext_resource type="AudioStream" uid="uid://dfgrds0uaki28" path="res://assets/audio/Hurrian Hymn.mp3" id="8_ei3ps"]
+[ext_resource type="AudioStream" uid="uid://dxaddx0646pod" path="res://assets/audio/For Euterpe.mp3" id="9_2c17f"]
+[ext_resource type="AudioStream" uid="uid://c1am215s3xme6" path="res://assets/audio/Learning.mp3" id="10_64c0f"]
+[ext_resource type="AudioStream" uid="uid://vvm8fkek2g01" path="res://assets/audio/Valley of the Bells.mp3" id="11_cb2cc"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0mcf6"]
 shader = ExtResource("3_5djy4")
@@ -62,6 +67,12 @@ cameraSpeed = 1
 
 [node name="Camera" type="Camera2D" parent="."]
 
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_ei3ps")
+volume_db = -15.0
+script = ExtResource("8_2c17f")
+tracklist = Array[AudioStream]([ExtResource("8_ei3ps"), ExtResource("9_2c17f"), ExtResource("10_64c0f"), ExtResource("11_cb2cc")])
+
 [connection signal="attemptPlaceBuilding" from="CanvasLayer/UI" to="." method="attemptPlaceBuilding"]
 [connection signal="attemptPlaceTile" from="CanvasLayer/UI" to="." method="attemptPlaceTile"]
 [connection signal="attemptPlaceWaterPlatform" from="CanvasLayer/UI" to="." method="attemptPlaceWaterPlatform"]
@@ -77,5 +88,6 @@ cameraSpeed = 1
 [connection signal="returnToMenu" from="CanvasLayer/UI" to="." method="returnToMenu"]
 [connection signal="saveGame" from="CanvasLayer/UI" to="." method="saveGame"]
 [connection signal="updateCursor" from="CanvasLayer/UI" to="." method="updateCursorDisplay"]
+[connection signal="finished" from="BackgroundMusic" to="BackgroundMusic" method="_on_finished"]
 
 [editable path="TilemapDisplay"]

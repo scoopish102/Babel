@@ -3,6 +3,7 @@ extends Control
 var i: float
 var moonBobbing = false
 @onready var content := $MarginContainer/VBoxContainer/PanelContainer/RichTextLabel
+signal leave()
 
 #const mainMenu: PackedScene = preload("res://code/scenes/mainMenu.tscn")
 
@@ -36,4 +37,4 @@ func _on_exit_pressed():
 	Global.tprog = $AnimationPlayer.current_animation_position
 	#print("lets get outa here scoobs")
 	#get_tree().unload_current_scene()
-	get_tree().change_scene_to_file("res://code/scenes/mainMenu.tscn")
+	leave.emit()

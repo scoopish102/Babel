@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=4 uid="uid://blv1jq2csk6bt"]
+[gd_scene load_steps=33 format=4 uid="uid://blv1jq2csk6bt"]
 
 [ext_resource type="Theme" uid="uid://bo7cnjum0jm1g" path="res://code/resources/uiTheme.tres" id="1_8x6mh"]
 [ext_resource type="Texture2D" uid="uid://bctsseohhqbvk" path="res://assets/graphics/terrains.png" id="2_meu0k"]
@@ -8,6 +8,11 @@
 [ext_resource type="Texture2D" uid="uid://c12vlpq5rosds" path="res://assets/graphics/ui.png" id="5_qjpaq"]
 [ext_resource type="Texture2D" uid="uid://mtm6glhsddi0" path="res://assets/graphics/turn.png" id="6_kygx5"]
 [ext_resource type="FontFile" uid="uid://dc2y5ytf5kanj" path="res://assets/fonts/EnterCommand.ttf" id="7_meu0k"]
+[ext_resource type="AudioStream" uid="uid://dfgrds0uaki28" path="res://assets/audio/Hurrian Hymn.mp3" id="9_mhqha"]
+[ext_resource type="Script" uid="uid://b1d2xj6sn5tu8" path="res://code/scripts/backgroundMusic.gd" id="10_20vnu"]
+[ext_resource type="AudioStream" uid="uid://dxaddx0646pod" path="res://assets/audio/For Euterpe.mp3" id="11_20vnu"]
+[ext_resource type="AudioStream" uid="uid://c1am215s3xme6" path="res://assets/audio/Learning.mp3" id="12_4twfu"]
+[ext_resource type="AudioStream" uid="uid://vvm8fkek2g01" path="res://assets/audio/Valley of the Bells.mp3" id="13_2fyd2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6wmjo"]
 texture = ExtResource("2_meu0k")
@@ -442,4 +447,11 @@ libraries = {
 }
 autoplay = "spin spin"
 
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_mhqha")
+volume_db = -15.0
+script = ExtResource("10_20vnu")
+tracklist = Array[AudioStream]([ExtResource("9_mhqha"), ExtResource("11_20vnu"), ExtResource("12_4twfu"), ExtResource("13_2fyd2")])
+
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Tab/HBoxContainer/ExitButton" to="." method="_on_exit_pressed"]
+[connection signal="finished" from="BackgroundMusic" to="BackgroundMusic" method="_on_finished"]

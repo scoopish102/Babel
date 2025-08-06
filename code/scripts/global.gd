@@ -21,3 +21,6 @@ var tprog: float = 0
 const mainMenu: String = "res://code/scenes/mainMenu.tscn"
 const gameScene: String = "res://code/scenes/game.tscn"
 const creditsScene: String = "res://code/scenes/credits.tscn"
+
+var currentAudio = load("res://assets/audio/Hurrian Hymn.mp3")
+var audioPosition = 0

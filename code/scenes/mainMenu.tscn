@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://pwa55ab0vrop"]
+[gd_scene load_steps=27 format=4 uid="uid://pwa55ab0vrop"]
 
 [ext_resource type="Texture2D" uid="uid://bctsseohhqbvk" path="res://assets/graphics/terrains.png" id="1_uanj2"]
 [ext_resource type="Script" uid="uid://dprci285jwqcd" path="res://code/scripts/mainMenu.gd" id="2_eqql7"]
@@ -8,6 +8,11 @@
 [ext_resource type="Texture2D" uid="uid://bdhpnng6vos85" path="res://assets/graphics/art.png" id="5_rjxrm"]
 [ext_resource type="Texture2D" uid="uid://mtm6glhsddi0" path="res://assets/graphics/turn.png" id="6_dnoo6"]
 [ext_resource type="FontFile" uid="uid://dc2y5ytf5kanj" path="res://assets/fonts/EnterCommand.ttf" id="7_tkuam"]
+[ext_resource type="Script" uid="uid://b1d2xj6sn5tu8" path="res://code/scripts/backgroundMusic.gd" id="10_168ye"]
+[ext_resource type="AudioStream" uid="uid://dfgrds0uaki28" path="res://assets/audio/Hurrian Hymn.mp3" id="10_tkuam"]
+[ext_resource type="AudioStream" uid="uid://dxaddx0646pod" path="res://assets/audio/For Euterpe.mp3" id="11_168ye"]
+[ext_resource type="AudioStream" uid="uid://c1am215s3xme6" path="res://assets/audio/Learning.mp3" id="12_hh858"]
+[ext_resource type="AudioStream" uid="uid://vvm8fkek2g01" path="res://assets/audio/Valley of the Bells.mp3" id="13_tta83"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_eqql7"]
 texture = ExtResource("1_uanj2")
@@ -383,7 +388,14 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0)
 
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_tkuam")
+volume_db = -15.0
+script = ExtResource("10_168ye")
+tracklist = Array[AudioStream]([ExtResource("10_tkuam"), ExtResource("11_168ye"), ExtResource("12_hh858"), ExtResource("13_tta83")])
+
 [connection signal="pressed" from="MarginContainer/VBoxContainer/New Game" to="." method="_on_new_game_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Continue Game" to="." method="_on_continue_game_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Credits" to="." method="_on_credits_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
+[connection signal="finished" from="BackgroundMusic" to="BackgroundMusic" method="_on_finished"]
