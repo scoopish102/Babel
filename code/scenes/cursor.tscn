@@ -153,6 +153,7 @@ texture = SubResource("AtlasTexture_76byq")
 [node name="lowerindicator" type="Sprite2D" parent="."]
 modulate = Color(0.32, 0.501333, 1, 0.588235)
 z_index = 5
+y_sort_enabled = true
 scale = Vector2(2, 2)
 texture = SubResource("AtlasTexture_tsft6")
 offset = Vector2(0, 16)

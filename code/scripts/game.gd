@@ -176,6 +176,10 @@ func _process(delta):
 		hasBuildingInCursor = false
 	else: hasBuildingInCursor = tilemap.buildingMap[tilemapDisplay.layer][tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * 
 			tilemap.mapSize.x] != null and not tilemapDisplay.layer < tilemap.waterLevel
+	if (tilemapDisplay.layer > 0 and tilemap.buildingMap[tilemapDisplay.layer-1][tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * 
+			tilemap.mapSize.x] != null and not tilemapDisplay.layer < tilemap.waterLevel): 
+		tilemapDisplay.cursor.lower.z_index = 6
+	else: tilemapDisplay.cursor.lower.z_index = 5
 	player.process(tilemap.waterLevel, tilemap.buildingMap)
 	ui.process(player, tilemapDisplay.cursor.tile, tilemapDisplay.cursor.selected, hasBuildingInCursor, turn, 
 			tilemapDisplay.layer, tilemap.mapHeight, tilemap.waterLevel, tilemap.floodPercentage)
@@ -238,6 +242,9 @@ func processBuildButtons(cursorSelected: bool, buildingName: StringName):
 		return
 	var cost: Dictionary[StringName, int]
 	var hasNeighbors: bool = false
+	var hasLowerNeighbor: bool = false
+	if (tilemap.terrainMap[tilemapDisplay.layer][tilemapDisplay.cursor.tile.x+tilemapDisplay.cursor.tile.y*tilemap.mapSize.x]
+			!= GameTilemap.Terrain.Air): hasLowerNeighbor = true
 	if cursorSelected: 
 		for neighbor in tilemap.getAllNeighbors(tilemapDisplay.cursor.tile).values():
 			if tilemap.buildingMap[tilemapDisplay.layer][neighbor.x+neighbor.y*tilemap.mapSize.x] != null:
@@ -247,9 +254,6 @@ func processBuildButtons(cursorSelected: bool, buildingName: StringName):
 			== GameTilemap.Terrain.Platform): hasNeighbors = true
 	if buildingName == &"Platform":
 		cost = {&"Earth": int(-2), &"Labor": int(-1)}
-		var hasLowerNeighbor: bool = false
-		if (tilemap.terrainMap[tilemapDisplay.layer][tilemapDisplay.cursor.tile.x+tilemapDisplay.cursor.tile.y*tilemap.mapSize.x]
-				!= GameTilemap.Terrain.Air): hasLowerNeighbor = true
 		ui.infoBox.build.disabled = ((not cursorSelected) or (not player.canBeRedeemed(cost))
 				or tilemap.terrainMap[tilemapDisplay.layer+1][tilemapDisplay.cursor.tile.x+tilemapDisplay.cursor.tile.y*tilemap.mapSize.x]
 				!= GameTilemap.Terrain.Air or (not hasLowerNeighbor) or (not hasNeighbors))
@@ -295,7 +299,7 @@ func processBuildButtons(cursorSelected: bool, buildingName: StringName):
 	#player.canBeRedeemed(cost)
 	ui.infoBox.build.disabled = ((not cursorSelected) or (not player.canBeRedeemed(cost)) or 
 			tilemap.buildingMap[tilemapDisplay.layer][tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * tilemap.mapSize.x] != null or
-			(not hasNeighbors))
+			(not hasNeighbors) or not hasLowerNeighbor)
 	ui.infoBox.build.tooltip_text = ""
 	if not cursorSelected: 
 		ui.infoBox.build.tooltip_text += "Select a tile first. "
@@ -599,11 +603,11 @@ func returnToMenu():
 	tween = get_tree().create_tween()
 	#print("lesgo")
 	tween.set_parallel(true)
-	tween.tween_property($ColorRect, "color", Color(0.0, 0.0, 0.0), 1).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween.tween_property($CanvasLayer/ColorRect, "color", Color(0.0, 0.0, 0.0), 1).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	tween.tween_property($BackgroundMusic, "volume_db", -80, 1).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	tween.set_parallel(false)
-	tween.tween_callback(loadMenuScene)
 	$BackgroundMusic.saveAudioPosition()
+	tween.tween_callback(loadMenuScene)
 
 func loadMenuScene():
 	get_tree().change_scene_to_file("res://code/scenes/mainMenu.tscn")

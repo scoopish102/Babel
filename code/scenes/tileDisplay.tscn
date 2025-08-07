@@ -24,7 +24,7 @@ animation = &"Platform"
 offset = Vector2(0, 32)
 
 [node name="lowerBuilding" type="AnimatedSprite2D" parent="."]
-z_index = 5
+z_index = 6
 sprite_frames = ExtResource("3_da8dj")
 animation = &"Kiln"
 offset = Vector2(0, 32)
@@ -41,7 +41,7 @@ animation = &"City"
 
 [node name="secondLayer" type="AnimatedSprite2D" parent="."]
 modulate = Color(1, 1, 1, 0.470588)
-z_index = 8
+z_index = 7
 scale = Vector2(0.993674, 0.997309)
 sprite_frames = ExtResource("2_6qxuq")
 animation = &"Platform"
