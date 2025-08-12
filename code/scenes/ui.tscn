@@ -1,4 +1,4 @@
-[gd_scene load_steps=90 format=4 uid="uid://dc4b48xoehxxs"]
+[gd_scene load_steps=104 format=4 uid="uid://dc4b48xoehxxs"]
 
 [ext_resource type="Texture2D" uid="uid://c12vlpq5rosds" path="res://assets/graphics/ui.png" id="1_01mra"]
 [ext_resource type="Script" uid="uid://t0cr2qtujtfa" path="res://code/scripts/ui.gd" id="1_dn3ly"]
@@ -917,6 +917,52 @@ keycode = 4194305
 [sub_resource type="Shortcut" id="Shortcut_nlcp4"]
 events = [SubResource("InputEventKey_ui5cb")]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nlcp4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_eu83c"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_41u3d"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qfaga"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vgmoh"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_nlcp4"]
+device = -1
+keycode = 4194332
+
+[sub_resource type="InputEventKey" id="InputEventKey_eu83c"]
+device = -1
+keycode = 49
+unicode = 49
+
+[sub_resource type="Shortcut" id="Shortcut_41u3d"]
+events = [SubResource("InputEventKey_nlcp4"), SubResource("InputEventKey_eu83c")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_qfaga"]
+device = -1
+keycode = 4194333
+
+[sub_resource type="InputEventKey" id="InputEventKey_vgmoh"]
+device = -1
+keycode = 50
+unicode = 50
+
+[sub_resource type="Shortcut" id="Shortcut_34x7q"]
+events = [SubResource("InputEventKey_qfaga"), SubResource("InputEventKey_vgmoh")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_1j6wp"]
+device = -1
+keycode = 4194334
+
+[sub_resource type="InputEventKey" id="InputEventKey_jvahs"]
+device = -1
+keycode = 51
+unicode = 51
+
+[sub_resource type="Shortcut" id="Shortcut_wmf8q"]
+events = [SubResource("InputEventKey_1j6wp"), SubResource("InputEventKey_jvahs")]
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_rijo4"]
 atlas = ExtResource("6_yd6wg")
 region = Rect2(32, 152, 64, 64)
@@ -1452,8 +1498,10 @@ mouse_filter = 2
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_vertical = 6
+tooltip_text = "Shortcut: E"
 focus_mode = 0
 shortcut = SubResource("Shortcut_fjpdc")
+shortcut_in_tooltip = false
 texture_normal = SubResource("AtlasTexture_cq43s")
 texture_pressed = SubResource("AtlasTexture_44hmj")
 texture_hover = SubResource("AtlasTexture_hg4rc")
@@ -1464,8 +1512,10 @@ stretch_mode = 5
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_vertical = 6
+tooltip_text = "Shortcut: Q"
 focus_mode = 0
 shortcut = SubResource("Shortcut_pmi6l")
+shortcut_in_tooltip = false
 texture_normal = SubResource("AtlasTexture_cq43s")
 texture_pressed = SubResource("AtlasTexture_44hmj")
 texture_hover = SubResource("AtlasTexture_hg4rc")
@@ -1578,7 +1628,7 @@ vertical_alignment = 1
 [node name="MenuButton" type="Button" parent="Turn/Backdrop/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
-tooltip_text = "Click this to open the menu."
+tooltip_text = "Click this to open the menu. Shortcut: ESC"
 focus_mode = 0
 theme = ExtResource("4_v3ivv")
 theme_override_colors/icon_disabled_color = Color(0.47, 0.47, 0.47, 1)
@@ -1594,6 +1644,7 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_xuka8")
 theme_override_styles/normal = SubResource("StyleBoxTexture_yki2d")
 toggle_mode = true
 shortcut = SubResource("Shortcut_nlcp4")
+shortcut_in_tooltip = false
 
 [node name="BottomBar" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 96)
@@ -1618,24 +1669,54 @@ theme_override_constants/separation = 0
 layout_mode = 2
 disabledModulate = Color(0.407056, 0.407056, 0.407056, 1)
 
+[node name="Button" parent="BottomBar/TabBar/Build" index="0"]
+tooltip_text = "For placing buildings. Shortcut: F1 or 1"
+theme = ExtResource("4_v3ivv")
+theme_type_variation = &"FlatButton"
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_nlcp4")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_eu83c")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_41u3d")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_qfaga")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_vgmoh")
+shortcut = SubResource("Shortcut_41u3d")
+shortcut_in_tooltip = false
+
 [node name="Interact" parent="BottomBar/TabBar" instance=ExtResource("5_42caq")]
 layout_mode = 2
-defaultModulate = Color(0.905882, 0.905882, 0.905882, 1)
-disabledModulate = Color(0.595828, 0.595828, 0.595828, 1)
+disabledModulate = Color(0.407843, 0.407843, 0.407843, 1)
 
 [node name="Button" parent="BottomBar/TabBar/Interact" index="0"]
+tooltip_text = "For interacting with buildings. Shortcut: F2 or 2"
+theme = ExtResource("4_v3ivv")
+theme_type_variation = &"FlatButton"
 theme_override_fonts/font = SubResource("FontFile_34x7q")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_nlcp4")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_eu83c")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_41u3d")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_qfaga")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_vgmoh")
+shortcut = SubResource("Shortcut_34x7q")
+shortcut_in_tooltip = false
 
 [node name="Label" parent="BottomBar/TabBar/Interact" index="1"]
 text = "Interact"
 
 [node name="Info" parent="BottomBar/TabBar" instance=ExtResource("5_42caq")]
 layout_mode = 2
-defaultModulate = Color(0.905882, 0.905882, 0.905882, 1)
 disabledModulate = Color(0.407843, 0.407843, 0.407843, 1)
 
 [node name="Button" parent="BottomBar/TabBar/Info" index="0"]
+tooltip_text = "For viewing tiles. Shortcut: F3 or 3"
+theme = ExtResource("4_v3ivv")
+theme_type_variation = &"FlatButton"
 theme_override_fonts/font = SubResource("FontFile_34x7q")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_nlcp4")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_eu83c")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_41u3d")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_qfaga")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_vgmoh")
+shortcut = SubResource("Shortcut_wmf8q")
+shortcut_in_tooltip = false
 
 [node name="Label" parent="BottomBar/TabBar/Info" index="1"]
 text = "Information"
@@ -1829,7 +1910,6 @@ text = "WATER PLAT."
 label_settings = SubResource("LabelSettings_eu83c")
 
 [node name="Interact" type="HBoxContainer" parent="BottomBar/Options"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1931,6 +2011,7 @@ text = "Destroy"
 icon = SubResource("AtlasTexture_pmi6l")
 
 [node name="Info" type="HBoxContainer" parent="BottomBar/Options"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2173,9 +2254,14 @@ layout_mode = 2
 mouse_filter = 2
 
 [node name="NotificationBox" type="Control" parent="."]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
 [node name="MenuStuff" type="Control" parent="."]
 visible = false
@@ -2271,6 +2357,7 @@ text = "QUIT TO DESKTOP"
 [editable path="TopBar/Backdrop/Resources/Food"]
 [editable path="TopBar/Backdrop/Resources/Earth"]
 [editable path="TopBar/Backdrop/Resources/Labor"]
+[editable path="BottomBar/TabBar/Build"]
 [editable path="BottomBar/TabBar/Interact"]
 [editable path="BottomBar/TabBar/Info"]
 [editable path="BottomBar/Options/Build/City"]

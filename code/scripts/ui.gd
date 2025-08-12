@@ -57,6 +57,9 @@ enum InfoBoxMode {
 	SHOW
 }
 
+func _ready():
+	notifBox.show()
+
 #function gleamed from the wisdom of u/Nkzar on r/Godot. awesome work to an odd problem
 func clean(dirty_array: Array) -> Array:
 	var clean_array := []
@@ -105,10 +108,11 @@ func process(player: Game.Player, cursorCoords: Vector2, cursorSelected: bool, h
 	
 	for i in range(len(tabBar.get_children())):
 		if i == 1: 
-			if cursorSelected and hasBuilding: tabBar.get_child(i).button.disabled = false
-			else: 
-				tabBar.get_child(i).button.disabled = true
+			#if cursorSelected and hasBuilding: tabBar.get_child(i).button.disabled = false
+			#else: 
+				#tabBar.get_child(i).button.disabled = true
 				#if tabSelected == 1: tabSelected = 0
+			pass
 		if tabBar.get_child(i).process(i as OptionMode == tabSelected): 
 			tabSelected = i as OptionMode
 			optionSelected = -1
@@ -241,7 +245,7 @@ func resignGamePressed():
 	ays.size.y = 128+64
 	ays.centerOnScreen()
 	ays.setContent(
-		"Resign Game", "	Are you sure you want to give up here? When you resign, you will be unable to play this file again.")
+		"Resign Game", "Are you sure you want to give up here? When you resign, you will be unable to play this file again.")
 	ays.setChoices("Resign anyway?")
 	var result = await ays.getChoice()
 	notifications.erase(ays)
@@ -258,7 +262,7 @@ func returnPressed():
 	ays.size.y = 128+64
 	ays.centerOnScreen()
 	ays.setContent(
-		"Return to Menu", "	Are you sure you want to return to the menu? Don't forget to save your progress.")
+		"Return to Menu", "Are you sure you want to return to the menu? Don't forget to save your progress.")
 	ays.setChoices("Return anyway?")
 	var result = await ays.getChoice()
 	notifications.erase(ays)
@@ -273,7 +277,7 @@ func quitToDesktop():
 	ays.size.y = 128+64
 	ays.centerOnScreen()
 	ays.setContent(
-		"Quit Game", "	Are you sure you want to quit? Don't forget to save your progress.")
+		"Quit Game", "Are you sure you want to quit? Don't forget to save your progress.")
 	ays.setChoices("Quit anyway?")
 	var result = await ays.getChoice()
 	notifications.erase(ays)

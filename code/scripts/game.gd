@@ -110,6 +110,7 @@ class Player:
 var player = Player.new()
 @export_multiline var prologueText: String
 @export_multiline var gameStartInfoText: String
+@export var tutorialScene : PackedScene
 
 func _ready():
 	#RenderingServer.set_default_clear_color(Color(0.01, 0.0, 0.189))
@@ -145,7 +146,7 @@ func _ready():
 		ui.floodPercentNextTurn.text = " LAYER " + str(tilemap.waterLevel) + " WILL BE FLOODED NEXT TURN"
 		ui.floodPercentNextTurn.label_settings.font_color = Color(1.0, 0.0, 0.0)
 	if loaded: return
-	var prolog: SingleOptionNotification = ui.singleOptionNotificationBlueprint.instantiate()
+	"""var prolog: SingleOptionNotification = ui.singleOptionNotificationBlueprint.instantiate()
 	ui.notifBox.add_child(prolog)
 	ui.notifications.append(prolog)
 	prolog.size.y -= 32
@@ -154,18 +155,20 @@ func _ready():
 	prolog.setOption("Begin game")
 	await prolog.result
 	ui.notifications.erase(prolog)
-	prolog.queue_free()
-	var infolog: SingleOptionNotification = ui.singleOptionNotificationBlueprint.instantiate()
+	prolog.queue_free()"""
+	var infolog: ChoiceNotification = ui.choiceNotificationBlueprint.instantiate()
 	ui.notifBox.add_child(infolog)
 	ui.notifications.append(infolog)
-	infolog.size.x += 96
-	infolog.size.y += 64
+	infolog.size = Vector2(256, 192)
 	infolog.centerOnScreen()
-	infolog.setContent("Game Start Info", gameStartInfoText)
-	infolog.setOption("Okay")
-	await infolog.result
+	infolog.setContent("Game Start", "Would you like to view the tutorial? Without it, some parts of the game may be confusing or difficult to understand.")
+	infolog.setChoices("View tutorial?")
+	var result = await infolog.result
 	ui.notifications.erase(infolog)
 	infolog.queue_free()
+	if result: 
+		var tutorial = tutorialScene.instantiate()
+		ui.notifBox.add_child(tutorial)
 
 func _process(delta):
 	if gameEnded: return
@@ -176,10 +179,10 @@ func _process(delta):
 		hasBuildingInCursor = false
 	else: hasBuildingInCursor = tilemap.buildingMap[tilemapDisplay.layer][tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * 
 			tilemap.mapSize.x] != null and not tilemapDisplay.layer < tilemap.waterLevel
-	if (tilemapDisplay.layer > 0 and tilemap.buildingMap[tilemapDisplay.layer-1][tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * 
+	"""if (tilemapDisplay.layer > 0 and tilemap.buildingMap[tilemapDisplay.layer-1][tilemapDisplay.cursor.tile.x + tilemapDisplay.cursor.tile.y * 
 			tilemap.mapSize.x] != null and not tilemapDisplay.layer < tilemap.waterLevel): 
 		tilemapDisplay.cursor.lower.z_index = 6
-	else: tilemapDisplay.cursor.lower.z_index = 5
+	else: tilemapDisplay.cursor.lower.z_index = 5"""
 	player.process(tilemap.waterLevel, tilemap.buildingMap)
 	ui.process(player, tilemapDisplay.cursor.tile, tilemapDisplay.cursor.selected, hasBuildingInCursor, turn, 
 			tilemapDisplay.layer, tilemap.mapHeight, tilemap.waterLevel, tilemap.floodPercentage)
@@ -321,10 +324,15 @@ func processBuildButtons(cursorSelected: bool, buildingName: StringName):
 
 func processInteract():
 	var nOps = ui.optionBar.get_child(1)
-	var building = buildingAtPos(Vector2(tilemapDisplay.cursor.tile))
+	var building : BuildingScripts.Building
+	if tilemapDisplay.checkCoordsOutOfBounds(tilemap, tilemapDisplay.cursor.tile): building = null
+	else: building = buildingAtPos(Vector2(tilemapDisplay.cursor.tile))
 	if building == null or tilemapDisplay.layer < tilemap.waterLevel: 
 		#ui.tabSelected = 0
 		for child in nOps.get_children(): child.visible = false
+		nOps.get_child(1).show()
+		nOps.get_child(2).show()
+		nOps.get_child(2).set_text("Select a building.")
 		return
 	else: for child in nOps.get_children(): child.visible = true
 	if building is BuildingScripts.ProductionBuilding:
@@ -339,9 +347,9 @@ func processInteract():
 			str(tilemapDisplay.cursor.tile.y) + ", " + str(int(tilemapDisplay.layer)) + "). " + production + " per turn.")
 	else: nOps.get_child(2).set_text(building.buildingName + " at (" + str(tilemapDisplay.cursor.tile.x) + ", " + 
 			str(tilemapDisplay.cursor.tile.y) + ", " + str(int(tilemapDisplay.layer)) + "). Produces nothing.")
-	if player.buildingCount <= 1 or not player.resources[&"Labor"].amount >= 1: 
+	"""if player.buildingCount <= 1: 
 		nOps.get_child(4).disabled = true
-		return
+		return"""
 	if building is BuildingScripts.City: 
 		#nOps.get_child(4).disabled = false
 		if player.resources[&"Labor"].change - 2 >= 0 and player.cityCount > 1: nOps.get_child(4).disabled = false

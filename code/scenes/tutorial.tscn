@@ -1,0 +1,507 @@
+[gd_scene load_steps=3 format=3 uid="uid://cl8wmj377dpif"]
+
+[ext_resource type="Script" uid="uid://cp1bdphxiepcf" path="res://code/scripts/tutorial.gd" id="1_lgwr8"]
+[ext_resource type="PackedScene" uid="uid://bckynj5wpe48l" path="res://code/scenes/tutorialNotification.tscn" id="2_lgwr8"]
+
+[node name="TutorialComplex" type="Control" node_paths=PackedStringArray("pageIndex")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_lgwr8")
+pageIndex = [NodePath("Welcome"), NodePath("Camera"), NodePath("Resources"), NodePath("Buildings1"), NodePath("Buildings2"), NodePath("Buildings3"), NodePath("Buildings4"), NodePath("Cursor"), NodePath("Buildings5"), NodePath("Heights"), NodePath("Review1"), NodePath("Interact1"), NodePath("Interact2"), NodePath("Interact3"), NodePath("Next Turn"), NodePath("Flooding"), NodePath("Events"), NodePath("Saving"), NodePath("Goodbye")]
+
+[node name="Welcome" parent="." instance=ExtResource("2_lgwr8")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -144.0
+offset_right = 160.0
+offset_bottom = 144.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" parent="Welcome/Tab/HBoxContainer" index="1"]
+text = "Welcome to the Tutorial"
+
+[node name="Text" parent="Welcome/Backdrop/MarginContainer/VBoxContainer" index="0"]
+text = "Welcome to Babel's tutorial section. This brief tutorial will teach you the basic mechanics of the game.
+
+Click 'Next' to proceed. Click 'Back' to view previous pages.
+
+You can exit at any time by pressing the red 'X' in the corner. Beware, however: to restart the tutorial, you will have to start a new game."
+
+[node name="ChoiceTitle" parent="Welcome/Backdrop/MarginContainer/VBoxContainer" index="1"]
+text = "Page 1 "
+
+[node name="Back" parent="Welcome/Backdrop/MarginContainer/VBoxContainer/Choices" index="0"]
+visible = false
+
+[node name="Buffer" parent="Welcome/Backdrop/MarginContainer/VBoxContainer/Choices" index="1"]
+visible = false
+
+[node name="Camera" parent="." instance=ExtResource("2_lgwr8")]
+visible = false
+layout_mode = 0
+offset_left = 446.0
+offset_top = 215.0
+offset_right = 702.0
+offset_bottom = 427.0
+
+[node name="Title" parent="Camera/Tab/HBoxContainer" index="1"]
+text = "Moving the Camera"
+
+[node name="Text" parent="Camera/Backdrop/MarginContainer/VBoxContainer" index="0"]
+text = "To move the camera around, use the WASD or Arrow Keys.
+
+Currently, Babel lacks Mobile controls, but they are being developed and will be released in the near future."
+
+[node name="ChoiceTitle" parent="Camera/Backdrop/MarginContainer/VBoxContainer" index="1"]
+text = "Page 2"
+
+[node name="Resources" parent="." instance=ExtResource("2_lgwr8")]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -576.0
+offset_top = -260.0
+offset_right = -192.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" parent="Resources/Tab/HBoxContainer" index="1"]
+text = "Resources"
+
+[node name="Text" parent="Resources/Backdrop/MarginContainer/VBoxContainer" index="0"]
+text = "Currently, there are 3 resources in Babel.
+ - [color=#71c548]Food[/color] [img]res://code/resources/miniResourceIcons/food.tres[/img] is used primarily to feed your population. If you run out of [color=#71c548]food[/color], the game ends.
+ - [color=#fff]Earth[/color] [img]res://code/resources/miniResourceIcons/earth.tres[/img] represents building materials such as clay, mud, brick and stone and is primarily used for construction.
+ - [color=#f00]Labor[/color] [img]res://code/resources/miniResourceIcons/labor.tres[/img] represents the working population of your civilization. [color=#f00]Labor[/color] per turn (the lower number) is used to power buildings. Free [color=#f00]labor[/color] (the higher number) is to power construction.
+"
+
+[node name="ChoiceTitle" parent="Resources/Backdrop/MarginContainer/VBoxContainer" index="1"]
+text = "Page 3"
+
+[node name="Buildings1" parent="." instance=ExtResource("2_lgwr8")]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -160.0
+offset_right = 160.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" parent="Buildings1/Tab/HBoxContainer" index="1"]
+text = "Buildings (1)"
+
+[node name="Text" parent="Buildings1/Backdrop/MarginContainer/VBoxContainer" index="0"]
+text = "Buildings are the primary way the player can produce and utilize their resources. 
+There are a few types of buildings.
+ - Static buildings produce and consume a fixed sum of resources all the time, and only stop when disabled.
+ - Production buildings produce resources based on how many workers are assigned to them.
+ - Adjacency buildings produce resources based on how many of a certain building they are adjacent to. 
+Buildings cost Earth [img]res://code/resources/miniResourceIcons/earth.tres[/img] and [color=#f00]Labor[/color] [img]res://code/resources/miniResourceIcons/labor.tres[/img] to construct."
+
+[node name="ChoiceTitle" parent="Buildings1/Backdrop/MarginContainer/VBoxContainer" index="1"]
+text = "Page 4"
+
+[node name="Buildings2" parent="." instance=ExtResource("2_lgwr8")]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -576.0
+offset_top = 16.0
+offset_right = -256.0
+offset_bottom = 228.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" parent="Buildings2/Tab/HBoxContainer" index="1"]
+text = "Buildings (2)"
+
+[node name="Text" parent="Buildings2/Backdrop/MarginContainer/VBoxContainer" index="0"]
+text = "To construct buildings, first navigate to the 'Build' tab near the bottom left corner.
+
+Click 'Next' once you're in the 'Build' menu. You should be able to see the names of a few buildings... 'City', 'Farm', 'Kiln', etc."
+
+[node name="ChoiceTitle" parent="Buildings2/Backdrop/MarginContainer/VBoxContainer" index="1"]
+text = "Page 5"
+
+[node name="Buildings3" parent="." instance=ExtResource("2_lgwr8")]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -576.0
+offset_top = -3.0
+offset_right = -193.0
+offset_bottom = 228.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" parent="Buildings3/Tab/HBoxContainer" index="1"]
+text = "Buildings (3)"
+
+[node name="Text" parent="Buildings3/Backdrop/MarginContainer/VBoxContainer" index="0"]
+text = "You'll notice that there is a building called 'Platform' which is unlike the others.
+Platforms can be built above tiles (even ones with buildings on them) and can also be built upon each other. You can also construct buildings on platforms.
+Now, select the 'Platform' button before continuing to the next part of the tutorial."
+
+[node name="ChoiceTitle" parent="Buildings3/Backdrop/MarginContainer/VBoxContainer" index="1"]
+text = "Page 6"
+
+[node name="Buildings4" parent="." instance=ExtResource("2_lgwr8")]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 64.0
+offset_top = -92.0
+offset_right = 320.0
+offset_bottom = 260.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" parent="Buildings4/Tab/HBoxContainer" index="1"]
+text = "Buildings (4)"
+
+[node name="Text" parent="Buildings4/Backdrop/MarginContainer/VBoxContainer" index="0"]
+text = "You should now be able to see the Building Information menu. This menu will tell you everything about the building you have selected, like the cost, resources produced/consumed (if any), requirements for construction, etc. 
+Below you can see the green 'Build' button with a hammer is disabled. 
+
+Let's learn how to enable it. (Click 'Next')"
+
+[node name="ChoiceTitle" parent="Buildings4/Backdrop/MarginContainer/VBoxContainer" index="1"]
+text = "Page 7"
+
+[node name="Cursor" parent="." instance=ExtResource("2_lgwr8")]
+visible = false
+layout_mode = 1
+offset_left = 0.0
+offset_top = 96.0
+offset_right = 320.0
+offset_bottom = 384.0
+
+[node name="Title" parent="Cursor/Tab/HBoxContainer" index="1"]
+text = "Cursor"
+
+[node name="Text" parent="Cursor/Backdrop/MarginContainer/VBoxContainer" index="0"]
+text = "There should be a [color=#ff0]yellow[/color] outline shaped around the tile your cursor is hovering over. 
+To select or deselect a tile, left click the screen. 
+Select a tile with a building (or one adjacent to a building). The [color=#ff0]yellow[/color] outline turns [color=#f00]red[/color] when a tile is selected. It turns back when deselected. You can only select 1 tile at once.
+
+Then, click 'Next' on the tutorial."
+
+[node name="ChoiceTitle" parent="Cursor/Backdrop/MarginContainer/VBoxContainer" index="1"]
+text = "Page 8"
+
+[node name="Buildings5" parent="." instance=ExtResource("2_lgwr8")]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 64.0
+offset_top = -92.0
+offset_right = 320.0
+offset_bottom = 260.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" parent="Buildings5/Tab/HBoxContainer" index="1"]
+text = "Buildings (5)"
+
+[node name="Text" parent="Buildings5/Backdrop/MarginContainer/VBoxContainer" index="0"]
+text = "Hopefully now the green 'Build' button is no longer disabled. If it is, though, you can always identify why by hovering your mouse cursor over it and reading the tooltip. 
+
+If the button is no longer disabled, then click it. You should now see a new platform building where on the tile you selected, and you may notice that your stored Earth [img]res://code/resources/miniResourceIcons/earth.tres[/img] and [color=#f00]Labor[/color] [img]res://code/resources/miniResourceIcons/labor.tres[/img] amounts have been consumed accordingly for constructing it."
+
+[node name="ChoiceTitle" parent="Buildings5/Backdrop/MarginContainer/VBoxContainer" index="1"]
+text = "Page 9"
+
+[node name="Heights" parent="." instance=ExtResource("2_lgwr8")]
+visible = false
+layout_mode = 0
+offset_left = 826.0
+offset_top = 64.0
+offset_right = 1152.0
+offset_bottom = 421.0
+
+[node name="Title" parent="Heights/Tab/HBoxContainer" index="1"]
+text = "Heights (or, Layers)"
+
+[node name="Text" parent="Heights/Backdrop/MarginContainer/VBoxContainer" index="0"]
+text = "You may have noticed that the up arrow on this 'Height' display lit up when you placed the 'Platform'. This is because you can now view another layer above the current one. 
+
+You can navigate between heights using Q/E or the triangular buttons above this textbox. You start on Height 0 and unlock new heights when placing a platform on the highest 'height' you had up to that point.
+
+Go ahead and navigate to Height 1 by pressing the 'E' key or the upwards facing triangle. Then press 'Next' to continue."
+
+[node name="ChoiceTitle" parent="Heights/Backdrop/MarginContainer/VBoxContainer" index="1"]
+text = "Page 10"
+
+[node name="Review1" parent="." instance=ExtResource("2_lgwr8")]
+visible = false
+layout_mode = 0
+offset_left = 446.0
+offset_top = 215.0
+offset_right = 702.0
+offset_bottom = 467.0
+
+[node name="Title" parent="Review1/Tab/HBoxContainer" index="1"]
+text = "Review 1: Placing Buildings"
+
+[node name="Text" parent="Review1/Backdrop/MarginContainer/VBoxContainer" index="0"]
+text = "Try placing a 'City' building on the 'Platform' you just placed.
+
+If you are unsure how to do something, you can always review the previous pages of the tutorial by pressing 'Back' and navigating to the page you need."
+
+[node name="ChoiceTitle" parent="Review1/Backdrop/MarginContainer/VBoxContainer" index="1"]
+text = "Page 11 - Halfway there!"
+
+[node name="Interact1" parent="." instance=ExtResource("2_lgwr8")]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -144.0
+offset_right = 160.0
+offset_bottom = 144.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" parent="Interact1/Tab/HBoxContainer" index="1"]
+text = "Interacting with Buildings (1)"
+
+[node name="Text" parent="Interact1/Backdrop/MarginContainer/VBoxContainer" index="0"]
+text = "Now that you've placed a new 'City' building down, you may notice that you are losing [color=#71c548]Food[/color] [img]res://code/resources/miniResourceIcons/food.tres[/img] per turn. (The lower number to the right of the [color=#71c548]Food[/color] [img]res://code/resources/miniResourceIcons/food.tres[/img] icon in the top right reads -2).
+
+Don't panic! Although it is true that you will lose the game if you run out of food, we can solve this deficit with ease. You may notice that in exchange for consuming your [color=#71c548]Food[/color] [img]res://code/resources/miniResourceIcons/food.tres[/img], the 'City' you placed produces some extra [color=#f00]Labor[/color] [img]res://code/resources/miniResourceIcons/labor.tres[/img]."
+
+[node name="ChoiceTitle" parent="Interact1/Backdrop/MarginContainer/VBoxContainer" index="1"]
+text = "Page 12"
+
+[node name="Interact2" parent="." instance=ExtResource("2_lgwr8")]
+visible = false
+layout_mode = 0
+offset_left = 0.0
+offset_top = 211.0
+offset_right = 320.0
+offset_bottom = 552.0
+
+[node name="Title" parent="Interact2/Tab/HBoxContainer" index="1"]
+text = "Interacting with Buildings (2)"
+
+[node name="Text" parent="Interact2/Backdrop/MarginContainer/VBoxContainer" index="0"]
+text = "If you aren't there already, navigate the camera to Height 0 (try pressing 'Q'). 
+
+As you can see, you have 3 buildings on Height 0 already generated at the start of the game; aside from the 'Platform' you placed earlier.
+
+Select the 'Farm' building. 
+It looks like this: [img]res://code/resources/farmBuilding.tres[/img]
+Once you've selected it, press the 'Interact' tab. It's below this page, and also directly right of the 'Build' tab from earlier.
+"
+
+[node name="ChoiceTitle" parent="Interact2/Backdrop/MarginContainer/VBoxContainer" index="1"]
+text = "Page 13"
+
+[node name="Interact3" parent="." instance=ExtResource("2_lgwr8")]
+visible = false
+layout_mode = 0
+offset_left = 0.0
+offset_top = 199.0
+offset_right = 320.0
+offset_bottom = 552.0
+
+[node name="Title" parent="Interact3/Tab/HBoxContainer" index="1"]
+text = "Interacting with Buildings (3)"
+
+[node name="Text" parent="Interact3/Backdrop/MarginContainer/VBoxContainer" index="0"]
+text = "On the 'Interact' menu you can see a[color=#f00] big red 'Labor'[/color] [img]res://code/resources/miniResourceIcons/labor.tres[/img] symbol with two buttons surrounding it.
+
+The number to the left represents the number of 'Workers' currently working on the selected building. Further to the right, you can see the resources this building produces and consumes.
+
+For each worker you add to this 'Farm', you consume 1 [color=#f00]Labor[/color] [img]res://code/resources/miniResourceIcons/labor.tres[/img] per turn. However, the 'Farm' will also produce an additional 2 [color=#71c548]Food[/color] [img]res://code/resources/miniResourceIcons/food.tres[/img] each turn.
+Increase the worker count by clicking the button on the right and then continue."
+
+[node name="ChoiceTitle" parent="Interact3/Backdrop/MarginContainer/VBoxContainer" index="1"]
+text = "Page 14"
+
+[node name="Next Turn" parent="." instance=ExtResource("2_lgwr8")]
+visible = false
+layout_mode = 1
+offset_left = 896.0
+offset_top = 152.0
+offset_right = 1152.0
+offset_bottom = 440.0
+
+[node name="Title" parent="Next Turn/Tab/HBoxContainer" index="1"]
+text = "Ending Your Turn"
+
+[node name="Text" parent="Next Turn/Backdrop/MarginContainer/VBoxContainer" index="0"]
+text = "Now that all our affairs are in order, let's progress the game.
+When you think you've done all you can for a turn, press the round button with the blue arrow to end your turn. The number in the center indicates what turn you are currently on.
+
+Click the 'Next Turn' button and then click 'Next' on the tutorial."
+
+[node name="ChoiceTitle" parent="Next Turn/Backdrop/MarginContainer/VBoxContainer" index="1"]
+text = "Page 15"
+
+[node name="Flooding" parent="." instance=ExtResource("2_lgwr8")]
+visible = false
+layout_mode = 1
+offset_left = 0.0
+offset_top = 96.0
+offset_right = 320.0
+offset_bottom = 431.0
+
+[node name="Title" parent="Flooding/Tab/HBoxContainer" index="1"]
+text = "Flooding"
+
+[node name="Text" parent="Flooding/Backdrop/MarginContainer/VBoxContainer" index="0"]
+text = "Now, meet your enemy: the Great Flood.
+'Flood Progress' indicates how close the next height is to being completely overrun by floodwaters. You can also view how much the flood will progress in the next turn.
+Far to the end of this bar is a label reading 'Height __', which indicates what height the flood is currently progressing on.
+At the start of the game, you receive a 5-turn 'grace period' wherein no flood progress will be made.
+When the flood claims your last city, you lose the game."
+
+[node name="ChoiceTitle" parent="Flooding/Backdrop/MarginContainer/VBoxContainer" index="1"]
+text = "Page 16"
+
+[node name="Events" parent="." instance=ExtResource("2_lgwr8")]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -125.5
+offset_right = 160.0
+offset_bottom = 125.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" parent="Events/Tab/HBoxContainer" index="1"]
+text = "Events"
+
+[node name="Text" parent="Events/Backdrop/MarginContainer/VBoxContainer" index="0"]
+text = "At the beginning of every turn, there is a small chance for an event to occur. Events appear as small notifications (like the pages of this tutorial) and inflict some sort of effect on the game. Sometimes they can be very beneficial. Other times, they can pose a real threat.
+
+Planning ahead is the smartest choice."
+
+[node name="ChoiceTitle" parent="Events/Backdrop/MarginContainer/VBoxContainer" index="1"]
+text = "Page 17"
+
+[node name="Saving" parent="." instance=ExtResource("2_lgwr8")]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -169.0
+offset_right = 160.0
+offset_bottom = 169.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" parent="Saving/Tab/HBoxContainer" index="1"]
+text = "Saving the Game"
+
+[node name="Text" parent="Saving/Backdrop/MarginContainer/VBoxContainer" index="0"]
+text = "When you're done playing, never forget to save the game! Babel lacks an autosave system, so it's paramount that you remember to save the game every once in a while.
+You can access the pause menu either with the button in the top right corner or by pressing the 'Esc' key. In the pause menu, you can save the game, return to the menu, quit to desktop, and resign the game.
+Warning: Resigning the game causes you to lose automatically, and losing the game resets your save file, forcing you to start a new game."
+
+[node name="ChoiceTitle" parent="Saving/Backdrop/MarginContainer/VBoxContainer" index="1"]
+text = "Page 18"
+
+[node name="Goodbye" parent="." instance=ExtResource("2_lgwr8")]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -169.0
+offset_right = 160.0
+offset_bottom = 138.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" parent="Goodbye/Tab/HBoxContainer" index="1"]
+text = "End of Tutorial"
+
+[node name="Text" parent="Goodbye/Backdrop/MarginContainer/VBoxContainer" index="0"]
+text = "Congratulations! This marks the conclusion of the tutorial. You are now armed with the knowledge you need to play the game. 
+Babel periodically receives updates, and with updated gameplay comes an updated tutorial. So if you ever feel the need to review the tutorial you can access it at the beginning of each game.
+And of course, it will (and will always remain) optional.
+
+Now go and enjoy your new game!"
+
+[node name="ChoiceTitle" parent="Goodbye/Backdrop/MarginContainer/VBoxContainer" index="1"]
+text = "Page 19 - Final Page"
+
+[node name="Next" parent="Goodbye/Backdrop/MarginContainer/VBoxContainer/Choices" index="2"]
+tooltip_text = "Ends the tutorial."
+text = "Finish Tutorial"
+
+[editable path="Welcome"]
+[editable path="Camera"]
+[editable path="Resources"]
+[editable path="Buildings1"]
+[editable path="Buildings2"]
+[editable path="Buildings3"]
+[editable path="Buildings4"]
+[editable path="Cursor"]
+[editable path="Buildings5"]
+[editable path="Heights"]
+[editable path="Review1"]
+[editable path="Interact1"]
+[editable path="Interact2"]
+[editable path="Interact3"]
+[editable path="Next Turn"]
+[editable path="Flooding"]
+[editable path="Events"]
+[editable path="Saving"]
+[editable path="Goodbye"]

@@ -104,6 +104,7 @@ text = "Next turn confirmation"
 [node name="Text" parent="Backdrop/MarginContainer/VBoxContainer" index="0"]
 text = "You do not produce enough food to sustain your population. If you go on to the next turn, you will begin to lose food.
 If you run out of food you will lose the game."
+horizontal_alignment = 1
 
 [node name="ChoiceTitle" type="RichTextLabel" parent="Backdrop/MarginContainer/VBoxContainer" index="1"]
 layout_mode = 2

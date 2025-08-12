@@ -1,0 +1,145 @@
+[gd_scene load_steps=13 format=3 uid="uid://bckynj5wpe48l"]
+
+[ext_resource type="PackedScene" uid="uid://dubkr27umy28b" path="res://code/scenes/notification.tscn" id="1_6mt2i"]
+[ext_resource type="Script" uid="uid://ct20fkt3s7eue" path="res://code/scripts/tutorialNotification.gd" id="2_ktbef"]
+[ext_resource type="Theme" uid="uid://bo7cnjum0jm1g" path="res://code/resources/uiTheme.tres" id="2_oa63e"]
+[ext_resource type="PackedScene" uid="uid://bt7o13ihknqng" path="res://code/scenes/choiceNotification.tscn" id="3_idr4l"]
+[ext_resource type="FontFile" uid="uid://k77wcok0bqum" path="res://assets/fonts/Pixolde-Bold.ttf" id="3_ktbef"]
+[ext_resource type="Texture2D" uid="uid://c12vlpq5rosds" path="res://assets/graphics/ui.png" id="4_idr4l"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_feqig"]
+texture = ExtResource("4_idr4l")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.66, 0.55176, 0.3894, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_15qks"]
+texture = ExtResource("4_idr4l")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.86, 0.71896, 0.5074, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0hjfy"]
+texture = ExtResource("4_idr4l")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.76, 0.63536, 0.4484, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qcgex"]
+texture = ExtResource("4_idr4l")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 192, 64, 64)
+modulate_color = Color(0.960784, 0.8, 0.564706, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2rhme"]
+atlas = ExtResource("4_idr4l")
+region = Rect2(13, 155, 6, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mf0dn"]
+atlas = ExtResource("4_idr4l")
+region = Rect2(45, 283, 6, 10)
+
+[node name="TutorialNotification" instance=ExtResource("1_6mt2i")]
+offset_bottom = 212.0
+script = ExtResource("2_ktbef")
+choiceNotificationBlueprint = ExtResource("3_idr4l")
+
+[node name="Title" parent="Tab/HBoxContainer" index="1"]
+text = "Baking Bread"
+
+[node name="Text" parent="Backdrop/MarginContainer/VBoxContainer" index="0"]
+text = "And now, you want to add some water to the flour. Too much and the dough becomes too wet... to little, and the dough becomes too dry. Both will make it hard to knead and result in a poorly baked loaf."
+
+[node name="ChoiceTitle" type="RichTextLabel" parent="Backdrop/MarginContainer/VBoxContainer" index="1"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+mouse_filter = 1
+theme = ExtResource("2_oa63e")
+theme_override_fonts/normal_font = ExtResource("3_ktbef")
+text = "6 / 12"
+fit_content = true
+
+[node name="Buffer" type="Control" parent="Backdrop/MarginContainer/VBoxContainer" index="2"]
+custom_minimum_size = Vector2(8, 4)
+layout_mode = 2
+mouse_filter = 1
+
+[node name="Choices" type="HBoxContainer" parent="Backdrop/MarginContainer/VBoxContainer" index="3"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Back" type="Button" parent="Backdrop/MarginContainer/VBoxContainer/Choices" index="0"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+focus_mode = 0
+theme = ExtResource("2_oa63e")
+theme_override_colors/font_disabled_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_disabled_color = Color(0.47, 0.47, 0.47, 1)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_constants/h_separation = 0
+theme_override_fonts/font = ExtResource("3_ktbef")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_feqig")
+theme_override_styles/hover = SubResource("StyleBoxTexture_15qks")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_0hjfy")
+theme_override_styles/normal = SubResource("StyleBoxTexture_qcgex")
+text = "Back"
+icon = SubResource("AtlasTexture_2rhme")
+
+[node name="Buffer" type="Control" parent="Backdrop/MarginContainer/VBoxContainer/Choices" index="1"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+mouse_filter = 1
+
+[node name="Next" type="Button" parent="Backdrop/MarginContainer/VBoxContainer/Choices" index="2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+focus_mode = 0
+theme = ExtResource("2_oa63e")
+theme_override_colors/font_disabled_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_disabled_color = Color(0.47, 0.47, 0.47, 1)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_constants/h_separation = 0
+theme_override_fonts/font = ExtResource("3_ktbef")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_feqig")
+theme_override_styles/hover = SubResource("StyleBoxTexture_15qks")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_0hjfy")
+theme_override_styles/normal = SubResource("StyleBoxTexture_qcgex")
+text = "Next"
+icon = SubResource("AtlasTexture_mf0dn")
+icon_alignment = 2
+
+[connection signal="pressed" from="Backdrop/MarginContainer/VBoxContainer/Choices/Back" to="." method="backPressed"]
+[connection signal="pressed" from="Backdrop/MarginContainer/VBoxContainer/Choices/Next" to="." method="nextPressed"]
