@@ -535,7 +535,8 @@ func saveGame():
 		"buildingMapCode":tilemap.getBuildingMapCode(),
 		"waterLevel":tilemap.waterLevel,
 		"floodPercentage":tilemap.floodPercentage,
-		"rainNextTurn":player.rainNextTurn
+		"rainNextTurn":player.rainNextTurn,
+		"version":"tutorial"
 	}
 	var saveFile = FileAccess.open("user://save.json", FileAccess.WRITE)
 	var jsonString = JSON.stringify(saveData)

@@ -32,7 +32,7 @@ func _process(_delta):
 	$Control/Waves.position = Vector2(-320, -6) + Vector2(-4*fposmod(i/11.25, 32), -12*cos(deg_to_rad(i*2))+16)
 	#$Moon.position = Vector2(488.0, 16)
 	$Moon.position.y = -8*cos(deg_to_rad(i*2))+16
-	$Label.set_text(str(i))
+	#$Label.set_text(str(i))
 
 func _on_new_game_pressed():
 	Global.newGame = true

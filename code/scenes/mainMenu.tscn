@@ -525,12 +525,17 @@ libraries = {
 }
 autoplay = "spin spin"
 
-[node name="Label" type="Label" parent="."]
-visible = false
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 14.0
-text = "232"
+[node name="Label" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 52.0
+grow_horizontal = 2
+bbcode_enabled = true
+text = "demo -> [color=#ff0]tutorial[/color] -> population -> favor -> culture -> tech 
+current version: [color=#ff0]tutorial[/color]
+"
+scroll_active = false
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
